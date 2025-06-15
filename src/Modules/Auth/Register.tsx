@@ -44,7 +44,7 @@ try {
       formData.append("profileImage", data.profileImage[0]);
     }
 
-    const response = await axiosInstance.post(USERS_URLS.REGISTER, formData, {
+    await axiosInstance.post(USERS_URLS.REGISTER, formData, {
       headers: {
         "Content-Type": "multipart/form-data",
       },
@@ -55,7 +55,7 @@ try {
     const errors = error?.response?.data?.additionalInfo?.errors;
 
   if (errors) {
-    Object.entries(errors).forEach(([field, messages]) => {
+    Object.entries(errors).forEach(([_, messages]) => {
       (messages as string[]).forEach((msg) => {
         toast.error(msg);
       });
@@ -114,9 +114,9 @@ try {
         overflow: "hidden",
       }}
     >
-      {watch("profileImage") && watch("profileImage")[0] ? (
+      {watch("profileImage") && watch("profileImage")?.[0] ? (
         <img
-          src={URL.createObjectURL(watch("profileImage")[0])}
+          src={URL.createObjectURL(watch("profileImage")![0])}
           alt="Preview"
           style={{ width: "100%", height: "100%", objectFit: "cover" }}
         />
