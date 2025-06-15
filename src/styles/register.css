@@ -1,8 +1,20 @@
-  .Register-container {
-    width: 70%;
-  }
-  .main-container {
-    background-color: rgba(49, 74, 89, 0.9);
-    border-radius: 16px;
-  }
-  
+.Register-container {
+  width: 70%;
+}
+.Verify-container {
+  width: 40%;
+}
+.Register-main-container {
+  background-color: rgba(49, 74, 89, 0.9);
+  border-radius: 16px;
+}
+
+.Verify-main-container {
+  background-color: rgba(49, 89, 81, 0.9);
+  border-radius: 16px;
+}
+
+input::placeholder {
+  color: rgba(255, 255, 255, 0.6); /* Light white */
+  font-style: italic;
+}
