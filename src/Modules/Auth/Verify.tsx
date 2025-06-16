@@ -4,7 +4,7 @@ import PMSIcon from "../../assets/PMSIcon.png";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 import "../../styles/register.css";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { axiosInstance, USERS_URLS } from "../../services/Urls";
 import { verifyValidation } from "../../services/Validations";
 
@@ -14,12 +14,21 @@ type FormData = {
 };
 
 function Verify() {
-  const {
+ 
+  const navigate = useNavigate();
+    const location = useLocation();
+  const emailFromRegister = location.state?.email || "";
+
+   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<FormData>();
-  const navigate = useNavigate();
+  } = useForm<FormData>({
+    defaultValues: {
+      email: emailFromRegister 
+    },
+  });
+
   const onSubmit = async (data: FormData) => {
     // Simulate backend call
     console.log(data);

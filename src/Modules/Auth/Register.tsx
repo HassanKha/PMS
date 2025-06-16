@@ -55,20 +55,25 @@ function Register() {
 
       toast.success("Account created successfully!");
 
-navigate("/verify-account")
+navigate("/verify-account", {
+      state: { email: data.email },
+    })
 
     } catch (error: any) {
-      const errors = error?.response?.data?.additionalInfo?.errors;
+     const apiMessage = error?.response?.data?.message;
+    const errors = error?.response?.data?.additionalInfo?.errors;
 
-      if (errors) {
-        Object.entries(errors).forEach(([_, messages]) => {
-          (messages as string[]).forEach((msg) => {
-            toast.error(msg);
-          });
+    if (apiMessage) {
+      toast.error(apiMessage); // Handle "username or email already exists"
+    } else if (errors) {
+      Object.entries(errors).forEach(([_, messages]) => {
+        (messages as string[]).forEach((msg) => {
+          toast.error(msg);
         });
-      } else {
-        toast.error("Something went wrong. Please try again.");
-      }
+      });
+    } else {
+      toast.error("Something went wrong. Please try again.");
+    }
     }
   };
   return (
@@ -156,26 +161,18 @@ navigate("/verify-account")
                 <input
                   type="text"
                   placeholder="Enter your name"
-                    className="bg-transparent text-white"
+                 
+                 className="bg-transparent text-white w-100"
                   style={{
                     border: "none",
-                    background: "none",
                     outline: "none",
-                    borderBottomWidth: "1px",
-                    borderRadius: "8px",
+                    borderBottom: "1px solid white",
                     color: "white",
                     padding: "6px 12px",
-                    boxShadow: "none",
                   }}
                   {...register("userName", validateRegisterForm.userName)}
                 />
-                <div
-                  style={{
-                    height: "1px",
-                    width: "100%",
-                    background: "white",
-                  }}
-                ></div>
+          
                 {errors.userName && (
                   <div className="invalid-feedback d-block">
                     {errors.userName.message}
@@ -194,26 +191,18 @@ navigate("/verify-account")
                 <input
                   type="email"
                   placeholder="Enter your E-mail"
-                    className="bg-transparent text-white"
+               className="bg-transparent text-white w-100"
                   style={{
                     border: "none",
-                    background: "none",
                     outline: "none",
-                    borderBottomWidth: "1px",
-                    borderRadius: "8px",
+                    borderBottom: "1px solid white",
                     color: "white",
                     padding: "6px 12px",
-                    boxShadow: "none",
                   }}
+                  
                   {...register("email",validateRegisterForm.email)}
                 />
-                <div
-                  style={{
-                    height: "1px",
-                    width: "100%",
-                    background: "white",
-                  }}
-                ></div>
+        
                 {errors.email && (
                   <div className="invalid-feedback d-block">
                     {errors.email.message}
@@ -232,25 +221,17 @@ navigate("/verify-account")
                 <input
                   type="text"
                   placeholder="Enter your country"
+               className="bg-transparent text-white w-100"
                   style={{
                     border: "none",
-                    background: "none",
                     outline: "none",
-                    borderBottomWidth: "1px",
-                    borderRadius: "8px",
+                    borderBottom: "1px solid white",
                     color: "white",
                     padding: "6px 12px",
-                    boxShadow: "none",
                   }}
                   {...register("country", validateRegisterForm.country)}
                 />
-                <div
-                  style={{
-                    height: "1px",
-                    width: "100%",
-                    background: "white",
-                  }}
-                ></div>
+       
                 {errors.country && (
                   <div className="invalid-feedback d-block">
                     {errors.country.message}
@@ -269,25 +250,17 @@ navigate("/verify-account")
                 <input
                   type="tel"
                   placeholder="Enter your phone number"
+                className="bg-transparent text-white w-100"
                   style={{
                     border: "none",
-                    background: "none",
                     outline: "none",
-                    borderBottomWidth: "1px",
-                    borderRadius: "8px",
+                    borderBottom: "1px solid white",
                     color: "white",
                     padding: "6px 12px",
-                    boxShadow: "none",
                   }}
                   {...register("phoneNumber", validateRegisterForm.phoneNumber)}
                 />
-                <div
-                  style={{
-                    height: "1px",
-                    width: "100%",
-                    background: "white",
-                  }}
-                ></div>
+       
                 {errors.phoneNumber && (
                   <div className="invalid-feedback d-block">
                     {errors.phoneNumber.message}
@@ -311,18 +284,15 @@ navigate("/verify-account")
                 >
                   <input
                     type={showPassword ? "text" : "password"}
-                    className="w-100"
                     placeholder="Enter your Password"
-                    style={{
-                      border: "none",
-                      background: "none",
-                      outline: "none",
-                      borderBottomWidth: "1px",
-                      borderRadius: "8px",
-                      color: "white",
-                      padding: "6px 12px",
-                      boxShadow: "none",
-                    }}
+                 className="bg-transparent text-white w-100"
+                  style={{
+                    border: "none",
+                    outline: "none",
+                    borderBottom: "1px solid white",
+                    color: "white",
+                    padding: "6px 12px",
+                  }}
                     {...register("password",validateRegisterForm.password)}
                   />
 
@@ -340,13 +310,7 @@ navigate("/verify-account")
                     <FontAwesomeIcon icon={showPassword ? faEyeSlash : faEye} />
                   </button>
                 </div>
-                <div
-                  style={{
-                    height: "1px",
-                    width: "100%",
-                    background: "white",
-                  }}
-                ></div>
+         
                 {errors.password && (
                   <div className="invalid-feedback d-block">
                     {errors.password.message}
@@ -366,16 +330,14 @@ navigate("/verify-account")
                   <input
                     type={showConfirmPassword ? "text" : "password"}
                     placeholder="Confirm New Password"
-                    style={{
-                      border: "none",
-                      background: "none",
-                      outline: "none",
-                      borderBottomWidth: "1px",
-                      borderRadius: "8px",
-                      color: "white",
-                      padding: "6px 12px",
-                      boxShadow: "none",
-                    }}
+                  className="bg-transparent text-white w-100"
+                  style={{
+                    border: "none",
+                    outline: "none",
+                    borderBottom: "1px solid white",
+                    color: "white",
+                    padding: "6px 12px",
+                  }}
                      {...register("confirmPassword", validateRegisterForm.confirmPassword(password))}
                   />
                   <button
@@ -394,13 +356,7 @@ navigate("/verify-account")
                     />
                   </button>
                 </div>
-                <div
-                  style={{
-                    height: "1px",
-                    width: "100%",
-                    background: "white",
-                  }}
-                ></div>
+  
                 {errors.confirmPassword && (
                   <div className="invalid-feedback d-block">
                     {errors.confirmPassword.message}
