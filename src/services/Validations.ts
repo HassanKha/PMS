@@ -16,13 +16,21 @@ export const verifyValidation = {
 };
 
 export const validateRegisterForm = {
-  userName: {
-    required: "User name is required",
-    minLength: {
-      value: 2,
-      message: "Name must be at least 2 characters",
-    },
+userName: {
+  required: "User name is required",
+  minLength: {
+    value: 2,
+    message: "Name must be at least 2 characters",
   },
+  maxLength: {
+    value: 8,
+    message: "Name must be at most 8 characters",
+  },
+  validate: {
+    hasNumber: (value : any) =>
+      /\d/.test(value) || "Name must contain at least one number",
+  },
+},
   email: {
     required: "Email is required",
     pattern: {
@@ -42,10 +50,11 @@ export const validateRegisterForm = {
   },
   password: {
     required: "Password is required",
-    minLength: {
-      value: 6,
-      message: "Password must be at least 6 characters",
-    },
+   pattern: {
+    value: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{6,}$/,
+    message:
+      "Password must be at least 6 characters and include uppercase, lowercase, number, and special character",
+  },
   },
   confirmPassword: (password: string) => ({
     required: "Please confirm your password",

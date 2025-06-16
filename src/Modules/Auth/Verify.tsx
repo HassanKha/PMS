@@ -4,7 +4,7 @@ import PMSIcon from "../../assets/PMSIcon.png";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 import "../../styles/register.css";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { axiosInstance, USERS_URLS } from "../../services/Urls";
 import { verifyValidation } from "../../services/Validations";
 
@@ -14,12 +14,21 @@ type FormData = {
 };
 
 function Verify() {
-  const {
+ 
+  const navigate = useNavigate();
+    const location = useLocation();
+  const emailFromRegister = location.state?.email || "";
+
+   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<FormData>();
-  const navigate = useNavigate();
+  } = useForm<FormData>({
+    defaultValues: {
+      email: emailFromRegister 
+    },
+  });
+
   const onSubmit = async (data: FormData) => {
     // Simulate backend call
     console.log(data);
@@ -61,8 +70,8 @@ function Verify() {
           {/* Header */}
           <div className="text-start mt-5 mx-5">
             <h2
-              className="fw-bold d-flex flex-column"
-              style={{ color: "#ffa726", fontSize: "36px" }}
+              className="fw-bold d-flex flex-column title-auth"
+              style={{ color: "#ffa726", fontSize: "clamp(1.5rem, 5vw, 2.25rem)" }}
             >
               <span
                 className="text-white fw-light"
@@ -75,7 +84,7 @@ function Verify() {
           </div>
 
           <form onSubmit={handleSubmit(onSubmit)}>
-            <div className="d-flex mt-3 mx-5 justify-content-center   flex-column ">
+            <div className="d-flex mt-3 mx-5 justify-content-lg-center justify-content-start  align-content-lg-center   flex-column ">
               {/* Email */}
               <div className="col-12 mb-3  d-flex flex-column ">
                 <label
@@ -137,20 +146,18 @@ function Verify() {
             </div>
 
             {/* Submit Button */}
-            <div className="w-100 d-flex justify-content-center align-items-center m-3 mb-5">
+            <div className="d-flex justify-content-center mx-sm-5 mx-lg-0 mt-4">
               <button
                 type="submit"
-                className="btn btn-lg fw-bold"
+                  className="btn fw-bold w-100"
                 style={{
+                  maxWidth: "300px",
                   background: "linear-gradient(45deg, #ffa726, #ff9800)",
                   border: "none",
                   borderRadius: "25px",
                   color: "white",
-                  padding: "0.6rem 13rem",
                   fontSize: "18px",
-                  transition: "all 0.3s ease",
-                }}
-              >
+                }}        >
                 Save
               </button>
             </div>
