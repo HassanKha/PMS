@@ -94,7 +94,7 @@ navigate("/verify-account", {
           <div className="text-lg-start mt-3 mx-5">
             <h2
               className="fw-bold d-flex flex-column "
-              style={{ color: "#ffa726", fontSize: "36px" }}
+              style={{ color: "#ffa726",fontSize: "clamp(1.5rem, 5vw, 2.25rem)" }}
             >
               <span
                 className="text-white fw-light  "
