@@ -14,6 +14,7 @@ import ResetPassword from "./Modules/Auth/ResetPassword";
 import Verify from "./Modules/Auth/Verify";
 import Dashboard from "./Modules/Dashboard/Dashboard";
 import MasterLayout from "./shared/MasterLayout";
+import ChangePassword from "./Modules/Auth/ChangePassword";
 
 function App() {
   const routes = createBrowserRouter([
@@ -28,7 +29,7 @@ function App() {
         { path: "forget-pass", element: <ForgetPassword /> },
         { path: "reset-pass", element: <ResetPassword /> },
         { path: "verify-account", element: <Verify /> },
-        { path: "change-password", element: <Verify /> },
+        { path: "change-password", element: <ChangePassword /> },
       ],
     },
     {

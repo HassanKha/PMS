@@ -1,0 +1,90 @@
+.ForgetPassword {
+    background-image: url(./assets/forGet.png);
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    height: 110vh;
+}
+
+.log_img_forget {
+    width: 50%;
+    margin: auto;
+}
+
+.form_forget {
+    background-color: #315951E5;
+    border-radius: 16px;
+    padding: 50px;
+    margin-top: 20px;
+}
+
+.title_forget {
+    color: #fff;
+    margin-bottom: 50px;
+}
+
+.title_forget h2 {
+    color: #EF9B28;
+    font-size: 32px;
+    font-weight: 700;
+    line-height: 46px;
+}
+
+.title_forget p {
+    padding: 0;
+    margin: 0;
+    font-size: 13px;
+    margin-top: 30px;
+}
+
+.title_forget span {
+    text-decoration-line: underline;
+}
+
+.btn_forget {
+    background-color: #EF9B28;
+    border-radius: 96px;
+    color: #fff;
+    border: none;
+    height: 50px;
+    margin-top: 50px !important;
+}
+
+.btn_resetPass {
+    background-color: #EF9B28;
+    border-radius: 96px;
+    color: #fff;
+    border: none;
+    height: 50px;
+    margin-top: 30px !important;
+}
+
+.form_rest {
+    background-color: #315951E5;
+    border-radius: 16px;
+    padding: 30px;
+    margin-top: 20px;
+}
+
+.title_rest {
+    color: #fff;
+
+}
+
+.title_rest h2 {
+    color: #EF9B28;
+    font-size: 32px;
+    font-weight: 700;
+    line-height: 46px;
+}
+
+.title_rest p {
+    padding: 0;
+    margin: 0;
+    font-size: 13px;
+    
+}
+
+.title_rest span {
+    text-decoration-line: underline;
+}
