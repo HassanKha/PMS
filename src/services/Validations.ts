@@ -56,9 +56,9 @@ userName: {
       "Password must be at least 6 characters and include uppercase, lowercase, number, and special character",
   },
   },
-  confirmPassword: (password: string) => ({
+  confirmPassword: (password: string | undefined) => ({
     required: "Please confirm your password",
-    validate: (value: string) =>
+    validate: (value: string | undefined) =>
       value === password || "Passwords do not match",
   }),
 };

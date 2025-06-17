@@ -1,23 +1,35 @@
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import logoForGet from '../../assets/PMS 3@2x.png'
-import { set, useForm } from 'react-hook-form'
+import {  useForm } from 'react-hook-form'
 import { axiosInstance, USERS_URLS } from '../../services/Urls';
 import { validateRegisterForm } from '../../services/Validations';
 import { toast } from 'react-toastify';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faEye, faEyeSlash, faUser } from "@fortawesome/free-solid-svg-icons";
+import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate } from 'react-router-dom';
+
+
+ interface ForgetPasswordForm  {
+  email: string;
+  seed?: string; // for OTP
+  password?: string;
+  confirmPassword?: string;
+};
+
+
 function ForgetPassword() {
+
+ 
   let [userEmail, setUserEmail] = useState('')
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [dispalyForm, setDisplayForm] = useState(true)
   let [btnloading, setbtnloading] = useState(false);
-  let { register, handleSubmit, formState: { errors }, watch ,setValue} = useForm();
+  let { register, handleSubmit, formState: { errors }, watch ,setValue} = useForm<ForgetPasswordForm>();
   let navigate = useNavigate()
   const password = watch("password");
 
-  async function handelForgetPassword(data) {
+  async function handelForgetPassword(data : any) {
 
     setbtnloading(true);
 
@@ -28,12 +40,12 @@ function ForgetPassword() {
       setbtnloading(false);
       setDisplayForm(false)
       setUserEmail(data.email);
-    } catch (error) {
+    } catch (error : any) {
       toast.error(error.response.data.message || "Something went wrong. Please try again.");
       setbtnloading(false);
     }
   }
-  async function updatePassword(data) {
+  async function updatePassword(data : any) {
     setbtnloading(true);
     try {
       let response = await axiosInstance.post(USERS_URLS.RESET_PASS, data)
@@ -41,7 +53,7 @@ function ForgetPassword() {
       toast.success(response.data.message || "password updated successfully");
       setbtnloading(false);
       navigate("/login")
-    } catch (error) {
+    } catch (error : any) {
       toast.error(error.response.data.message || "Something went wrong. Please try again.");
       console.log(error);
       setbtnloading(false);
