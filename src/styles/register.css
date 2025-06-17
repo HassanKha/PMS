@@ -32,3 +32,53 @@ input:-webkit-autofill , .bg-transparent:-webkit-autofill {
     padding: 0.6rem 1rem !important;
   }
 }
+
+@media (max-width: 768px) {
+  .Register-container , .Verify-container {
+    padding: 0 1rem;
+    width: 90%;
+  }
+
+  img.ImgSize{
+    width: 50% !important;
+    height: 50% !important;
+  }
+
+  .Register-main-container , .Verify-main-container{
+    width: 100% !important;
+    margin: 0 !important;
+    padding: 1rem 0  1rem 0 !important;
+
+  }
+
+  .Register-main-container form {
+    padding: 0 !important;
+  }
+
+  .Register-main-container .row {
+    padding: 0 !important;
+  }
+
+  .Register-main-container , .Verify-main-container input {
+    font-size: 14px;
+  }
+
+  .Register-main-container h2 , .Verify-main-container h2 {
+    font-size: 1rem !important;
+    text-align: center;
+  }
+
+  .Register-main-container .btn  {
+    padding: 0.3rem 2rem !important;
+    font-size: 16px !important;
+    margin-right: 0 !important;
+  }
+
+   .Verify-main-container .btn {
+    padding: 0.3rem 1rem !important;
+    font-size: 16px !important;
+    margin-right: 1rem !important;
+    margin-left: 1rem  !important;
+  }
+}
+

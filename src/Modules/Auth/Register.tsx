@@ -87,9 +87,9 @@ navigate("/verify-account", {
         overflow: "hidden",
       }}
     >
-      <img src={PMSIcon} alt="PMSIcon" className="w-25 h-25"/>
+      <img src={PMSIcon} alt="PMSIcon" className="w-25 ImgSize  h-25"/>
       <div className="d-flex Register-container g-3 flex-column align-items-center justify-content-center">
-        <div className=" w-100 px-3 py-3  Register-main-container  border-0 shadow-lg">
+        <div className=" w-100 px-3  py-3  Register-main-container  border-0 shadow-lg">
           {/* Header */}
           <div className="text-lg-start mt-3 mx-5">
             <h2
@@ -366,7 +366,7 @@ navigate("/verify-account", {
             </div>
 
             {/* Submit Button */}
-            <div className="w-100 d-flex justify-content-center align-items-center m-3">
+            <div className="d-flex justify-content-center mx-sm-5 mx-lg-0 mt-3">
               <button
                 type="submit"
                 className="btn btn-lg fw-bold"

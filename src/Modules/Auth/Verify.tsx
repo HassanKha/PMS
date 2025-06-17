@@ -64,7 +64,7 @@ function Verify() {
         overflow: "hidden",
       }}
     >
-      <img src={PMSIcon} alt="PMSIcon" className="w-25 h-25" />
+      <img src={PMSIcon} alt="PMSIcon" className="w-25 ImgSize h-25" />
       <div className="d-flex Verify-container g-3 flex-column align-items-center justify-content-center">
         <div className="w-100  py-3 Verify-main-container  d-flex flex-column justify-content-lg-start border-0 shadow-lg">
           {/* Header */}
