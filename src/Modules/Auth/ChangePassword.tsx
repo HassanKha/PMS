@@ -1,12 +1,13 @@
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
-import Authbg from "../../assets/AuthBackground.svg";
+import changePassBg from "../../assets/ChangePassBg.svg";
 import PMSIcon from "../../assets/PMSIcon.png";
 import { validateRegisterForm } from "../../services/Validations";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 import { axiosInstance, USERS_URLS } from '../../services/Urls';
+import "../../styles/ChangePass.css";
 import { toast } from 'react-toastify';
 import { Button } from 'react-bootstrap';
 
@@ -49,14 +50,14 @@ function ChangePassword() {
       className="d-flex gap-2 flex-column align-items-center justify-content-center"
       style={{
         minHeight: "100vh",
-        backgroundImage: `url(${Authbg})`,
+        backgroundImage: `url(${changePassBg})`,
         backgroundSize: "cover",
         backgroundPosition: "center",
       }}
     >
       <img src={PMSIcon} alt="PMSIcon" className="w-25 h-25" />
-      <div className="d-flex Register-container g-3 flex-column align-items-center justify-content-center">
-        <div className="w-100 px-3 py-3 Register-main-container border-0 shadow-lg">
+      <div className="d-flex container-fl g-3 flex-column align-items-center justify-content-center">
+        <div className="w-100 px-3 py-3 change-pass-main-container border-0 shadow-lg">
           <div className="text-lg-start mt-3 mx-5">
             <h2 className="fw-bold d-flex flex-column" style={{ color: "#ffa726", fontSize: "36px" }}>
               <span className="text-white fw-light" style={{ fontSize: "13px" }}>welcome to PMS</span>
@@ -76,7 +77,7 @@ function ChangePassword() {
                   <input
                     type={showOldPassword ? "text" : "password"}
                     placeholder="Enter your Old Password"
-                    {...register("oldPassword", validateRegisterForm.oldPassword)}
+                    {...register("oldPassword", validateRegisterForm.password)}
                     style={{
                       border: "none",
                       background: "none",
@@ -111,7 +112,7 @@ function ChangePassword() {
                   <input
                     type={showNewPassword ? "text" : "password"}
                     placeholder="Enter your New Password"
-                    {...register("newPassword", validateRegisterForm.newPassword)}
+                    {...register("newPassword", validateRegisterForm.password)}
                     style={{
                       border: "none",
                       background: "none",
