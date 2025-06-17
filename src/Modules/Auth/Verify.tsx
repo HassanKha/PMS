@@ -22,7 +22,7 @@ function Verify() {
    const {
     register,
     handleSubmit,
-    formState: { errors },
+    formState: { errors , isSubmitting },
   } = useForm<FormData>({
     defaultValues: {
       email: emailFromRegister 
@@ -158,7 +158,18 @@ function Verify() {
                   color: "white",
                   fontSize: "18px",
                 }}        >
-                Save
+                    {isSubmitting ? (
+                  <>
+                    <span
+                      className="spinner-border spinner-border-sm me-2"
+                      role="status"
+                      aria-hidden="true"
+                    ></span>
+                    Creating Account...
+                  </>
+                ) : (
+                  "Save"
+                )}
               </button>
             </div>
           </form>
