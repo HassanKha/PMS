@@ -55,7 +55,7 @@ function ChangePassword() {
         backgroundPosition: "center",
       }}
     >
-      <img src={PMSIcon} alt="PMSIcon" className="w-25 h-25" />
+      <img src={PMSIcon} alt="PMSIcon" className="lg:w-25 lg:h-25" />
       <div className="d-flex container-fl g-3 flex-column align-items-center justify-content-center">
         <div className="w-100 px-3 py-3 change-pass-main-container border-0 shadow-lg">
           <div className="text-lg-start mt-3 mx-5">
