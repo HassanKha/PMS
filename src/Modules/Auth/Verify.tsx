@@ -79,7 +79,9 @@ function Verify() {
               >
                 Welcome to PMS
               </span>
-              Verify Account
+              <span className="d-flex align-items-center">
+                <span className="FC">V</span>erify Account
+              </span>
             </h2>
           </div>
 

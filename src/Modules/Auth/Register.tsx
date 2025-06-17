@@ -104,7 +104,10 @@ navigate("/verify-account", {
               >
                 welcome to PMS
               </span>
-              Create New Account
+              <span className="d-flex align-items-center">
+                <span className="FC">C</span>reate New Account
+              </span>
+            
             </h2>
           </div>
 

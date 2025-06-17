@@ -80,7 +80,10 @@ function Login() {
               >
                 Welcome to PMS
               </span>
-              Login
+              
+                <span className="d-flex align-items-center">
+                <span className="FC">L</span>ogin
+              </span>
             </h2>
           </div>
 
