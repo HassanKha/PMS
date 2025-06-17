@@ -57,7 +57,7 @@ function Login() {
         overflow: "hidden",
       }}
     >
-      <img src={PMSIcon} alt="PMSIcon" className="w-25 h-25" />
+      <img src={PMSIcon} alt="PMSIcon" className="w-25 ImgSize h-25" />
 
       <div
         className="Verify-container d-flex flex-column align-items-center justify-content-center px-3 w-100"
@@ -151,7 +151,7 @@ function Login() {
                 )}
               </div>
 
-              <div className="links-container d-flex justify-content-between mb-3">
+              <div className="links-container d-flex flex-lg-row flex-column  align-items-center justify-content-between mb-3">
                 <Link
                   to="/register"
                   className="text-decoration-none text-white"
@@ -159,7 +159,7 @@ function Login() {
                   Register Now?
                 </Link>
                 <Link
-                  to="/forget-password"
+                  to="/forget-pass"
                   className="text-decoration-none text-white"
                 >
                   Forget Password?
