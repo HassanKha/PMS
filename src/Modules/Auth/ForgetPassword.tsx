@@ -7,15 +7,10 @@
     import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
     import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
     import { useNavigate } from 'react-router-dom';
+import type { ForgetPasswordForm } from '../../interfaces/ForgetPasswordForm';
 
 
-    interface ForgetPasswordForm {
-      email: string;
-      seed?: string; // for OTP
-      password?: string;
-      confirmPassword?: string;
-    };
-
+   
 
     function ForgetPassword() {
       let [userEmail, setUserEmail] = useState('')

@@ -1,19 +1,19 @@
-import { Button } from 'react-bootstrap'
-import { NavLink, useNavigate } from 'react-router-dom'
+import { useContext, useEffect } from "react";
+import { AuthContext } from "../../contexts/AuthContext";
+
+
 
 
 function Dashboard() {
-  let navigate = useNavigate()
+    const auth = useContext(AuthContext);
+ useEffect(() => {
+   auth?.SaveLoginData()
+  }, []);
 
-  const logout = ()=>{
-    localStorage.removeItem('token')
-    navigate('/')
-  }
   return (
     <>
-    <div>Dashboard</div>
-     <NavLink className="btn bg-warning" to={'/change-password'}>Change Password</NavLink>
-     <Button onClick={logout} className='btn bg-danger ms-2'>Logout</Button>
+    <div className="m-5">Dashboard</div>
+
     </>
   )
 }

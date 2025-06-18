@@ -2,6 +2,7 @@ import { ToastContainer } from "react-toastify";
 import {
   createBrowserRouter,
   RouterProvider,
+  type RouteObject,
 } from "react-router-dom";
 import "./App.css";
 import "react-toastify/dist/ReactToastify.css";
@@ -14,9 +15,11 @@ import Verify from "./Modules/Auth/Verify";
 import Dashboard from "./Modules/Dashboard/Dashboard";
 import MasterLayout from "./shared/MasterLayout";
 import ChangePassword from "./Modules/Auth/ChangePassword";
+import ProjectData from "./Modules/Projects/ProjectData";
+import ProjectList from "./Modules/Projects/ProjectList";
 
 function App() {
-  const routes = createBrowserRouter([
+   const routes: RouteObject[] = [
     {
       path: "",
       element: <AuthLayout />,
@@ -33,18 +36,22 @@ function App() {
     {
       path: "/dashboard",
       element: <MasterLayout />,
-      children: [{ index: true, element: <Dashboard /> }],
+      children: [
+        { index: true, element: <Dashboard /> },
+        { path: "projects", element: <ProjectList /> },
+        { path: "project-data", element: <ProjectData /> },
+      ],
     },
     {
       path: "*",
       element: <NotFound />,
     },
-  ]);
+  ];
 
   return (
     <>
       <ToastContainer position="top-right" autoClose={3000} />
-      <RouterProvider router={routes}></RouterProvider>
+           <RouterProvider router={createBrowserRouter(routes)} />
     </>
   );
 }

@@ -7,11 +7,8 @@ import "../../styles/register.css";
 import { useLocation, useNavigate } from "react-router-dom";
 import { axiosInstance, USERS_URLS } from "../../services/Urls";
 import { verifyValidation } from "../../services/Validations";
+import type { FormDataVerify } from "../../interfaces/FormData";
 
-type FormData = {
-  email: string;
-  code: string;
-};
 
 function Verify() {
  
@@ -23,13 +20,13 @@ function Verify() {
     register,
     handleSubmit,
     formState: { errors , isSubmitting },
-  } = useForm<FormData>({
+  } = useForm<FormDataVerify>({
     defaultValues: {
       email: emailFromRegister 
     },
   });
 
-  const onSubmit = async (data: FormData) => {
+  const onSubmit = async (data: FormDataVerify) => {
     // Simulate backend call
     console.log(data);
     try {

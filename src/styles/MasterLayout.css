@@ -1,0 +1,52 @@
+  .btn:focus {
+            box-shadow: none !important;
+          }
+          
+          .navbar {
+            z-index: 1030;
+          }
+          
+          @media (max-width: 991.98px) {
+            .sidebar-mobile-hidden {
+              display: none !important;
+            }
+          }
+
+
+          #root > div > div > div > div > aside > div > nav > ul > li > a:hover {
+            background-color: rgba(239, 155, 40, 0.3) !important;
+            color: #fff !important;
+     transition: transform 1.5s ease-in-out;
+          }
+          .Setting span {
+            color: black !important;
+          }
+.Setting:hover {
+   background-color: #0E382F !important;
+     transition: transform 1.5s ease-in-out;
+     color: #fff;
+}
+.Setting:hover button span {
+      color: #fff !important;
+}
+       
+          .sidebar-toggle-btn {
+  transition: transform 1.5s ease-in-out;
+}
+.sidebar-toggle-btn:hover {
+  transform: scale(1.3);
+}
+
+.logout-btn:hover {
+  background-color: #dc3545 !important; /* Bootstrap's bg-danger */
+  color: white !important;
+  padding: 0rem 0.2rem 0rem 0.2rem  !important;
+}
+
+.logout-btn:hover .text-danger {
+  color: white !important;
+}
+
+.XIcon:hover {
+ background-color: #EF9B28 !important;
+}

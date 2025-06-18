@@ -10,17 +10,14 @@ import { axiosInstance, USERS_URLS } from '../../services/Urls';
 import "../../styles/ChangePass.css";
 import { toast } from 'react-toastify';
 import { Button } from 'react-bootstrap';
+import type { FormData } from '../../interfaces/FormData';
 
 function ChangePassword() {
   const [showNewPassword, setShowNewPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [showOldPassword, setShowOldPassword] = useState(false);
 
-  interface FormData {
-    oldPassword: string;
-    newPassword: string;
-    confirmNewPassword: string;
-  }
+
 
   const {
     register,

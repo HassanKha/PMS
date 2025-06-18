@@ -1,9 +1,129 @@
-import React from 'react'
-
-function SideBar() {
-  return (
-    <div>SideBar</div>
-  )
+import { Sidebar, Menu, MenuItem} from "react-pro-sidebar";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faUsers,
+  faTh,
+  faChevronLeft,
+  faChevronRight,
+  faTimes,
+  faHome,
+  faTasks,
+} from "@fortawesome/free-solid-svg-icons";
+import { useContext } from "react";
+import { AuthContext } from "../contexts/AuthContext";
+interface SideBarProps {
+  sidebarVisible: boolean;
+  collapsed: boolean;
+  handleCollapseSidebar: () => void;
 }
 
-export default SideBar
+const SideBar: React.FC<SideBarProps> = ({
+  sidebarVisible,
+  collapsed,
+  handleCollapseSidebar,
+}) => {
+
+   const auth = useContext(AuthContext);
+   console.log(auth)
+  return (
+    <div
+      className={`col-auto d-lg-block ${sidebarVisible ? "d-block" : "d-none"}`}
+      style={{
+        transition: "all 0.3s ease",
+      }}
+    >
+      <Sidebar
+        collapsed={collapsed}
+        backgroundColor="#0E382F"
+        width="270px"
+        collapsedWidth="80px"
+        style={{
+          height: "calc(100vh - 56px)",
+          border: "none",
+          boxShadow: "2px 0 6px rgba(0,21,41,.35)",
+        }}
+      >
+        {/* Sidebar Header with Toggle Button */}
+        <div
+          className="d-flex align-items-center justify-content-end "
+          style={{  minHeight: "40px" }}
+        >
+
+          {/* Toggle button inside sidebar */}
+          <button
+            className="btn btn-sm sidebar-toggle-btn text-white d-none mb-0 d-lg-block"
+            onClick={handleCollapseSidebar}
+            style={{
+              backgroundColor: "#EF9B28",
+              border: "1px solid #495057",
+              borderTopLeftRadius: "8px",
+              borderBottomLeftRadius: "8px",
+              padding: "4px 5px",
+            }}
+            title={collapsed ? "Expand Sidebar" : "Collapse Sidebar"}
+          >
+            <FontAwesomeIcon
+              icon={collapsed ? faChevronRight : faChevronLeft}
+              size="sm"
+            />
+          </button>
+
+          {/* Close button for mobile */}
+          <button
+            className="btn btn-sm text-white d-lg-none XIcon"
+            onClick={handleCollapseSidebar}
+            style={{
+              backgroundColor: "transparent",
+              border: "1px solid #495057",
+              padding: "4px 8px",
+            }}
+          >
+            <FontAwesomeIcon icon={faTimes} size="sm" />
+          </button>
+        </div>
+
+        <Menu
+          menuItemStyles={{
+            button: {
+              color: "#ffffff",
+
+             margin: collapsed ? "" : "0px 15px 5px 15px",
+              borderRadius: "8px"
+            
+            },
+            subMenuContent: {
+              backgroundColor: "#2c3136",
+            },
+          }}
+          
+        >
+          <MenuItem icon={<FontAwesomeIcon icon={faHome}  />}>
+    Home
+  </MenuItem>
+{
+  auth?.LoginData?.roles[0] 
+  === "Manager" ?
+  <MenuItem icon={<FontAwesomeIcon icon={faUsers} />}>
+    Users
+  </MenuItem>
+  : ''
+}
+
+  <MenuItem
+    icon={<FontAwesomeIcon icon={faTh} />}
+    style={{ backgroundColor: "rgba(239, 155, 40, 0.3)"  }}
+  >
+    Projects
+  </MenuItem>
+
+  <MenuItem icon={<FontAwesomeIcon icon={faTasks} />}>
+    Tasks
+  </MenuItem>
+         
+        </Menu>
+      </Sidebar>
+    </div>
+  );
+};
+
+export default SideBar;

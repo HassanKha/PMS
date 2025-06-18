@@ -9,16 +9,9 @@ import { axiosInstance, USERS_URLS } from "../../services/Urls";
 import { toast } from "react-toastify";
 import { Link, useNavigate } from "react-router-dom";
 import { validateRegisterForm } from "../../services/Validations";
+import type { FormDataRegister } from './../../interfaces/FormData';
 
-interface FormData {
-  userName: string;
-  email: string;
-  country: string;
-  phoneNumber: string;
-  password: string;
-  confirmPassword: string;
-  profileImage?: FileList; // or FileList | null depending on your logic
-}
+
 function Register() {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
@@ -28,13 +21,13 @@ function Register() {
     handleSubmit,
     watch,
     formState: { errors, isSubmitting },
-  } = useForm<FormData>();
+  } = useForm<FormDataRegister>();
 
   const navigate = useNavigate();
 
   const password = watch("password");
 
-  const onSubmit = async (data: FormData) => {
+  const onSubmit = async (data: FormDataRegister) => {
     try {
       const formData = new FormData();
       formData.append("userName", data.userName);

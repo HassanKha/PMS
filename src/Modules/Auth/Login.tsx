@@ -9,11 +9,8 @@ import { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 import { validateRegisterForm } from "../../services/Validations";
+import type { LoginFormInputs } from "../../interfaces/LoginFormInputs";
 
-type LoginFormInputs = {
-  email: string;
-  password: string;
-};
 
 function Login() {
   const [showPassword, setShowPassword] = useState(false);
