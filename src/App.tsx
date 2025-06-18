@@ -10,7 +10,6 @@ import NotFound from "./shared/NotFound";
 import Login from "./Modules/Auth/Login";
 import Register from "./Modules/Auth/Register";
 import ForgetPassword from "./Modules/Auth/ForgetPassword";
-import ResetPassword from "./Modules/Auth/ResetPassword";
 import Verify from "./Modules/Auth/Verify";
 import Dashboard from "./Modules/Dashboard/Dashboard";
 import MasterLayout from "./shared/MasterLayout";
@@ -27,7 +26,6 @@ function App() {
         { path: "login", element: <Login /> },
         { path: "register", element: <Register /> },
         { path: "forget-pass", element: <ForgetPassword /> },
-        { path: "reset-pass", element: <ResetPassword /> },
         { path: "verify-account", element: <Verify /> },
         { path: "change-password", element: <ChangePassword /> },
       ],
