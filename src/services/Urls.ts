@@ -4,8 +4,20 @@ const baseURL = "https://upskilling-egypt.com:3003/api/v1/Users";
 export const ImageURL = "https://upskilling-egypt.com:3006/"
 
 export const axiosInstance = axios.create({
-  baseURL,headers:{ Authorization: localStorage.getItem('token')}
+  baseURL,
 });
+
+axiosInstance.interceptors.request.use(
+    (config) => {
+        const token = localStorage.getItem("token");
+        if (token) {
+            config.headers.Authorization = `Bearer ${token}`;
+        }
+        return config;
+    },
+    (error) => Promise.reject(error)
+);
+
 
 export const USERS_URLS = {
   LOGIN: `/Login`,
