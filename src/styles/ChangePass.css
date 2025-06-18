@@ -8,6 +8,10 @@ input{
 }
 
 @media (max-width: 768px) {
+  img.ImgSize{
+    width: 50% !important;
+    height: 50% !important;
+  }
 
  .change-pass-main-container h2 {
     font-size: 1.5rem !important;
