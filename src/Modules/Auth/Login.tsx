@@ -6,6 +6,9 @@ import PMSIcon from "../../assets/PMSIcon.png";
 import LoginBg from "../../assets/LoginBG.svg";
 import axios from "axios";
 import { useState } from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
+import { validateRegisterForm } from "../../services/Validations";
 
 type LoginFormInputs = {
   email: string;
@@ -13,6 +16,8 @@ type LoginFormInputs = {
 };
 
 function Login() {
+  const [showPassword, setShowPassword] = useState(false);
+
   const {
     register,
     handleSubmit,
@@ -23,7 +28,7 @@ function Login() {
   const [loading, setLoading] = useState(false);
 
   const onSubmit = async (data: LoginFormInputs) => {
-    setLoading(true); 
+    setLoading(true);
     try {
       const response = await axios.post(
         "https://upskilling-egypt.com:3003/api/v1/Users/Login",
@@ -42,7 +47,7 @@ function Login() {
         console.log("Unexpected Error:", error);
       }
     } finally {
-      setLoading(false); 
+      setLoading(false);
     }
   };
 
@@ -75,13 +80,13 @@ function Login() {
               }}
             >
               <span
-                className="text-white fw-light"
+                className="text-white fw-light text-start"
                 style={{ fontSize: "13px" }}
               >
                 Welcome to PMS
               </span>
-              
-                <span className="d-flex align-items-center">
+
+              <span className="d-flex align-items-center">
                 <span className="FC">L</span>ogin
               </span>
             </h2>
@@ -118,32 +123,58 @@ function Login() {
               </div>
 
               {/* Password */}
-              <div className="col-12 mb-3 d-flex flex-column">
+              <div className="input-group mt-3">
                 <label
                   className="form-label fw-medium"
                   style={{ color: "#ffa726" }}
                 >
                   Password
                 </label>
-                <input
-                  type="password"
-                  placeholder="Enter Password"
-                  className="bg-transparent text-white"
+                <div
+                  className="position-relative col-12  w-100"
                   style={{
-                    border: "none",
-                    outline: "none",
-                    borderBottom: "1px solid white",
-                    padding: "6px 12px",
-                    color: "white",
+                    width: "100%",
                   }}
-                  {...register("password", {
-                    required: "Password is required",
-                    minLength: {
-                      value: 6,
-                      message: "Password must be at least 6 characters",
-                    },
-                  })}
-                />
+                >
+                  <input
+                    type={showPassword ? "text" : "password"}
+                    className="w-100"
+
+                    placeholder="Enter your Password"
+                    style={{
+                      border: "none",
+                      background: "none",
+                      outline: "none",
+                      borderBottomWidth: "1px",
+                      borderRadius: "8px",
+                      color: "white",
+                      padding: "6px 12px",
+                      boxShadow: "none",
+                    }}
+                    {...register("password", validateRegisterForm.password)}
+                  />
+
+                  <button
+                    type="button"
+                    className="btn position-absolute top-50 end-0 translate-middle-y me-2"
+                    style={{
+                      border: "none",
+                      background: "transparent",
+                      color: "rgba(255, 255, 255, 0.6)",
+                      padding: "4px",
+                    }}
+                    onClick={() => setShowPassword(!showPassword)}
+                  >
+                    <FontAwesomeIcon icon={showPassword ? faEyeSlash : faEye} />
+                  </button>
+                </div>
+                <div
+                  style={{
+                    height: "1px",
+                    width: "100%",
+                    background: "white",
+                  }}
+                ></div>
                 {errors.password && (
                   <div className="invalid-feedback d-block">
                     {errors.password.message}
@@ -151,48 +182,51 @@ function Login() {
                 )}
               </div>
 
-              <div className="links-container d-flex flex-lg-row flex-column  align-items-center justify-content-between mb-3">
+              <div className="links-container d-flex  justify-content-between mb-3 mt-2">
                 <Link
                   to="/register"
-                  className="text-decoration-none text-white"
+                  className="text-decoration-none links-container_F_R text-white "
+
                 >
                   Register Now?
                 </Link>
                 <Link
                   to="/forget-pass"
-                  className="text-decoration-none text-white"
+                  className="text-decoration-none links-container_F_R text-white"
                 >
                   Forget Password?
                 </Link>
               </div>
+              <div className="d-flex justify-content-center mx-sm-5 mx-lg-0 mt-4">
+                <button
+                  type="submit"
+                  className="btn fw-bold w-100 d-flex align-items-center justify-content-center"
+                  disabled={loading}
+                  style={{
+                   width: "100%",
+                    background: "linear-gradient(45deg, #ffa726, #ff9800)",
+                    border: "none",
+                    borderRadius: "25px",
+                    color: "white",
+                    fontSize: "18px",
+                    height: "50px",
+                  }}
+                >
+                  {loading ? (
+                    <div
+                      className="spinner-border spinner-border-sm text-light"
+                      role="status"
+                    >
+                      <span className="visually-hidden">Loading...</span>
+                    </div>
+                  ) : (
+                    "Login"
+                  )}
+                </button>
+              </div>
             </div>
 
-            <div className="d-flex justify-content-center mx-sm-5 mx-lg-0 mt-4">
-              <button
-                type="submit"
-                className="btn fw-bold w-100 d-flex align-items-center justify-content-center"
-                disabled={loading} 
-                style={{
-                  maxWidth: "300px",
-                  background: "linear-gradient(45deg, #ffa726, #ff9800)",
-                  border: "none",
-                  borderRadius: "25px",
-                  color: "white",
-                  fontSize: "18px",
-                }}
-              >
-                {loading ? (
-                  <div
-                    className="spinner-border spinner-border-sm text-light"
-                    role="status"
-                  >
-                    <span className="visually-hidden">Loading...</span>
-                  </div>
-                ) : (
-                  "Login"
-                )}
-              </button>
-            </div>
+
           </form>
         </div>
       </div>

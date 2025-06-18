@@ -57,7 +57,7 @@ function ChangePassword() {
     >
       <img src={PMSIcon} alt="PMSIcon" className="lg:w-25 lg:h-25" />
       <div className="d-flex container-fl g-3 flex-column align-items-center justify-content-center">
-        <div className="w-100 px-3 py-3 change-pass-main-container border-0 shadow-lg">
+        <div style={{ }} className="w-75  mx-auto px-3 py-3 change-pass-main-container border-0 shadow-lg">
           <div className="text-lg-start mt-3 mx-5">
             <h2 className="fw-bold d-flex flex-column" style={{ color: "#ffa726", fontSize: "36px" }}>
               <span className="text-white fw-light" style={{ fontSize: "13px" }}>welcome to PMS</span>
@@ -66,7 +66,8 @@ function ChangePassword() {
           </div>
 
           <form onSubmit={handleSubmit(onSubmit)}>
-            <div className="row px-5">
+            <div className="row  px-5">
+             
 
               {/* Old Password */}
               <div className="col-12 mb-3 d-flex flex-column">
@@ -172,12 +173,10 @@ function ChangePassword() {
                   <div className="invalid-feedback d-block">{errors.confirmNewPassword.message}</div>
                 )}
               </div>
-            </div>
 
-            <div className="w-100 d-flex justify-content-center align-items-center m-3">
-              <button
+               <button
                 type="submit"
-                className="btn btn-lg fw-bold"
+                className="btn btn-lg fw-bold mt-4"
                 disabled={isSubmitting}
                 style={{
                   background: "linear-gradient(45deg, #ffa726, #ff9800)",
@@ -187,6 +186,7 @@ function ChangePassword() {
                   padding: "0.3rem 6rem",
                   fontSize: "18px",
                   transition: "all 0.3s ease",
+                  height: "50px",
                 }}
               >
                 {isSubmitting ? (
@@ -198,6 +198,10 @@ function ChangePassword() {
                   "Save Changes"
                 )}
               </button>
+            </div>
+
+            <div className="w-100 d-flex justify-content-center align-items-center m-3">
+             
             </div>
           </form>
         </div>

@@ -48,7 +48,7 @@ function Verify() {
           });
         });
       } else {
-        toast.error("Something went wrong. Please try again.");
+        toast.error("OTP is not correct");
       }
     }
   };
@@ -107,7 +107,7 @@ function Verify() {
                     padding: "6px 12px",
                   }}
                   {...register("email", verifyValidation.email)}
-                />
+                readOnly />
                 {errors.email && (
                   <div className="invalid-feedback d-block">
                     {errors.email.message}
