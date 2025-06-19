@@ -19,78 +19,27 @@ function MasterLayout() {
 
   return (
     <>
-      <div className="min-vh-100 d-flex" style={{ backgroundColor: "#f8f9fa" }}>
-        <div className='position-sticky top-0 vh-100'>
-          {/* Bootstrap Navbar */}
-          <SideBar
-            sidebarVisible={sidebarVisible}
-            collapsed={collapsed}
-            handleCollapseSidebar={handleCollapseSidebar}
-          />
+      <div className="min-vh-100" style={{ backgroundColor: "#f8f9fa" }}>
+        {/* Bootstrap Navbar */}
+        <Navbar
+          handleToggleSidebar={handleToggleSidebar}
+          sidebarVisible={sidebarVisible}
+        />
+
+        <div className="container-fluid p-0">
+          <div className="d-flex g-0">
+            {/* Sidebar Column */}
+            <SideBar
+              sidebarVisible={sidebarVisible}
+              collapsed={collapsed}
+              handleCollapseSidebar={handleCollapseSidebar}
+            />
+            <Outlet />
+          </div>
         </div>
-
-        {/* Sidebar Column */}
-
-        <div className="w-100">
-          <Navbar
-            handleToggleSidebar={handleToggleSidebar}
-            sidebarVisible={sidebarVisible}
-          />
-          <Outlet />
-        </div>
-
-
-
       </div>
     </>
   );
 }
 
 export default MasterLayout;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
