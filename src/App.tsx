@@ -17,6 +17,7 @@ import MasterLayout from "./shared/MasterLayout";
 import ChangePassword from "./Modules/Auth/ChangePassword";
 import ProjectData from "./Modules/Projects/ProjectData";
 import ProjectList from "./Modules/Projects/ProjectList";
+import Users from "./Modules/Users/Users";
 
 function App() {
    const routes: RouteObject[] = [
@@ -40,6 +41,7 @@ function App() {
         { index: true, element: <Dashboard /> },
         { path: "projects", element: <ProjectList /> },
         { path: "project-data", element: <ProjectData /> },
+        { path: "users" , element : <Users/>}
       ],
     },
     {
