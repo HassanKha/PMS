@@ -38,7 +38,7 @@ const SideBar: React.FC<SideBarProps> = ({
         width="270px"
         collapsedWidth="80px"
         style={{
-          height: "calc(100vh - 56px)",
+          height: "100vh",
           border: "none",
           boxShadow: "2px 0 6px rgba(0,21,41,.35)",
         }}
