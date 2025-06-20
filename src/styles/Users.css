@@ -2,7 +2,7 @@ table thead th{
     background-color: #315951E5 !important;
     color: white !important;
     font-weight: 300 !important;
-    text-align: center;
+    text-align: center !important;
 }
 
 table tbody td {
