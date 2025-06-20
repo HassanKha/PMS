@@ -136,7 +136,7 @@ const getAllTasks = async () => {
       <div>
         <h4 className="mb-2 fw-bold text-dark">Tasks</h4>
         <p className="text-muted mb-0" style={{ fontSize: "0.95rem" }}>
-          Lorem ipsum dolor sit amet, consectetur
+          Monitor your project progress, track tasks, and manage your workload with ease.
         </p>
       </div>
     </div>
@@ -146,7 +146,7 @@ const getAllTasks = async () => {
       {/* Progress Card */}
       <div className="col-md-6 col-lg-4">
         <div
-          className="card border-0 h-100"
+          className="card border-0 h-100 dashboard-card"
           style={{
             background: "linear-gradient(135deg, #e2e8f0 0%, #cbd5e0 100%)",
             borderRadius: "16px",
@@ -193,7 +193,7 @@ const getAllTasks = async () => {
       {/* Tasks Number */}
       <div className="col-md-6 col-lg-4">
         <div
-          className="card border-0 h-100"
+          className="card border-0 h-100 dashboard-card"
           style={{
             background: "linear-gradient(135deg, #fef3c7 0%, #fde68a 100%)",
             borderRadius: "16px",
@@ -227,7 +227,7 @@ const getAllTasks = async () => {
       {/* Projects Number */}
       <div className="col-md-6 col-lg-4">
         <div
-          className="card border-0 h-100"
+          className="card border-0 h-100 dashboard-card"
           style={{
             background: "linear-gradient(135deg, #fce7f3 0%, #fbcfe8 100%)",
             borderRadius: "16px",
@@ -276,7 +276,7 @@ const getAllTasks = async () => {
       <div>
         <h4 className="mb-2 fw-bold text-dark">Users</h4>
         <p className="text-muted mb-0" style={{ fontSize: "0.95rem" }}>
-          Lorem ipsum dolor sit amet, consectetur
+          Track user engagement — monitor active contributors and identify inactive accounts.
         </p>
       </div>
     </div>
@@ -286,7 +286,7 @@ const getAllTasks = async () => {
       {/* Active Users */}
       <div className="col-md-6">
         <div
-          className="card border-0 h-100"
+          className="card border-0 h-100 dashboard-card"
           style={{
             background: "linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%)",
             borderRadius: "16px",
@@ -320,7 +320,7 @@ const getAllTasks = async () => {
       {/* Inactive Users */}
       <div className="col-md-6">
         <div
-          className="card border-0 h-100"
+          className="card border-0 h-100 dashboard-card"
           style={{
             background: "linear-gradient(135deg, #d1fae5 0%, #a7f3d0 100%)",
             borderRadius: "16px",
