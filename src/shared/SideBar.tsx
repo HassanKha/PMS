@@ -24,7 +24,7 @@ const SideBar: React.FC<SideBarProps> = ({
 }) => {
 
   const auth = useContext(AuthContext);
-  console.log(auth)
+ 
 
     const location = useLocation();
   const activeBg = { backgroundColor: "rgba(239, 155, 40, 0.3)" };

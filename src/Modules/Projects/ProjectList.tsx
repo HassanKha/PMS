@@ -14,6 +14,8 @@ import Header from "../../shared/Header";
 import { toast } from "react-toastify";
 import { axiosInstance, PROJECTS_URLS } from "../../services/Urls";
 import { ProjectModal } from "./components/ProjectModal";
+import Swal from "sweetalert2";
+import { useNavigate } from "react-router-dom";
 
 type SortField = keyof Project;
 type SortDirection = "asc" | "desc" | null;
@@ -22,6 +24,7 @@ function ProjectList() {
   const [sortField, setSortField] = useState<SortField | null>(null);
   const [sortDirection, setSortDirection] = useState<SortDirection>(null);
   const [searchTerm, setSearchTerm] = useState("");
+  const [nameProject, setNameProject] = useState("")
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(5);
   const [totalResults, setTotalResults] = useState(null);
@@ -29,9 +32,9 @@ function ProjectList() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [pages, setPages] = useState<number[]>([]);
- const [modalOpen, setModalOpen] = useState(false)
+  const [modalOpen, setModalOpen] = useState(false)
   const [selectedProjectId, setSelectedProjectId] = useState<number | null>(null)
-
+let navigate=useNavigate()
   useEffect(() => {
     getAllProjects(5, 1, "");
   }, []);
@@ -44,11 +47,11 @@ function ProjectList() {
     try {
       setLoading(true);
       setError(null);
-      console.log(title);
+
       let response = await axiosInstance.get(PROJECTS_URLS.GET_PROJECTS, {
         params: { pageSize, pageNumber, title },
       });
-      console.log(response);
+
       const data = response.data.data;
 
       const enhanced = data.map((proj: Project) => ({
@@ -82,8 +85,8 @@ function ProjectList() {
         sortDirection === "asc"
           ? "desc"
           : sortDirection === "desc"
-          ? null
-          : "asc"
+            ? null
+            : "asc"
       );
       if (sortDirection === "desc") setSortField(null);
     } else {
@@ -92,19 +95,61 @@ function ProjectList() {
     }
   };
 
- 
+
   const handleView = (id: number) => {
     setSelectedProjectId(id)
     setModalOpen(true)
   }
 
-  const handleEdit = (id: number) => {
-    console.log("Edit project:", id)
-  }
+ 
 
-  const handleDelete = (id: number) => {
-    console.log("Delete project:", id)
-  }
+  //Delete Project
+  const handleDelete = async (id: number, title: string) => {
+    setNameProject(title)
+    const swalWithBootstrapButtons = Swal.mixin({
+      customClass: {
+        confirmButton: "btn btn-danger mx-3",
+        cancelButton: "btn btn-secondary"
+      },
+      buttonsStyling: false
+    });
+
+    const result = await swalWithBootstrapButtons.fire({
+      title: "Are you sure?",
+      text: `This will permanently delete the project "${title}".`,
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonText: "Delete",
+      cancelButtonText: "Cancel",
+      reverseButtons: true
+    });
+
+    if (result.isConfirmed) {
+      try {
+        await axiosInstance.delete(PROJECTS_URLS.DELETE_PROJECT(id));
+
+        getAllProjects(itemsPerPage, currentPage, searchTerm);
+
+        swalWithBootstrapButtons.fire({
+          title: "Deleted!",
+          text: `The project ${title} has been deleted successfully.`,
+          icon: "success",
+          timer: 2000,
+          showConfirmButton: false
+        });
+      } catch (error: any) {
+        swalWithBootstrapButtons.fire({
+          title: "Error!",
+          text: error.response?.data?.message || "Failed to delete the project.",
+          icon: "error"
+        });
+      }
+    }
+
+  };
+
+
+
 
   const handleCloseModal = () => {
     setModalOpen(false)
@@ -131,7 +176,7 @@ function ProjectList() {
       : String(vb).localeCompare(String(va));
   });
 
-const currentProjects = sorted;
+  const currentProjects = sorted;
 
   const handleSearch = (value: string) => {
     setSearchTerm(value);
@@ -146,7 +191,7 @@ const currentProjects = sorted;
     getAllProjects(itemsPerPage, 1, searchTerm);
   }, [searchTerm]);
 
-   const getProjectById = (id: number): Project | undefined => {
+  const getProjectById = (id: number): Project | undefined => {
     return currentProjects.find((project) => project.id === id)
   }
 
@@ -298,47 +343,49 @@ const currentProjects = sorted;
                   >
                     <td className="px-4 py-3 text-dark">{project.title}</td>
                     <td className="px-1 py-4">
-                  <span
-  className="badge px-2 py-1 text-white table-header-wrap"
-  style={{
-    backgroundColor: "#5a8a7a",
-    borderRadius: "20px",
-    fontSize: "12px",
-    maxWidth: "150px", // adjust as needed
-    whiteSpace: "normal",
-    wordWrap: "break-word",
-    display: "inline-block",
-    overflow: "hidden",
-    textOverflow: "ellipsis",
-  }}
->
-  {project.description.length > 25
-    ? `${project.description.slice(0, 25)}...`
-    : project.description}
-</span>
+                      <span
+                        className="badge px-2 py-1 text-white table-header-wrap"
+                        style={{
+                          backgroundColor: "#5a8a7a",
+                          borderRadius: "20px",
+                          fontSize: "12px",
+                          maxWidth: "150px", // adjust as needed
+                          whiteSpace: "normal",
+                          wordWrap: "break-word",
+                          display: "inline-block",
+                          overflow: "hidden",
+                          textOverflow: "ellipsis",
+                        }}
+                      >
+                        {project.description.length > 25
+                          ? `${project.description.slice(0, 25)}...`
+                          : project.description}
+                      </span>
                     </td>
                     <td className="px-4 py-3 text-dark d-none d-md-table-cell">
-                       <span
-                          className="badge px-2 py-1"
-                          style={{
-                            backgroundColor: project.task.length > 0 ? "#5a8a7a" : "#6c757d",
-                            color: "white",
-                            borderRadius: "12px",
-                            fontSize: "11px",
-                          }}
-                        >
-                           {project.numTasks} tasks
-                        </span>
+                      <span
+                        className="badge px-2 py-1"
+                        style={{
+                          backgroundColor: project.task.length > 0 ? "#5a8a7a" : "#6c757d",
+                          color: "white",
+                          borderRadius: "12px",
+                          fontSize: "11px",
+                        }}
+                      >
+                        {project.numTasks} tasks
+                      </span>
                     </td>
                     <td className="px-4 py-3 text-dark d-none d-lg-table-cell">
-                      {project.creationDate}
+                      {project.creationDate.slice(0, 10)}
+
+
                     </td>
                     <td className="px-lg-4 px-1 py-3">
                       <ActionDropdown
                         projectId={project.id}
                         onView={handleView}
-                        onEdit={handleEdit}
-                        onDelete={handleDelete}
+                        onEdit={() => navigate(`/dashboard/project-data`, { state: project })}
+                        onDelete={() => handleDelete(project.id, project.title)}
                       />
                     </td>
                   </tr>
@@ -347,63 +394,63 @@ const currentProjects = sorted;
             </table>
           </div>
 
-        <div className="d-flex flex-column flex-lg-row justify-content-between align-items-center p-3 border-top">
-  <div className="d-flex justify-content-center align-items-center">
-    <span className="text-muted me-2">Showing</span>
-    <select
-      className="form-select form-select-sm me-2"
-      style={{ width: "auto" }}
-      value={itemsPerPage}
-      onChange={(e) => {
-        const newPageSize = Number(e.target.value);
-        setItemsPerPage(newPageSize);
-        getAllProjects(newPageSize, 1, searchTerm);
-      }}
-    >
-      <option value={5}>5</option>
-      <option value={10}>10</option>
-      <option value={15}>15</option>
-    </select>
-    <span className="text-muted">
-      of {totalResults ?? "..."} Results
-    </span>
-  </div>
+          <div className="d-flex flex-column flex-lg-row justify-content-between align-items-center p-3 border-top">
+            <div className="d-flex justify-content-center align-items-center">
+              <span className="text-muted me-2">Showing</span>
+              <select
+                className="form-select form-select-sm me-2"
+                style={{ width: "auto" }}
+                value={itemsPerPage}
+                onChange={(e) => {
+                  const newPageSize = Number(e.target.value);
+                  setItemsPerPage(newPageSize);
+                  getAllProjects(newPageSize, 1, searchTerm);
+                }}
+              >
+                <option value={5}>5</option>
+                <option value={10}>10</option>
+                <option value={15}>15</option>
+              </select>
+              <span className="text-muted">
+                of {totalResults ?? "..."} Results
+              </span>
+            </div>
 
-  <div className="d-flex align-items-center">
-    <span className="text-muted me-3">
-      Page {currentPage} of {pages.length}
-    </span>
-    <div className="d-flex">
-      <button
-        className="btn btn-outline-secondary btn-sm me-1"
-        onClick={() => {
-          const prev = currentPage - 1;
-          if (prev >= 1) getAllProjects(itemsPerPage, prev, searchTerm);
-        }}
-        disabled={currentPage === 1}
-      >
-        ‹
-      </button>
-     
-      <button
-        className="btn btn-outline-secondary btn-sm"
-        onClick={() => {
-          const next = currentPage + 1;
-          if (next <= pages.length)
-            getAllProjects(itemsPerPage, next, searchTerm);
-        }}
-        disabled={currentPage === pages.length}
-      >
-        ›
-      </button>
-    </div>
-  </div>
-</div>
+            <div className="d-flex align-items-center">
+              <span className="text-muted me-3">
+                Page {currentPage} of {pages.length}
+              </span>
+              <div className="d-flex">
+                <button
+                  className="btn btn-outline-secondary btn-sm me-1"
+                  onClick={() => {
+                    const prev = currentPage - 1;
+                    if (prev >= 1) getAllProjects(itemsPerPage, prev, searchTerm);
+                  }}
+                  disabled={currentPage === 1}
+                >
+                  ‹
+                </button>
+
+                <button
+                  className="btn btn-outline-secondary btn-sm"
+                  onClick={() => {
+                    const next = currentPage + 1;
+                    if (next <= pages.length)
+                      getAllProjects(itemsPerPage, next, searchTerm);
+                  }}
+                  disabled={currentPage === pages.length}
+                >
+                  ›
+                </button>
+              </div>
+            </div>
+          </div>
         </div>
       )}
 
-      
-        {/* Project Modal */}
+
+      {/* Project Modal */}
       <ProjectModal isOpen={modalOpen} onClose={handleCloseModal} project={selectedProject} />
     </div>
   );

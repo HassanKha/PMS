@@ -8,14 +8,14 @@ export const axiosInstance = axios.create({
 });
 
 axiosInstance.interceptors.request.use(
-    (config) => {
-        const token = localStorage.getItem("token");
-        if (token) {
-            config.headers.Authorization = `Bearer ${token}`;
-        }
-        return config;
-    },
-    (error) => Promise.reject(error)
+  (config) => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`;
+    }
+    return config;
+  },
+  (error) => Promise.reject(error)
 );
 
 export const USERS_URLS = {
@@ -28,10 +28,14 @@ export const USERS_URLS = {
   GET_LOGGED_IN_USERS: `/Users/`,
   DELETE_USERS: (ID: Number) => `/Users/${ID}`,
   GET_SPECIFIC_USER: (ID: Number) => `/Users/${ID}`,
-  TOGGLE_ACTIVATED_EMPLOYEE:(ID:Number)=>`/Users/${ID}`
+  TOGGLE_ACTIVATED_EMPLOYEE: (ID: Number) => `/Users/${ID}`
 };
 
 export const PROJECTS_URLS = {
   GET_PROJECTS: `/Project/manager`,
+  ADD_PROJECT: `/Project`,
+  GET_SPECIFIC_PROJECT: (ID: Number) => `/Project/${ID}`,
+  EDIT_PROJECT: (ID: Number) => `/Project/${ID}`,
+  DELETE_PROJECT: (ID: Number) => `/Project/${ID}`,
 };
 

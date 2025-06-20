@@ -1,4 +1,4 @@
-import  { useState } from 'react';
+import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import changePassBg from "../../assets/ChangePassBg.svg";
@@ -34,10 +34,10 @@ function ChangePassword() {
       let response = await axiosInstance.put(USERS_URLS.CHANGE_PASS, data);
       console.log(response);
       toast.success("Password Changed Successfully");
-      navigate("/dashboard"); 
+      navigate("/dashboard");
     } catch (error) {
       console.log(error);
-      
+
       toast.error("Failed to change password");
     }
   };
@@ -54,7 +54,7 @@ function ChangePassword() {
     >
       <img src={PMSIcon} alt="PMSIcon" className="lg:w-25 ImgSize  lg:h-25" />
       <div className="d-flex container-fl g-3 flex-column align-items-center justify-content-center">
-        <div style={{ }} className="w-75  mx-auto px-3 py-3 change-pass-main-container border-0 shadow-lg">
+        <div style={{}} className="w-75  mx-auto px-3 py-3 change-pass-main-container border-0 shadow-lg">
           <div className="text-lg-start mt-3 mx-5">
             <h2 className="fw-bold d-flex flex-column" style={{ color: "#ffa726", fontSize: "36px" }}>
               <span className="text-white fw-light" style={{ fontSize: "13px" }}>welcome to PMS</span>
@@ -64,7 +64,7 @@ function ChangePassword() {
 
           <form onSubmit={handleSubmit(onSubmit)}>
             <div className="row  px-5">
-             
+
 
               {/* Old Password */}
               <div className="col-12 mb-3 d-flex flex-column">
@@ -171,7 +171,7 @@ function ChangePassword() {
                 )}
               </div>
 
-               <button
+              <button
                 type="submit"
                 className="btn btn-lg fw-bold mt-4"
                 disabled={isSubmitting}
@@ -198,7 +198,7 @@ function ChangePassword() {
             </div>
 
             <div className="w-100 d-flex justify-content-center align-items-center m-3">
-             
+
             </div>
           </form>
         </div>

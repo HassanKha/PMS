@@ -17,11 +17,11 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children }) => {
       auth?.SaveLoginData();
     } 
   }, [location.pathname]);
-  console.log(auth?.LoginData)
+
 
   if (auth?.loading || !auth?.LoginData ) {
-     console.log('!auth?.loading')
-    // While checking auth, render nothing or a loader
+   
+    
     return null;
   }
 
