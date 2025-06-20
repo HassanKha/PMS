@@ -121,7 +121,7 @@ let [isLoading,setIsLoading] = useState<boolean>(false)
 
        {isLoading?(
         
-      <div className="d-flex justify-content-center align-items-center" style={{ minHeight: "300px" }}>
+      <div className="d-flex justify-content-center align-items-center" style={{ minHeight: "301px" }}>
        <Loader />
       </div>
         ):( <table className="table table-striped table-hover table-bordered">
