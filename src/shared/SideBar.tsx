@@ -5,7 +5,6 @@ import {
   faTh,
   faChevronLeft,
   faChevronRight,
-  faTimes,
   faHome,
   faTasks,
 } from "@fortawesome/free-solid-svg-icons";

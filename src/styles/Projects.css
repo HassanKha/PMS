@@ -27,7 +27,12 @@ h1 {
   padding-left: 12px;                  /* slight indentation */
 }
 
-
+.table-header-wrap {
+  white-space: normal; /* allow wrapping */
+  word-wrap: break-word; /* break long words */
+  word-break: break-word; /* also break words if needed */
+  line-height: 1.2;
+}
 
    @keyframes dropdownSlideIn {
             from {

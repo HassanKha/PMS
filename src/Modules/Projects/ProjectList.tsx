@@ -1,6 +1,12 @@
 import { useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPlus, faSearch, faSort } from "@fortawesome/free-solid-svg-icons";
+import {
+  faExclamationTriangle,
+  faRedo,
+  faSearch,
+  faSort,
+  faSpinner,
+} from "@fortawesome/free-solid-svg-icons";
 import { ActionDropdown } from "./components/ActionDropdown";
 import "./../../styles/Projects.css";
 import type { Project } from "../../interfaces/Project";
@@ -16,95 +22,15 @@ function ProjectList() {
   const [sortDirection, setSortDirection] = useState<SortDirection>(null);
   const [searchTerm, setSearchTerm] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
-  const [itemsPerPage, setItemsPerPage] = useState(10);
-  const [Projects, setProjects] = useState([]);
+  const [itemsPerPage, setItemsPerPage] = useState(5);
+  const [totalResults, setTotalResults] = useState(null);
+  const [Projects, setProjects] = useState<Project[]>([]);
   const [loading, setLoading] = useState(false);
-
-  const [projects] = useState<Project[]>([
-    {
-      id: 1,
-      title: "Food Management",
-      status: "Public",
-      numUsers: 10,
-      numTasks: 30,
-      dateCreated: "09-23-2023",
-    },
-    {
-      id: 2,
-      title: "Project Management",
-      status: "Public",
-      numUsers: 15,
-      numTasks: 10,
-      dateCreated: "09-23-2023",
-    },
-    {
-      id: 3,
-      title: "Project",
-      status: "Public",
-      numUsers: 3,
-      numTasks: 15,
-      dateCreated: "09-23-2023",
-    },
-    {
-      id: 4,
-      title: "Project",
-      status: "Public",
-      numUsers: 5,
-      numTasks: 5,
-      dateCreated: "09-23-2023",
-    },
-    {
-      id: 5,
-      title: "Project",
-      status: "Public",
-      numUsers: 5,
-      numTasks: 4,
-      dateCreated: "09-23-2023",
-    },
-    {
-      id: 6,
-      title: "Project",
-      status: "Public",
-      numUsers: 5,
-      numTasks: 5,
-      dateCreated: "09-23-2023",
-    },
-    {
-      id: 7,
-      title: "Project",
-      status: "Public",
-      numUsers: 5,
-      numTasks: 5,
-      dateCreated: "09-23-2023",
-    },
-    {
-      id: 8,
-      title: "Project",
-      status: "Public",
-      numUsers: 5,
-      numTasks: 5,
-      dateCreated: "09-23-2023",
-    },
-    {
-      id: 9,
-      title: "Project",
-      status: "Public",
-      numUsers: 5,
-      numTasks: 5,
-      dateCreated: "09-23-2023",
-    },
-    {
-      id: 10,
-      title: "Project",
-      status: "Public",
-      numUsers: 5,
-      numTasks: 5,
-      dateCreated: "09-23-2023",
-    },
-  ]);
+  const [error, setError] = useState<string | null>(null);
+  const [pages, setPages] = useState<number[]>([]);
 
   useEffect(() => {
-    getAllProjects(10, 1, "");
+    getAllProjects(5, 1, "");
   }, []);
 
   const getAllProjects = async (
@@ -114,31 +40,49 @@ function ProjectList() {
   ) => {
     try {
       setLoading(true);
+      setError(null);
+      console.log(title);
       let response = await axiosInstance.get(PROJECTS_URLS.GET_PROJECTS, {
         params: { pageSize, pageNumber, title },
       });
       console.log(response);
-      setProjects(response.data.data);
-      // setArrayOfPages(Array(response.data.totalNumberOfPages).fill().map((_, index) => index + 1));
-      //  setCurrentPage(pageNumber);
+      const data = response.data.data;
+
+      const enhanced = data.map((proj: Project) => ({
+        ...proj, // existing properties: id, title, etc.
+        numTasks: proj.task.length, // count of tasks
+        tasksCount: proj.task, // actual task array (or rename/drop proj.task)
+      }));
+
+      setProjects(enhanced);
+      setPages(
+        Array(response.data.totalNumberOfPages)
+          .fill(0)
+          .map((_, idx) => idx + 1)
+      );
+      setItemsPerPage(response.data.pageSize);
+      setTotalResults(response.data.totalNumberOfRecords);
+      setCurrentPage(pageNumber);
       setLoading(false);
     } catch (error: any) {
       console.log(error);
       toast.error(error.response?.data?.message || "Something went wrong");
+      setError(error.response?.data?.message || "Something went wrong");
+    } finally {
       setLoading(false);
     }
   };
 
   const handleSort = (field: SortField) => {
     if (sortField === field) {
-      if (sortDirection === "asc") {
-        setSortDirection("desc");
-      } else if (sortDirection === "desc") {
-        setSortDirection(null);
-        setSortField(null);
-      } else {
-        setSortDirection("asc");
-      }
+      setSortDirection(
+        sortDirection === "asc"
+          ? "desc"
+          : sortDirection === "desc"
+          ? null
+          : "asc"
+      );
+      if (sortDirection === "desc") setSortField(null);
     } else {
       setSortField(field);
       setSortDirection("asc");
@@ -160,34 +104,41 @@ function ProjectList() {
     // Add your delete logic here
   };
 
-  const filteredProjects = projects.filter((project) =>
-    project.title.toLowerCase().includes(searchTerm.toLowerCase())
+  const filtered = Projects.filter((p) =>
+    p.title.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
-  const sortedProjects = [...filteredProjects].sort((a, b) => {
+  const sorted = [...filtered].sort((a, b) => {
     if (!sortField || !sortDirection) return 0;
-
-    const aValue = a[sortField];
-    const bValue = b[sortField];
-
-    if (typeof aValue === "string" && typeof bValue === "string") {
-      return sortDirection === "asc"
-        ? aValue.localeCompare(bValue)
-        : bValue.localeCompare(aValue);
+    const va = a[sortField];
+    const vb = b[sortField];
+    if (sortField === "creationDate") {
+      const da = new Date(va as string).getTime();
+      const db = new Date(vb as string).getTime();
+      return sortDirection === "asc" ? da - db : db - da;
     }
-
-    if (typeof aValue === "number" && typeof bValue === "number") {
-      return sortDirection === "asc" ? aValue - bValue : bValue - aValue;
+    if (typeof va === "number" && typeof vb === "number") {
+      return sortDirection === "asc" ? va - vb : vb - va;
     }
-
-    return 0;
+    return sortDirection === "asc"
+      ? String(va).localeCompare(String(vb))
+      : String(vb).localeCompare(String(va));
   });
 
-  const totalResults = sortedProjects.length;
-  const totalPages = Math.ceil(totalResults / itemsPerPage);
-  const startIndex = (currentPage - 1) * itemsPerPage;
-  const endIndex = startIndex + itemsPerPage;
-  const currentProjects = sortedProjects.slice(startIndex, endIndex);
+const currentProjects = sorted;
+
+  const handleSearch = (value: string) => {
+    setSearchTerm(value);
+    setCurrentPage(1);
+    setItemsPerPage(5);
+    getAllProjects(5, 1, value);
+  };
+
+  useEffect(() => {
+    setCurrentPage(1);
+    setItemsPerPage(5);
+    getAllProjects(itemsPerPage, 1, searchTerm);
+  }, [searchTerm]);
 
   return (
     <div
@@ -214,7 +165,7 @@ function ProjectList() {
             className="form-control ps-5"
             placeholder="Search By Title"
             value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
+            onChange={(e) => handleSearch(e.target.value)}
             style={{
               borderRadius: "8px",
               border: "1px solid #dee2e6",
@@ -224,159 +175,214 @@ function ProjectList() {
         </div>
       </div>
 
+      {/* Loading State */}
+      {loading && (
+        <div className="bg-white rounded shadow-sm p-5 text-center">
+          <FontAwesomeIcon
+            icon={faSpinner}
+            spin
+            size="2x"
+            style={{ color: "#5a8a7a" }}
+            className="mb-3"
+          />
+          <h5 className="text-muted">Loading Projects...</h5>
+          <p className="text-muted mb-0">
+            Please wait while we fetch your data
+          </p>
+        </div>
+      )}
+
+      {/* Error State */}
+      {error && (
+        <div className="bg-white rounded shadow-sm p-5 text-center">
+          <FontAwesomeIcon
+            icon={faExclamationTriangle}
+            size="2x"
+            style={{ color: "#dc3545" }}
+            className="mb-3"
+          />
+          <h5 className="text-dark mb-3">Something went wrong</h5>
+          <p className="text-muted mb-4">{error}</p>
+          <button
+            className="btn d-inline-flex align-items-center px-4 py-2"
+            onClick={() => getAllProjects(10, 1, "")}
+            style={{
+              backgroundColor: "#5a8a7a",
+              borderColor: "#5a8a7a",
+              color: "white",
+              borderRadius: "8px",
+            }}
+          >
+            <FontAwesomeIcon icon={faRedo} className="me-2" />
+            Try Again
+          </button>
+        </div>
+      )}
       {/* Projects Table */}
-      <div className="bg-white  rounded shadow-sm">
-        <div className="table-responsive rounded-2">
-          <table className="table table-hover mb-0">
-            <thead style={{ backgroundColor: "#5a8a7a" }}>
-              <tr>
-                <th
-                  className="text-white border-0 px-4 py-3 cursor-pointer table-header-hover"
-                  onClick={() => handleSort("title")}
-                  style={{ fontWeight: "500" }}
-                >
-                  <div className="d-flex align-items-center justify-content-between">
-                    <span>Title</span>
-                    <FontAwesomeIcon icon={faSort} size="sm" />
-                  </div>
-                </th>
-                <th
-                  className="text-white border-0 px-4 py-3 cursor-pointer table-header-hover"
-                  onClick={() => handleSort("status")}
-                  style={{ fontWeight: "500" }}
-                >
-                  <div className="d-flex align-items-center justify-content-between">
-                    <span>Statuses</span>
-                    <FontAwesomeIcon icon={faSort} size="sm" />
-                  </div>
-                </th>
-                <th
-                  className="text-white border-0 px-4 py-3 cursor-pointer table-header-hover d-none d-md-table-cell"
-                  onClick={() => handleSort("numUsers")}
-                  style={{ fontWeight: "500" }}
-                >
-                  <div className="d-flex align-items-center justify-content-between">
-                    <span>Num Users</span>
-                    <FontAwesomeIcon icon={faSort} size="sm" />
-                  </div>
-                </th>
-                <th
-                  className="text-white border-0 px-4 py-3 cursor-pointer table-header-hover d-none d-lg-table-cell"
-                  onClick={() => handleSort("numTasks")}
-                  style={{ fontWeight: "500" }}
-                >
-                  <div className="d-flex align-items-center justify-content-between">
-                    <span>Num Tasks</span>
-                    <FontAwesomeIcon icon={faSort} size="sm" />
-                  </div>
-                </th>
-                <th
-                  className="text-white border-0 px-4 py-3 cursor-pointer table-header-hover d-none d-lg-table-cell"
-                  onClick={() => handleSort("dateCreated")}
-                  style={{ fontWeight: "500" }}
-                >
-                  <div className="d-flex align-items-center justify-content-between">
-                    <span>Date Created</span>
-                    <FontAwesomeIcon
-                      icon={faSort}
-                      size="sm"
-                      className="SortIcon"
-                    />
-                  </div>
-                </th>
-                <th
-                  className="text-white border-0 px-4 py-3"
-                  style={{ width: "50px" }}
-                ></th>
-              </tr>
-            </thead>
-            <tbody>
-              {currentProjects.map((project, index) => (
-                <tr
-                  key={project.id}
-                  className="table-row-hover"
-                  style={{
-                    backgroundColor: index % 2 === 0 ? "#ffffff" : "#f8f9fa",
-                  }}
-                >
-                  <td className="px-4 py-3 text-dark">{project.title}</td>
-                  <td className="px-4 py-3">
-                    <span
-                      className="badge px-3 py-1 text-white"
-                      style={{
-                        backgroundColor: "#5a8a7a",
-                        borderRadius: "20px",
-                        fontSize: "12px",
-                      }}
-                    >
-                      {project.status}
-                    </span>
-                  </td>
-                  <td className="px-4 py-3 text-dark d-none d-md-table-cell">
-                    {project.numUsers}
-                  </td>
-                  <td className="px-4 py-3 text-dark d-none d-lg-table-cell">
-                    {project.numTasks}
-                  </td>
-                  <td className="px-4 py-3 text-dark d-none d-lg-table-cell">
-                    {project.dateCreated}
-                  </td>
-                  <td className="px-4 py-3">
-                    <ActionDropdown
-                      projectId={project.id}
-                      onView={handleView}
-                      onEdit={handleEdit}
-                      onDelete={handleDelete}
-                    />
-                  </td>
+      {!loading && !error && (
+        <div className="bg-white  rounded shadow-sm">
+          <div className="table-responsive rounded-2">
+            <table className="table table-hover mb-0">
+              <thead style={{ backgroundColor: "#5a8a7a" }}>
+                <tr>
+                  <th
+                    className="text-white border-0 px-4 py-3 cursor-pointer table-header-hover"
+                    onClick={() => handleSort("title")}
+                    style={{ fontWeight: "500" }}
+                  >
+                    <div className="d-flex align-items-center justify-content-lg-evenly justify-content-between">
+                      <span className="text-center">Title</span>
+                      <FontAwesomeIcon icon={faSort} size="sm" />
+                    </div>
+                  </th>
+                  <th
+                    className="text-white border-0 px-5 py-3 cursor-pointer table-header-hover"
+                    onClick={() => handleSort("description")}
+                    style={{ fontWeight: "500" }}
+                  >
+                    <div className="d-flex align-items-center justify-content-lg-evenly justify-content-between">
+                      <span>Description</span>
+                      <FontAwesomeIcon icon={faSort} size="sm" />
+                    </div>
+                  </th>
+                  <th
+                    className="text-white border-0 px-4 py-3 cursor-pointer table-header-hover d-none d-lg-table-cell"
+                    onClick={() => handleSort("numTasks")}
+                    style={{ fontWeight: "500" }}
+                  >
+                    <div className="d-flex align-items-center justify-content-lg-evenly justify-content-between">
+                      <span>Num Tasks</span>
+                      <FontAwesomeIcon icon={faSort} size="sm" />
+                    </div>
+                  </th>
+                  <th
+                    className="text-white border-0 px-4 py-3 cursor-pointer table-header-hover d-none d-lg-table-cell"
+                    onClick={() => handleSort("creationDate")}
+                    style={{ fontWeight: "500" }}
+                  >
+                    <div className="d-flex align-items-center justify-content-lg-evenly justify-content-between">
+                      <span>Date Created</span>
+                      <FontAwesomeIcon
+                        icon={faSort}
+                        size="sm"
+                        className="SortIcon"
+                      />
+                    </div>
+                  </th>
+                  <th
+                    className="text-white border-0 px-4 py-3"
+                    style={{ width: "50px" }}
+                  ></th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
+              </thead>
+              <tbody>
+                {currentProjects.map((project, index) => (
+                  <tr
+                    key={project.id}
+                    className="table-row-hover"
+                    style={{
+                      backgroundColor: index % 2 === 0 ? "#ffffff" : "#f8f9fa",
+                    }}
+                  >
+                    <td className="px-4 py-3 text-dark">{project.title}</td>
+                    <td className="px-1 py-3">
+                      <span
+                        className="badge px-3 py-1 text-white table-header-wrap"
+                        style={{
+                          backgroundColor: "#5a8a7a",
+                          borderRadius: "20px",
+                          fontSize: "12px",
+                        }}
+                      >
+                        {project.description}
+                      </span>
+                    </td>
+                    <td className="px-4 py-3 text-dark d-none d-md-table-cell">
+                      {project.numTasks}
+                    </td>
+                    <td className="px-4 py-3 text-dark d-none d-lg-table-cell">
+                      {project.creationDate}
+                    </td>
+                    <td className="px-4 py-3">
+                      <ActionDropdown
+                        projectId={project.id}
+                        onView={handleView}
+                        onEdit={handleEdit}
+                        onDelete={handleDelete}
+                      />
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
 
-        {/* Pagination */}
         <div className="d-flex justify-content-between align-items-center p-3 border-top">
-          <div className="d-flex align-items-center">
-            <span className="text-muted me-2">Showing</span>
-            <select
-              className="form-select form-select-sm me-2"
-              style={{ width: "auto" }}
-              value={itemsPerPage}
-              onChange={(e) => setItemsPerPage(Number(e.target.value))}
-            >
-              <option value={10}>10</option>
-              <option value={25}>25</option>
-              <option value={50}>50</option>
-            </select>
-            <span className="text-muted">of {totalResults} Results</span>
-          </div>
+  <div className="d-flex align-items-center">
+    <span className="text-muted me-2">Showing</span>
+    <select
+      className="form-select form-select-sm me-2"
+      style={{ width: "auto" }}
+      value={itemsPerPage}
+      onChange={(e) => {
+        const newPageSize = Number(e.target.value);
+        setItemsPerPage(newPageSize);
+        getAllProjects(newPageSize, 1, searchTerm);
+      }}
+    >
+      <option value={5}>5</option>
+      <option value={10}>10</option>
+      <option value={15}>15</option>
+    </select>
+    <span className="text-muted">
+      of {totalResults ?? "..."} Results
+    </span>
+  </div>
 
-          <div className="d-flex align-items-center">
-            <span className="text-muted me-3">
-              Page {currentPage} of {totalPages}
-            </span>
-            <div className="d-flex">
-              <button
-                className="btn btn-outline-secondary btn-sm me-1"
-                onClick={() => setCurrentPage(Math.max(1, currentPage - 1))}
-                disabled={currentPage === 1}
-              >
-                ‹
-              </button>
-              <button
-                className="btn btn-outline-secondary btn-sm"
-                onClick={() =>
-                  setCurrentPage(Math.min(totalPages, currentPage + 1))
-                }
-                disabled={currentPage === totalPages}
-              >
-                ›
-              </button>
-            </div>
-          </div>
+  <div className="d-flex align-items-center">
+    <span className="text-muted me-3">
+      Page {currentPage} of {pages.length}
+    </span>
+    <div className="d-flex">
+      <button
+        className="btn btn-outline-secondary btn-sm me-1"
+        onClick={() => {
+          const prev = currentPage - 1;
+          if (prev >= 1) getAllProjects(itemsPerPage, prev, searchTerm);
+        }}
+        disabled={currentPage === 1}
+      >
+        ‹
+      </button>
+      {pages.map((page) => (
+        <button
+          key={page}
+          className={`btn btn-sm me-1 ${
+            page === currentPage
+              ? "btn-secondary"
+              : "btn-outline-secondary"
+          }`}
+          onClick={() => getAllProjects(itemsPerPage, page, searchTerm)}
+        >
+          {page}
+        </button>
+      ))}
+      <button
+        className="btn btn-outline-secondary btn-sm"
+        onClick={() => {
+          const next = currentPage + 1;
+          if (next <= pages.length)
+            getAllProjects(itemsPerPage, next, searchTerm);
+        }}
+        disabled={currentPage === pages.length}
+      >
+        ›
+      </button>
+    </div>
+  </div>
+</div>
         </div>
-      </div>
+      )}
     </div>
   );
 }
