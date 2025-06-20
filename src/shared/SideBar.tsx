@@ -137,8 +137,8 @@ const SideBar: React.FC<SideBarProps> = ({
 
             <MenuItem
               icon={<FontAwesomeIcon icon={faTasks} />}
-               component={<Link to="/dashboard/project-data" />}
-            style={location.pathname.startsWith("/dashboard/project-data") ? activeBg : undefined}
+               component={<Link to="/dashboard/tasks" />}
+            style={location.pathname.startsWith("/dashboard/tasks") ? activeBg : undefined}
             >
               Tasks
             </MenuItem>
