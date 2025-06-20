@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faExclamationTriangle,
@@ -16,6 +16,7 @@ import { axiosInstance, PROJECTS_URLS } from "../../services/Urls";
 import { ProjectModal } from "./components/ProjectModal";
 import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
+import { AuthContext } from "../../contexts/AuthContext";
 
 type SortField = keyof Project;
 type SortDirection = "asc" | "desc" | null;
@@ -33,6 +34,7 @@ function ProjectList() {
   const [pages, setPages] = useState<number[]>([]);
   const [modalOpen, setModalOpen] = useState(false)
   const [selectedProjectId, setSelectedProjectId] = useState<number | null>(null)
+  const auth = useContext(AuthContext);
 let navigate=useNavigate()
   useEffect(() => {
     getAllProjects(5, 1, "");
@@ -47,9 +49,12 @@ let navigate=useNavigate()
       setLoading(true);
       setError(null);
 
-      let response = await axiosInstance.get(PROJECTS_URLS.GET_PROJECTS, {
-        params: { pageSize, pageNumber, title },
-      });
+      let response = await axiosInstance.get(
+        PROJECTS_URLS.GET_PROJECTS(auth?.LoginData?.roles?.[0] ?? ""),
+        {
+          params: { pageSize, pageNumber, title },
+        }
+      );
 
       const data = response.data.data;
 

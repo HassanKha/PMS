@@ -26,8 +26,12 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children }) => {
   }
 
   if (!auth?.LoginData && !auth?.loading ) {
-    console.log('!auth?.LoginData ')
     return <Navigate to="/login" replace state={{ from: location }} />;
+  }
+
+  if(auth?.LoginData.roles[0] !== 'Manager' && location.pathname === '/dashboard/users')
+  {
+    return <Navigate to="/login" />;
   }
 
   return children ?? <Outlet />;

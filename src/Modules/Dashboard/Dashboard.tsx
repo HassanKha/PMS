@@ -2,18 +2,19 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faChartLine, faTasks, faProjectDiagram, faUserCheck, faUserTimes } from "@fortawesome/free-solid-svg-icons"
 import HomeBG from "../../assets/home-bg.png"
 import type { Project } from "../../interfaces/Project"
-import { useEffect, useState } from "react"
+import { useContext, useEffect, useState } from "react"
 import { axiosInstance, PROJECTS_URLS, TASKS_URLS, USERS_URLS } from "../../services/Urls"
 import { toast } from "react-toastify"
 import { Spinner } from "react-bootstrap"
 import type { Logged_in_Users } from "../../interfaces/Users"
 import type { TasksCount } from "../../interfaces/TasksCount"
+import { AuthContext } from "../../contexts/AuthContext"
 
 
 export default function Dashboard() {
    const [Projects, setProjects] = useState<Project[]>([]);
   const [loading, setLoading] = useState(false);
-
+const auth = useContext(AuthContext)
 
    useEffect(() => {
        getAllProjects();
@@ -47,7 +48,7 @@ export default function Dashboard() {
      ) => {
        try {
          setLoading(true);
-         let response = await axiosInstance.get(PROJECTS_URLS.GET_PROJECTS, {
+         let response = await axiosInstance.get(PROJECTS_URLS.GET_PROJECTS(auth?.LoginData?.roles?.[0] ?? ""), {
          });
          console.log(response);
          const data = response.data.data;
@@ -258,8 +259,8 @@ const getAllTasks = async () => {
       </div>
     </div>
   </div>
-
-  {/* Users Section */}
+{
+  auth?.LoginData?.roles[0] === 'Manager' ?
   <div className="col-lg-6">
     {/* Header */}
     <div className="d-flex align-items-start mb-3">
@@ -351,6 +352,9 @@ const getAllTasks = async () => {
       </div>
     </div>
   </div>
+   : ''
+}
+ 
 </div>
 
     </div>

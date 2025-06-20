@@ -1,11 +1,14 @@
 import axios from "axios";
 
+
 const baseURL = "https://upskilling-egypt.com:3003/api/v1";
 export const ImageURL = "https://upskilling-egypt.com:3003/"
 
 export const axiosInstance = axios.create({
   baseURL,
 });
+
+
 
 axiosInstance.interceptors.request.use(
   (config) => {
@@ -32,7 +35,7 @@ export const USERS_URLS = {
 };
 
 export const PROJECTS_URLS = {
-  GET_PROJECTS: `/Project/manager`,
+  GET_PROJECTS: (role: string) =>  `/Project/${role === 'Manager' ? 'manager' : 'employee'}`,
   ADD_PROJECT: `/Project`,
   GET_SPECIFIC_PROJECT: (ID: Number) => `/Project/${ID}`,
   EDIT_PROJECT: (ID: Number) => `/Project/${ID}`,
