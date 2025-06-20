@@ -5,11 +5,12 @@ import "../../styles/register.css";
 import PMSIcon from "../../assets/PMSIcon.png";
 import LoginBg from "../../assets/LoginBG.svg";
 import axios from "axios";
-import { useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 import { validateRegisterForm } from "../../services/Validations";
 import type { LoginFormInputs } from "../../interfaces/LoginFormInputs";
+import { AuthContext } from "../../contexts/AuthContext";
 
 
 function Login() {
@@ -23,17 +24,21 @@ function Login() {
 
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
+  const auth = useContext(AuthContext);
 
   const onSubmit = async (data: LoginFormInputs) => {
     setLoading(true);
     try {
+auth?.setLoading(true)
       const response = await axios.post(
         "https://upskilling-egypt.com:3003/api/v1/Users/Login",
         data
       );
-      navigate("/dashboard");
+     
       toast.success("Login success!");
       localStorage.setItem("token", response?.data?.token);
+      auth?.setLoading(false)
+       navigate("/dashboard");
     } catch (error: unknown) {
       if (axios.isAxiosError(error)) {
         const message = error.response?.data?.message || "Login Failed!";
@@ -47,6 +52,12 @@ function Login() {
       setLoading(false);
     }
   };
+
+  useEffect(()=> {
+if(!auth?.LoginData){
+  navigate("/");
+}
+  },[auth?.LoginData])
 
   return (
     <div

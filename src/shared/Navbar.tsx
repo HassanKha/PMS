@@ -32,7 +32,8 @@ const Navbar: React.FC<NavbarProps> = ({
 
   const logout = () => {
     localStorage.removeItem("token");
-    navigate("/");
+      auth?.setLoginData(null);
+    navigate("/login", { replace: true });
   };
 
   return (

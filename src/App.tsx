@@ -18,6 +18,7 @@ import ChangePassword from "./Modules/Auth/ChangePassword";
 import ProjectData from "./Modules/Projects/ProjectData";
 import ProjectList from "./Modules/Projects/ProjectList";
 import Users from "./Modules/Users/Users";
+import ProtectedRoute from "./shared/ProtectedRoute";
 
 function App() {
    const routes: RouteObject[] = [
@@ -36,7 +37,7 @@ function App() {
     },
     {
       path: "/dashboard",
-      element: <MasterLayout />,
+      element: <ProtectedRoute><MasterLayout /></ProtectedRoute>,
       children: [
         { index: true, element: <Dashboard /> },
         { path: "projects", element: <ProjectList /> },
