@@ -160,7 +160,7 @@ let [isLoading,setIsLoading] = useState<boolean>(false)
           
         </tbody>):( <tbody>
           <tr>
-            <td colSpan="7" className="text-center py-4">
+            <td colSpan="6" className="text-center py-4">
               <NoData />
             </td>
           </tr>
