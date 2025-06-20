@@ -11,7 +11,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { useContext } from "react";
 import { AuthContext } from "../contexts/AuthContext";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 interface SideBarProps {
   sidebarVisible: boolean;
   collapsed: boolean;
@@ -26,6 +26,10 @@ const SideBar: React.FC<SideBarProps> = ({
 
   const auth = useContext(AuthContext);
   console.log(auth)
+
+    const location = useLocation();
+  const activeBg = { backgroundColor: "rgba(239, 155, 40, 0.3)" };
+
   return (
     <div
       className={`col-auto d-lg-block ${sidebarVisible ? "d-block" : "d-none"}`}
@@ -76,12 +80,17 @@ const SideBar: React.FC<SideBarProps> = ({
               className="btn btn-sm text-white d-lg-none XIcon"
               onClick={handleCollapseSidebar}
               style={{
-                backgroundColor: "transparent",
                 border: "1px solid #495057",
+                backgroundColor: "#EF9B28",
+                      borderTopLeftRadius: "8px",
+                borderBottomLeftRadius: "8px",
                 padding: "4px 8px",
               }}
             >
-              <FontAwesomeIcon icon={faTimes} size="sm" />
+             <FontAwesomeIcon
+                icon={collapsed ? faChevronLeft: faChevronRight}
+                size="sm"
+              />
             </button>
           </div>
 
@@ -89,7 +98,7 @@ const SideBar: React.FC<SideBarProps> = ({
             menuItemStyles={{
               button: {
                 color: "#ffffff",
-                margin: collapsed ? "" : "0px 15px 5px 15px",
+                margin: collapsed ? "0 0 5px 0" : "0px 15px 5px 15px",
                 borderRadius: "8px"
               },
               subMenuContent: {
@@ -103,13 +112,17 @@ const SideBar: React.FC<SideBarProps> = ({
             <MenuItem
               icon={<FontAwesomeIcon icon={faHome} />}
               component={<Link to="/dashboard" />}
+            style={location.pathname === "/dashboard" ? activeBg : undefined}
             >
               Home
             </MenuItem>
             {
               auth?.LoginData?.roles[0]
                 === "Manager" ?
-                <MenuItem icon={<FontAwesomeIcon icon={faUsers} />}>
+                <MenuItem icon={<FontAwesomeIcon icon={faUsers}/>}
+                  component={<Link to="/dashboard/users" />}
+              style={location.pathname.startsWith("/dashboard/users") ? activeBg : undefined}
+                >
                   Users
                 </MenuItem>
                 : ''
@@ -117,15 +130,16 @@ const SideBar: React.FC<SideBarProps> = ({
 
             <MenuItem
               icon={<FontAwesomeIcon icon={faTh} />}
-              style={{ backgroundColor: "rgba(239, 155, 40, 0.3)" }}
-              component={<Link to="/dashboard/projects" />}
+                  component={<Link to="/dashboard/projects" />}
+            style={location.pathname.startsWith("/dashboard/projects") ? activeBg : undefined}
             >
               Projects
             </MenuItem>
 
             <MenuItem
               icon={<FontAwesomeIcon icon={faTasks} />}
-              component={<Link to="/dashboard/project-data" />}
+               component={<Link to="/dashboard/project-data" />}
+            style={location.pathname.startsWith("/dashboard/project-data") ? activeBg : undefined}
             >
               Tasks
             </MenuItem>

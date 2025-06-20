@@ -28,3 +28,8 @@ export const USERS_URLS = {
   GET_LOGGED_IN_USERS: `/Users/`,
   DELETE_USERS: (ID: Number) => `/Users/${ID}`,
 };
+
+export const PROJECTS_URLS = {
+  GET_PROJECTS: `/Project/manager`,
+};
+

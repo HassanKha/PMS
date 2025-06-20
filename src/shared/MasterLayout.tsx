@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Navbar from "./Navbar";
 import SideBar from "./SideBar";
 import { Outlet } from "react-router-dom";
@@ -16,6 +16,21 @@ function MasterLayout() {
   const handleCollapseSidebar = () => {
     setCollapsed(!collapsed);
   };
+
+
+   useEffect(() => {
+    const handleResize = () => {
+      setSidebarVisible(window.innerWidth > 500);
+    };
+
+    // Initialize on mount
+    handleResize();
+
+    // Listen to resize events
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
 
   return (
     <>
@@ -36,10 +51,10 @@ function MasterLayout() {
         {/* Sidebar Column */}
 
         <div className="w-100">
-          <Navbar
-            handleToggleSidebar={handleToggleSidebar}
-            sidebarVisible={sidebarVisible}
-          />
+         <Navbar
+  handleToggleSidebar={handleToggleSidebar}
+  sidebarVisible={sidebarVisible}
+/>
           <Outlet />
         </div>
 
