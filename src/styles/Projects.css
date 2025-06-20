@@ -6,10 +6,10 @@
 h1 {
     color: rgba(79, 79, 79, 1);
 }
-.font-mont button {
+.font-mont .LinkBTM {
     background-color: #f39c12;
 }
-.font-mont button:hover {
+.font-mont .LinkBTM:hover {
     background-color: #5a8a7a;
      transition: transform 0.25s ease-in-out;
 }
