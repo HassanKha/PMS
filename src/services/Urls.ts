@@ -30,3 +30,8 @@ export const USERS_URLS = {
   GET_SPECIFIC_USER: (ID: Number) => `/Users/${ID}`,
   TOGGLE_ACTIVATED_EMPLOYEE:(ID:Number)=>`/Users/${ID}`
 };
+
+export const PROJECTS_URLS = {
+  GET_PROJECTS: `/Project/manager`,
+};
+

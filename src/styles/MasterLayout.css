@@ -50,3 +50,16 @@
 .XIcon:hover {
  background-color: #EF9B28 !important;
 }
+
+@media (max-width: 576px) {
+  .navbar .dropdown-menu {
+    position: absolute !important;
+    width: auto !important;
+    min-width: auto !important;
+    max-width: 200px; /* or whatever fits small screens */
+  }
+  .navbar .dropdown-item {
+    width: 100%;
+    text-align: center;
+  }
+}
