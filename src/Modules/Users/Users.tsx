@@ -119,7 +119,12 @@ let [isLoading,setIsLoading] = useState<boolean>(false)
             </button>
        </div>
 
-       {isLoading?(<Loader/>):( <table className="table table-striped table-hover table-bordered">
+       {isLoading?(
+        
+      <div className="d-flex justify-content-center align-items-center" style={{ minHeight: "300px" }}>
+       <Loader />
+      </div>
+        ):( <table className="table table-striped table-hover table-bordered">
         <thead className="">
           <tr>
             <th>User Name <i className="fas fa-sort ms-1 text-black"></i></th>
