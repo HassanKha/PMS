@@ -13,6 +13,7 @@ import type { Project } from "../../interfaces/Project";
 import Header from "../../shared/Header";
 import { toast } from "react-toastify";
 import { axiosInstance, PROJECTS_URLS } from "../../services/Urls";
+import { ProjectModal } from "./components/ProjectModal";
 
 type SortField = keyof Project;
 type SortDirection = "asc" | "desc" | null;
@@ -28,6 +29,8 @@ function ProjectList() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [pages, setPages] = useState<number[]>([]);
+ const [modalOpen, setModalOpen] = useState(false)
+  const [selectedProjectId, setSelectedProjectId] = useState<number | null>(null)
 
   useEffect(() => {
     getAllProjects(5, 1, "");
@@ -89,21 +92,24 @@ function ProjectList() {
     }
   };
 
+ 
   const handleView = (id: number) => {
-    console.log("View project:", id);
-    // Add your view logic here
-  };
+    setSelectedProjectId(id)
+    setModalOpen(true)
+  }
 
   const handleEdit = (id: number) => {
-    console.log("Edit project:", id);
-    // Add your edit logic here
-  };
+    console.log("Edit project:", id)
+  }
 
   const handleDelete = (id: number) => {
-    console.log("Delete project:", id);
-    // Add your delete logic here
-  };
+    console.log("Delete project:", id)
+  }
 
+  const handleCloseModal = () => {
+    setModalOpen(false)
+    setSelectedProjectId(null)
+  }
   const filtered = Projects.filter((p) =>
     p.title.toLowerCase().includes(searchTerm.toLowerCase())
   );
@@ -139,6 +145,12 @@ const currentProjects = sorted;
     setItemsPerPage(5);
     getAllProjects(itemsPerPage, 1, searchTerm);
   }, [searchTerm]);
+
+   const getProjectById = (id: number): Project | undefined => {
+    return currentProjects.find((project) => project.id === id)
+  }
+
+  const selectedProject = selectedProjectId ? getProjectById(selectedProjectId) : null
 
   return (
     <div
@@ -240,7 +252,7 @@ const currentProjects = sorted;
                     onClick={() => handleSort("description")}
                     style={{ fontWeight: "500" }}
                   >
-                    <div className="d-flex align-items-center justify-content-lg-evenly justify-content-between">
+                    <div className="d-flex align-items-center  gap-1 justify-content-between">
                       <span>Description</span>
                       <FontAwesomeIcon icon={faSort} size="sm" />
                     </div>
@@ -285,25 +297,43 @@ const currentProjects = sorted;
                     }}
                   >
                     <td className="px-4 py-3 text-dark">{project.title}</td>
-                    <td className="px-1 py-3">
-                      <span
-                        className="badge px-3 py-1 text-white table-header-wrap"
-                        style={{
-                          backgroundColor: "#5a8a7a",
-                          borderRadius: "20px",
-                          fontSize: "12px",
-                        }}
-                      >
-                        {project.description}
-                      </span>
+                    <td className="px-1 py-4">
+                  <span
+  className="badge px-2 py-1 text-white table-header-wrap"
+  style={{
+    backgroundColor: "#5a8a7a",
+    borderRadius: "20px",
+    fontSize: "12px",
+    maxWidth: "150px", // adjust as needed
+    whiteSpace: "normal",
+    wordWrap: "break-word",
+    display: "inline-block",
+    overflow: "hidden",
+    textOverflow: "ellipsis",
+  }}
+>
+  {project.description.length > 25
+    ? `${project.description.slice(0, 25)}...`
+    : project.description}
+</span>
                     </td>
                     <td className="px-4 py-3 text-dark d-none d-md-table-cell">
-                      {project.numTasks}
+                       <span
+                          className="badge px-2 py-1"
+                          style={{
+                            backgroundColor: project.task.length > 0 ? "#5a8a7a" : "#6c757d",
+                            color: "white",
+                            borderRadius: "12px",
+                            fontSize: "11px",
+                          }}
+                        >
+                           {project.numTasks} tasks
+                        </span>
                     </td>
                     <td className="px-4 py-3 text-dark d-none d-lg-table-cell">
                       {project.creationDate}
                     </td>
-                    <td className="px-4 py-3">
+                    <td className="px-lg-4 px-1 py-3">
                       <ActionDropdown
                         projectId={project.id}
                         onView={handleView}
@@ -317,8 +347,8 @@ const currentProjects = sorted;
             </table>
           </div>
 
-        <div className="d-flex justify-content-between align-items-center p-3 border-top">
-  <div className="d-flex align-items-center">
+        <div className="d-flex flex-column flex-lg-row justify-content-between align-items-center p-3 border-top">
+  <div className="d-flex justify-content-center align-items-center">
     <span className="text-muted me-2">Showing</span>
     <select
       className="form-select form-select-sm me-2"
@@ -354,19 +384,7 @@ const currentProjects = sorted;
       >
         ‹
       </button>
-      {pages.map((page) => (
-        <button
-          key={page}
-          className={`btn btn-sm me-1 ${
-            page === currentPage
-              ? "btn-secondary"
-              : "btn-outline-secondary"
-          }`}
-          onClick={() => getAllProjects(itemsPerPage, page, searchTerm)}
-        >
-          {page}
-        </button>
-      ))}
+     
       <button
         className="btn btn-outline-secondary btn-sm"
         onClick={() => {
@@ -383,6 +401,10 @@ const currentProjects = sorted;
 </div>
         </div>
       )}
+
+      
+        {/* Project Modal */}
+      <ProjectModal isOpen={modalOpen} onClose={handleCloseModal} project={selectedProject} />
     </div>
   );
 }
