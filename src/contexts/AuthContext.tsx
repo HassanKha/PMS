@@ -4,6 +4,8 @@ import type {  FC } from "react";
 import type { DecodedToken } from "../interfaces/DecodedToken";
 import type { AuthContextType } from "../interfaces/AuthContextType";
 import type { AuthProviderProps } from "../interfaces/AuthProviderProps";
+import { axiosInstance, USERS_URLS } from "../services/Urls";
+import type { User } from "../interfaces/UserProfile";
 
 
 
@@ -24,6 +26,8 @@ const [loading, setLoading] = useState<boolean>(false);
     getInitialLoggedData()
   );
 
+    const [CurrentUserData, setCurrentUserData] = useState<User | null>();
+
   const SaveLoginData = () => {
     setLoading(true)
     const encodedToken = localStorage.getItem("token");
@@ -31,6 +35,7 @@ const [loading, setLoading] = useState<boolean>(false);
       try {
         const decoded = jwtDecode<DecodedToken>(encodedToken);
         setLoginData(decoded);
+        GetCurrentUser(decoded.userId)
         setLoading(false)
       } catch (err) {
         console.error("Error decoding token in SaveLoginData", err);
@@ -38,6 +43,23 @@ const [loading, setLoading] = useState<boolean>(false);
       }
     }
   };
+
+     const GetCurrentUser = async(id : number)=>{
+           try{
+             let response = await axiosInstance.get(USERS_URLS.GET_SPECIFIC_USER(id), {
+              params: { pageSize : 965 , pageNumber: 1}
+            }
+              )
+             console.log(response.data);
+             setCurrentUserData(response?.data)
+           }
+           catch(error){
+             console.log(error);
+             
+          
+           }
+         }
+
 
   useEffect(() => {
     if (!LoginData) {
@@ -59,7 +81,7 @@ const [loading, setLoading] = useState<boolean>(false);
   }, []);
 
   return (
-    <AuthContext.Provider value={{ LoginData,setLoginData, SaveLoginData , loading ,setLoading}}>
+    <AuthContext.Provider value={{ LoginData,setLoginData, SaveLoginData , CurrentUserData , loading ,setLoading}}>
       {children}
     </AuthContext.Provider>
   );

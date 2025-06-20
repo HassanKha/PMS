@@ -63,3 +63,20 @@
     text-align: center;
   }
 }
+
+.user-hover-box {
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+  border-radius: 1rem;
+}
+
+.user-hover-box:hover {
+  background-color: #e0f7f1;
+  box-shadow: 0 4px 12px #0E382F;
+}
+ .navbar .dropdown-item:hover {
+background-color: #5a8a7a;
+color: #fff !important;
+border-radius: 0.1rem;
+  }
+
+ 

@@ -24,7 +24,6 @@ function ProjectList() {
   const [sortField, setSortField] = useState<SortField | null>(null);
   const [sortDirection, setSortDirection] = useState<SortDirection>(null);
   const [searchTerm, setSearchTerm] = useState("");
-  const [nameProject, setNameProject] = useState("")
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(5);
   const [totalResults, setTotalResults] = useState(null);
@@ -105,7 +104,7 @@ let navigate=useNavigate()
 
   //Delete Project
   const handleDelete = async (id: number, title: string) => {
-    setNameProject(title)
+    // setNameProject(title)
     const swalWithBootstrapButtons = Swal.mixin({
       customClass: {
         confirmButton: "btn btn-danger mx-3",

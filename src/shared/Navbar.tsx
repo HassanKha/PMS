@@ -14,6 +14,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import PMSIcon from "../assets/PMS2.png";
 import { AuthContext } from "../contexts/AuthContext";
+import { ImageURL } from "../services/Urls";
 
 interface NavbarProps {
   handleToggleSidebar: () => void;
@@ -32,7 +33,7 @@ const Navbar: React.FC<NavbarProps> = ({
 
   const logout = () => {
     localStorage.removeItem("token");
-      auth?.setLoginData(null);
+    auth?.setLoginData(null);
     navigate("/login", { replace: true });
   };
 
@@ -49,7 +50,7 @@ const Navbar: React.FC<NavbarProps> = ({
           <img src={PMSIcon} alt="PMSIcon" style={{ height: 40 }} />
         </div>
 
-        <div className="d-flex align-items-center">
+        <div className="d-flex align-items-center ">
           <button className="btn btn-link text-secondary position-relative me-4 p-1">
             <FontAwesomeIcon
               icon={faBell}
@@ -61,22 +62,30 @@ const Navbar: React.FC<NavbarProps> = ({
             </span>
           </button>
 
-          <div className="dropdown">
+          <div className="dropdown user-hover-box  px-2 " style={{cursor:"pointer"}}>
             <div
-              className="d-flex align-items-center cursor-pointer"
+              className="d-flex align-items-center "
               onClick={toggleDropdown}
             >
               <div
                 className="rounded-circle me-3 text-white d-flex align-items-center justify-content-center"
                 style={{ width: 40, height: 40, backgroundColor: "#20c997" }}
               >
-                <FontAwesomeIcon icon={faUser} />
+                {auth?.CurrentUserData?.imagePath ? (
+                  <img
+                    src={`${ImageURL + auth?.CurrentUserData?.imagePath}`}
+                    alt="profile Pic"
+                    className="w-100 h-100  rounded-circle"
+                  />
+                ) : (
+                  <FontAwesomeIcon icon={faUser} />
+                )}
               </div>
               <div className="d-none d-md-block me-2 text-start">
-                <div className="fw-medium text-dark small">
+                <div className="fw-medium font-mont-gen text-dark small">
                   {auth?.LoginData?.userName}
                 </div>
-                <div className="text-muted smaller">
+                <div className="text-muted font-mont-gen smaller">
                   {auth?.LoginData?.userEmail}
                 </div>
               </div>
@@ -87,7 +96,7 @@ const Navbar: React.FC<NavbarProps> = ({
 
             {dropdownOpen && (
               <div className="dropdown-menu dropdown-menu-end show mt-2 ">
-                  <button
+                <button
                   onClick={() => navigate("/")}
                   className="dropdown-item d-flex align-items-center"
                 >
@@ -106,7 +115,7 @@ const Navbar: React.FC<NavbarProps> = ({
                   className="dropdown-item text-danger d-flex align-items-center"
                 >
                   <FontAwesomeIcon icon={faSignOutAlt} className="me-2" />
-                  <span className="d-none d-sm-inline">Sign Out</span>
+                  <span className="d-none SignOut d-sm-inline">Sign Out</span>
                 </button>
               </div>
             )}

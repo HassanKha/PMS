@@ -3,6 +3,10 @@
   font-weight: lighter;
   font-size: 28px;
 }
+.font-mont-gen {
+   font-family: "Montserrat", sans-serif;
+  font-weight: lighter;
+}
 h1 {
     color: rgba(79, 79, 79, 1);
 }

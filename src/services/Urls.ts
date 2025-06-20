@@ -39,3 +39,6 @@ export const PROJECTS_URLS = {
   DELETE_PROJECT: (ID: Number) => `/Project/${ID}`,
 };
 
+export const TASKS_URLS = {
+  GET_TASKS_COUNT: `/Task/count`
+}
