@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const baseURL = "https://upskilling-egypt.com:3003/api/v1";
-export const ImageURL = "https://upskilling-egypt.com:3006/"
+export const ImageURL = "https://upskilling-egypt.com:3003/"
 
 export const axiosInstance = axios.create({
   baseURL,
@@ -27,4 +27,6 @@ export const USERS_URLS = {
   RESET_PASS: `/Users/Reset`,
   GET_LOGGED_IN_USERS: `/Users/`,
   DELETE_USERS: (ID: Number) => `/Users/${ID}`,
+  GET_SPECIFIC_USER: (ID: Number) => `/Users/${ID}`,
+  TOGGLE_ACTIVATED_EMPLOYEE:(ID:Number)=>`/Users/${ID}`
 };
