@@ -10,10 +10,9 @@ import { toast } from 'react-toastify';
 import defaultImage from "../../assets/user-profile-icon-vector-avatar-600nw-2247726673.webp";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSort, faSortUp, faSortDown } from '@fortawesome/free-solid-svg-icons';
-import type { User } from '../../interfaces/UserProfile';
 import Header from '../../shared/Header';
 
-type SortField = keyof User;
+type SortField = keyof Logged_in_Users;
 type SortDirection = "asc" | "desc" | null;
 
 export default function Users() {

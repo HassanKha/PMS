@@ -8,10 +8,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import HomeBG from "../../assets/home-bg.png";
 import { useContext, useEffect, useState } from "react";
-import {
-  axiosInstance,
-  TASKS_URLS,
-} from "../../services/Urls";
+import { axiosInstance, TASKS_URLS } from "../../services/Urls";
 import { toast } from "react-toastify";
 import { Spinner } from "react-bootstrap";
 import type { TasksCount } from "../../interfaces/TasksCount";
@@ -21,12 +18,8 @@ import { useUsersContext } from "../../contexts/UsersContext";
 
 export default function Dashboard() {
   const auth = useContext(AuthContext);
-const {
-  isLoading,
-  activatedCount,
-  notActivatedCount,
-  getAllUsers
-} = useUsersContext();
+  const { isLoading, activatedCount, notActivatedCount, getAllUsers } =
+    useUsersContext();
   const {
     projects: Projects,
     loading: loadingProjects,
@@ -35,11 +28,11 @@ const {
 
   useEffect(() => {
     fetchProjects(1000, 1, "");
-    getAllUsers(1000, 1, "");
+    if (auth?.LoginData?.roles[0] === "Manager") {
+      getAllUsers(1000, 1, "");
+    }
     getAllTasks();
   }, []);
-
-
 
   const [TasksCount, setTasksCount] = useState<TasksCount | null>(null);
   const [loadingTasks, setLoadingTasks] = useState(false);
