@@ -188,7 +188,7 @@ export default function Users() {
 
         {isLoading ? (
           <div className="d-flex justify-content-center align-items-center loader">
-            <Loader />
+            <Loader name='Users'/>
           </div>
         ) : (
           <div className="table-responsive shadow-lg rounded-2">

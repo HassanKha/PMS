@@ -17,6 +17,7 @@ import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
 import { useProjectContext } from "../../contexts/ProjectContext";
 import NoData from "../../shared/NoData";
+import Loader from "../../shared/Loader";
 
 type SortField = keyof Project;
 type SortDirection = "asc" | "desc" | null;
@@ -197,19 +198,9 @@ function ProjectList() {
 
       {/* Loading State */}
       {loading && (
-        <div className="bg-white rounded shadow-sm p-5 text-center">
-          <FontAwesomeIcon
-            icon={faSpinner}
-            spin
-            size="2x"
-            style={{ color: "#5a8a7a" }}
-            className="mb-3"
-          />
-          <h5 className="text-muted">Loading Projects...</h5>
-          <p className="text-muted mb-0">
-            Please wait while we fetch your data
-          </p>
-        </div>
+         <div className="d-flex justify-content-center align-items-center loader">
+                <Loader name='Projects'/>
+          </div>
       )}
 
       {/* Error State */}
