@@ -10,12 +10,13 @@ import { toast } from "react-toastify";
 import { Link, useNavigate } from "react-router-dom";
 import { validateRegisterForm } from "../../services/Validations";
 import type { FormDataRegister } from './../../interfaces/FormData';
+import LoadingPage from './../../shared/LoadingPage/LoadingPage';
 
 
 function Register() {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-
+  const [loading, setLoading] = useState(false);
   const {
     register,
     handleSubmit,
@@ -28,6 +29,7 @@ function Register() {
   const password = watch("password");
 
   const onSubmit = async (data: FormDataRegister) => {
+    setLoading(true)
     try {
       const formData = new FormData();
       formData.append("userName", data.userName);
@@ -47,7 +49,7 @@ function Register() {
       });
 
       toast.success("Account created successfully!");
-
+      setLoading(false)
       navigate("/verify-account", {
         state: { email: data.email },
       })
@@ -67,10 +69,11 @@ function Register() {
       } else {
         toast.error("Something went wrong. Please try again.");
       }
+      setLoading(false)
     }
   };
   return (
-    <div
+    <>{loading?<LoadingPage/>:<div
       className="d-flex gap-2 flex-column align-items-center justify-content-center "
       style={{
         minHeight: "100vh",
@@ -359,11 +362,11 @@ function Register() {
                   </div>
                 )}
               </div>
-                <div className="text-end mt-2">
-              <Link to={'/login'} className=' links-container_F_R  text-decoration-none '>Login Now?</Link>
+              <div className="text-end mt-2">
+                <Link to={'/login'} className=' links-container_F_R  text-decoration-none '>Login Now?</Link>
+              </div>
             </div>
-            </div>
-          
+
             {/* Submit Button */}
             <div className="d-flex justify-content-center mx-sm-5 mx-lg-0 mt-3">
               <button
@@ -389,24 +392,14 @@ function Register() {
                   e.currentTarget.style.boxShadow = "none";
                 }}
               >
-                {isSubmitting ? (
-                  <>
-                    <span
-                      className="spinner-border spinner-border-sm me-2"
-                      role="status"
-                      aria-hidden="true"
-                    ></span>
-                    Creating Account...
-                  </>
-                ) : (
-                  "Save"
-                )}
+               Save
               </button>
             </div>
           </form>
         </div>
       </div>
-    </div>
+    </div>}</>
+    
   );
 }
 

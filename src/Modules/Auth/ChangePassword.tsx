@@ -11,11 +11,14 @@ import "../../styles/ChangePass.css";
 import { toast } from 'react-toastify';
 import { Button } from 'react-bootstrap';
 import type { FormData } from '../../interfaces/FormData';
+import LoadingPage from './../../shared/LoadingPage/LoadingPage';
+
 
 function ChangePassword() {
   const [showNewPassword, setShowNewPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [showOldPassword, setShowOldPassword] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
 
 
@@ -30,20 +33,23 @@ function ChangePassword() {
   const navigate = useNavigate();
 
   const onSubmit = async (data: FormData) => {
+    setIsLoading(true);
     try {
       let response = await axiosInstance.put(USERS_URLS.CHANGE_PASS, data);
       console.log(response);
       toast.success("Password Changed Successfully");
+      setIsLoading(false);
       navigate("/dashboard");
     } catch (error) {
       console.log(error);
-
+      setIsLoading(false);
       toast.error("Failed to change password");
     }
   };
 
   return (
-    <div
+    <>
+    {isLoading?<LoadingPage/>:  <div
       className="d-flex gap-2 flex-column align-items-center justify-content-center"
       style={{
         minHeight: "100vh",
@@ -203,7 +209,10 @@ function ChangePassword() {
           </form>
         </div>
       </div>
-    </div>
+    </div>}
+    
+    </>
+  
   );
 }
 

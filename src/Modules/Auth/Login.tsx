@@ -11,6 +11,7 @@ import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 import { validateRegisterForm } from "../../services/Validations";
 import type { LoginFormInputs } from "../../interfaces/LoginFormInputs";
 import { AuthContext } from "../../contexts/AuthContext";
+import LoadingPage from './../../shared/LoadingPage/LoadingPage';
 
 
 function Login() {
@@ -60,7 +61,9 @@ if(!auth?.LoginData){
   },[auth?.LoginData])
 
   return (
-    <div
+
+    <>
+    {loading?<LoadingPage/>:<div
       className="d-flex gap-2 flex-column align-items-center justify-content-center"
       style={{
         minHeight: "100vh",
@@ -220,16 +223,7 @@ if(!auth?.LoginData){
                     height: "50px",
                   }}
                 >
-                  {loading ? (
-                    <div
-                      className="spinner-border spinner-border-sm text-light"
-                      role="status"
-                    >
-                      <span className="visually-hidden">Loading...</span>
-                    </div>
-                  ) : (
-                    "Login"
-                  )}
+                 Login
                 </button>
               </div>
             </div>
@@ -238,7 +232,9 @@ if(!auth?.LoginData){
           </form>
         </div>
       </div>
-    </div>
+    </div>}
+    </>
+    
   );
 }
 
