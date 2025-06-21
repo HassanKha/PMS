@@ -12,6 +12,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSort, faSortUp, faSortDown } from '@fortawesome/free-solid-svg-icons';
 import type { User } from '../../interfaces/UserProfile';
 import Header from '../../shared/Header';
+import { faSpinner } from '@fortawesome/free-solid-svg-icons/faSpinner';
 
 type SortField = keyof User;
 type SortDirection = "asc" | "desc" | null;
@@ -189,7 +190,19 @@ export default function Users() {
 
         {isLoading ? (
           <div className="d-flex justify-content-center align-items-center loader">
-            <Loader />
+           <div className="bg-white rounded shadow-sm p-5 text-center">
+                    <FontAwesomeIcon
+                      icon={faSpinner}
+                      spin
+                      size="2x"
+                      style={{ color: "#5a8a7a" }}
+                      className="mb-3"
+                    />
+                    <h5 className="text-muted">Loading Users...</h5>
+                    <p className="text-muted mb-0">
+                      Please wait while we fetch your data
+                    </p>
+                  </div>
           </div>
         ) : (
           <div className="table-responsive shadow-lg rounded-2">
