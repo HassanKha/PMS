@@ -36,7 +36,7 @@ function ChangePassword() {
     setIsLoading(true);
     try {
       let response = await axiosInstance.put(USERS_URLS.CHANGE_PASS, data);
-      toast.success(response.data.message||"Password Changed Successfully");
+      toast.success(response?.data?.message||"Password Changed Successfully");
       navigate("/dashboard");
     } catch (error) {
      toast.error("Failed to change password");
@@ -48,7 +48,9 @@ function ChangePassword() {
 
   return (
     <>
-    {isLoading?<LoadingPage/>:  <div
+<div className='change-password'>
+           {isLoading?<LoadingPage/>:  
+      <div
       className="d-flex gap-2 flex-column align-items-center justify-content-center"
       style={{
         minHeight: "100vh",
@@ -59,10 +61,10 @@ function ChangePassword() {
     >
       <img src={PMSIcon} alt="PMSIcon" className="lg:w-25 ImgSize  lg:h-25" />
       <div className="d-flex container-fl g-3 flex-column align-items-center justify-content-center">
-        <div style={{}} className="w-75  mx-auto px-3 py-3 change-pass-main-container border-0 shadow-lg">
+        <div className="w-75  mx-auto px-3 py-3 change-pass-main-container border-0 shadow-lg">
           <div className="text-lg-start mt-3 mx-5">
-            <h2 className="fw-bold d-flex flex-column" style={{ color: "#ffa726", fontSize: "36px" }}>
-              <span className="text-white fw-light" style={{ fontSize: "13px" }}>welcome to PMS</span>
+            <h2 className="fw-bold d-flex flex-column welcome" >
+              <span className="text-white fw-light">welcome to PMS</span>
               Change Password
             </h2>
           </div>
@@ -73,34 +75,27 @@ function ChangePassword() {
 
               {/* Old Password */}
               <div className="col-12 mb-3 d-flex flex-column">
-                <label className="form-label fw-medium" style={{ color: "#ffa726" }}>
+                <label className="form-label fw-medium">
                   Old Password
                 </label>
                 <div className="position-relative">
                   <input
                     type={showOldPassword ? "text" : "password"}
                     placeholder="Enter your Old Password"
+                    className='change-pass-input bg-transparent text-white'
                     {...register("oldPassword", validateRegisterForm.password)}
-                    style={{
-                      border: "none",
-                      background: "none",
-                      outline: "none",
-                      borderBottomWidth: "1px",
-                      borderRadius: "8px",
-                      color: "white",
-                      padding: "6px 12px",
-                    }}
+                    
                   />
                   <Button
                     type="button"
-                    className="btn position-absolute top-50 end-0 translate-middle-y me-2"
+                    className="btn border-0 bg-transparent toggle-password-btn position-absolute top-50 end-0 translate-middle-y me-2"
                     onClick={() => setShowOldPassword(!showOldPassword)}
-                    style={{ border: "none", background: "transparent", color: "rgba(255,255,255,0.6)" }}
+                   
                   >
                     <FontAwesomeIcon icon={showOldPassword ? faEyeSlash : faEye} />
                   </Button>
                 </div>
-                <div style={{ height: "1px", width: "100%", background: "white" }}></div>
+               
                 {errors.oldPassword && (
                   <div className="invalid-feedback d-block">{errors.oldPassword.message}</div>
                 )}
@@ -108,7 +103,7 @@ function ChangePassword() {
 
               {/* New Password */}
               <div className="col-12 mb-3 d-flex flex-column">
-                <label className="form-label fw-medium" style={{ color: "#ffa726" }}>
+                <label className="form-label fw-medium">
                   New Password
                 </label>
                 <div className="position-relative">
@@ -116,26 +111,18 @@ function ChangePassword() {
                     type={showNewPassword ? "text" : "password"}
                     placeholder="Enter your New Password"
                     {...register("newPassword", validateRegisterForm.password)}
-                    style={{
-                      border: "none",
-                      background: "none",
-                      outline: "none",
-                      borderBottomWidth: "1px",
-                      borderRadius: "8px",
-                      color: "white",
-                      padding: "6px 12px",
-                    }}
+                    className='change-pass-input bg-transparent text-white'
                   />
                   <Button
                     type="button"
-                    className="btn position-absolute top-50 end-0 translate-middle-y me-2"
+                    className="btn border-0 bg-transparent toggle-password-btn position-absolute top-50 end-0 translate-middle-y me-2"
                     onClick={() => setShowNewPassword(!showNewPassword)}
-                    style={{ border: "none", background: "transparent", color: "rgba(255,255,255,0.6)" }}
+                   
                   >
                     <FontAwesomeIcon icon={showNewPassword ? faEyeSlash : faEye} />
                   </Button>
                 </div>
-                <div style={{ height: "1px", width: "100%", background: "white" }}></div>
+               
                 {errors.newPassword && (
                   <div className="invalid-feedback d-block">{errors.newPassword.message}</div>
                 )}
@@ -143,7 +130,7 @@ function ChangePassword() {
 
               {/* Confirm New Password */}
               <div className="col-12 mb-3 d-flex flex-column">
-                <label className="form-label fw-medium" style={{ color: "#ffa726" }}>
+                <label className="form-label fw-medium">
                   Confirm New Password
                 </label>
                 <div className="position-relative">
@@ -151,26 +138,18 @@ function ChangePassword() {
                     type={showConfirmPassword ? "text" : "password"}
                     placeholder="Confirm your New Password"
                     {...register("confirmNewPassword", validateRegisterForm.confirmPassword(newPassword))}
-                    style={{
-                      border: "none",
-                      background: "none",
-                      outline: "none",
-                      borderBottomWidth: "1px",
-                      borderRadius: "8px",
-                      color: "white",
-                      padding: "6px 12px",
-                    }}
+                    className='change-pass-input bg-transparent text-white'
                   />
                   <Button
                     type="button"
-                    className="btn position-absolute top-50 end-0 translate-middle-y me-2"
+                    className="btn border-0 bg-transparent toggle-password-btn position-absolute top-50 end-0 translate-middle-y me-2"
                     onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                    style={{ border: "none", background: "transparent", color: "rgba(255,255,255,0.6)" }}
+                   
                   >
                     <FontAwesomeIcon icon={showConfirmPassword ? faEyeSlash : faEye} />
                   </Button>
                 </div>
-                <div style={{ height: "1px", width: "100%", background: "white" }}></div>
+              
                 {errors.confirmNewPassword && (
                   <div className="invalid-feedback d-block">{errors.confirmNewPassword.message}</div>
                 )}
@@ -178,18 +157,9 @@ function ChangePassword() {
 
               <button
                 type="submit"
-                className="btn btn-lg fw-bold mt-4"
+                className="btn btn-lg fw-bold mt-4 change-pass-submit"
                 disabled={isSubmitting}
-                style={{
-                  background: "linear-gradient(45deg, #ffa726, #ff9800)",
-                  border: "none",
-                  borderRadius: "25px",
-                  color: "white",
-                  padding: "0.3rem 6rem",
-                  fontSize: "18px",
-                  transition: "all 0.3s ease",
-                  height: "50px",
-                }}
+              
               >
                 {isSubmitting ? (
                   <>
@@ -210,6 +180,8 @@ function ChangePassword() {
       </div>
     </div>}
     
+</div>
+   
     </>
   
   );

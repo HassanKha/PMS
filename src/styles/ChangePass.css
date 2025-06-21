@@ -7,6 +7,43 @@ input{
     width: 100%;
 }
 
+.welcome{
+  color: #ffa726;
+  font-size: 36px;
+}
+
+.welcome span{
+  font-size: 13px;
+}
+
+label{
+  color: #ffa726;
+}
+
+.change-pass-submit{
+  background: linear-gradient(45deg, #ffa726, #ff9800) !important;
+  border: none !important;
+  border-radius: 25px !important;
+  color: white !important;
+  padding: 0.3rem 6rem !important;
+  font-size: 18px !important;
+  transition: all 0.3s ease !important;
+  height: 50px !important;
+}
+
+.change-pass-input{
+  border: none !important;
+  border-bottom: 1px solid white !important;
+  padding: 6px 12px !important;
+}
+
+
+.toggle-password-btn {
+
+  color: rgba(255, 255, 255, 0.6) !important;
+}
+
+
 @media (max-width: 768px) {
   img.ImgSize{
     width: 50% !important;
