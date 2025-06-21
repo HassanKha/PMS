@@ -28,7 +28,10 @@ export const USERS_URLS = {
   REGISTER: `/Users/Register`,
   CHANGE_PASS: `/Users/ChangePassword`,
   RESET_PASS: `/Users/Reset`,
+  UPDATE_CURRENT_PROFILE:`/Users/`,
   GET_LOGGED_IN_USERS: `/Users/`,
+  GET_CURRENT_USER:`/Users/currentUser`,
+
   DELETE_USERS: (ID: Number) => `/Users/${ID}`,
   GET_SPECIFIC_USER: (ID: Number) => `/Users/${ID}`,
   TOGGLE_ACTIVATED_EMPLOYEE: (ID: Number) => `/Users/${ID}`

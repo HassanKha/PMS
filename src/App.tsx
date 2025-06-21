@@ -20,6 +20,7 @@ import ProjectList from "./Modules/Projects/ProjectList";
 import Users from "./Modules/Users/Users";
 import ProtectedRoute from "./shared/ProtectedRoute";
 import TasksList from "./Modules/Tasks/TasksList";
+import Profile from "./Modules/Profile/Profile";
 
 function App() {
    const routes: RouteObject[] = [
@@ -45,6 +46,7 @@ function App() {
         { path: "project-data", element: <ProjectData /> },
         { path: "users" , element : <Users/>},
         { path: "tasks" , element : <TasksList/>},
+        { path: "profile" , element : <Profile/>}
       ],
     },
     {

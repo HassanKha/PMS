@@ -97,7 +97,7 @@ const Navbar: React.FC<NavbarProps> = ({
             {dropdownOpen && (
               <div className="dropdown-menu dropdown-menu-end show mt-2 ">
                 <button
-                  onClick={() => navigate("/")}
+                  onClick={() => navigate("/dashboard/profile")}
                   className="dropdown-item d-flex align-items-center"
                 >
                   <FontAwesomeIcon icon={faUserEdit} className="me-2" />
