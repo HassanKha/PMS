@@ -87,7 +87,7 @@ export function ActionDropdown({ projectId, onView, onEdit, onDelete }: ActionDr
           >
             {/* View Button */}
             <button
-              className="dropdown-item d-flex align-items-center px-3 py-3 action-item-view"
+              className="dropdown-item d-flex align-items-center px-2 py-1 action-item-view"
               onClick={(e) => handleAction(() => onView(projectId), e)}
               style={{
                 border: "none",
@@ -151,7 +151,7 @@ export function ActionDropdown({ projectId, onView, onEdit, onDelete }: ActionDr
 
             {/* Update Button */}
             <button
-              className="dropdown-item d-flex align-items-center px-3 py-3 action-item-edit"
+              className="dropdown-item d-flex align-items-center px-2 py-1 action-item-edit"
               onClick={(e) => handleAction(() => onEdit(projectId), e)}
               style={{
                 border: "none",
@@ -226,7 +226,7 @@ export function ActionDropdown({ projectId, onView, onEdit, onDelete }: ActionDr
 
             {/* Delete Button */}
             <button
-              className="dropdown-item d-flex align-items-center px-3 py-3 action-item-delete"
+              className="dropdown-item d-flex align-items-center px-2 py-1 action-item-delete"
               onClick={(e) => handleAction(() => onDelete(projectId), e)}
               style={{
                 border: "none",

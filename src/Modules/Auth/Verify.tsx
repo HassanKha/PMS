@@ -9,7 +9,7 @@ import { axiosInstance, USERS_URLS } from "../../services/Urls";
 import { verifyValidation } from "../../services/Validations";
 import type { FormDataVerify } from "../../interfaces/FormData";
 import { useState } from "react";
-import LoadingPage from './../../shared/LoadingPage/LoadingPage';
+import LoadingPage from '../../shared/LoadingPage/LoadingPage';
 
 
 function Verify() {

@@ -48,7 +48,13 @@ h1 {
               transform: translateY(0) scale(1);
             }
           }
-          
+          .action-menu-btn {
+              transition: transform 0.25s ease-in-out;
+  cursor: pointer;
+          }
+          .action-menu-btn:hover {
+               transform: scale(1.3);
+          }
           /* View Button Hover */
           .action-item-view:hover {
             background: linear-gradient(135deg, #f0f8f6 0%, #e8f5f0 100%) !important;

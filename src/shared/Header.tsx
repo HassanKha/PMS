@@ -8,7 +8,6 @@ import { AuthContext } from "../contexts/AuthContext";
 const Header: React.FC<HeaderProps> = ({
   Title,
   BtnTitle,
-  //, onBtnClick
 }) => {
   const location = useLocation();
   const auth = useContext(AuthContext);
@@ -17,7 +16,7 @@ const Header: React.FC<HeaderProps> = ({
     <div className="d-flex flex-column rounded-2 flex-lg-row w-100 font-mont justify-content-between bg-white p-3 px-lg-4 py-lg-3 align-items-start align-items-lg-center mb-4">
       <h1 className="h4 h2-lg fw-bold text-dark mb-2 mb-lg-0">{Title}</h1>
 
-      {auth?.LoginData?.roles[0] === "Manager" ? (
+      {auth?.LoginData?.roles[0] === "Manager" && BtnTitle ?   (
         <Link
           type="button"
           className="btn LinkBTM text-white d-flex align-items-center gap-2 px-3 px-lg-4 py-2"

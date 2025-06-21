@@ -11,8 +11,10 @@ import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 import { validateRegisterForm } from "../../services/Validations";
 import type { LoginFormInputs } from "../../interfaces/LoginFormInputs";
 import { AuthContext } from "../../contexts/AuthContext";
+
 import LoadingPage from './../../shared/LoadingPage/LoadingPage';
 import { axiosInstance, USERS_URLS } from "../../services/Urls";
+
 
 
 function Login() {

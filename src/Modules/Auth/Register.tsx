@@ -10,7 +10,7 @@ import { toast } from "react-toastify";
 import { Link, useNavigate } from "react-router-dom";
 import { validateRegisterForm } from "../../services/Validations";
 import type { FormDataRegister } from './../../interfaces/FormData';
-import LoadingPage from './../../shared/LoadingPage/LoadingPage';
+import LoadingPage from '../../shared/LoadingPage/LoadingPage';
 
 
 function Register() {

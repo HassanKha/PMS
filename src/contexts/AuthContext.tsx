@@ -35,7 +35,7 @@ const [loading, setLoading] = useState<boolean>(false);
       try {
         const decoded = jwtDecode<DecodedToken>(encodedToken);
         setLoginData(decoded);
-        GetCurrentUser(decoded.userId)
+        GetCurrentUser()
         setLoading(false)
       } catch (err) {
         console.error("Error decoding token in SaveLoginData", err);
@@ -44,9 +44,9 @@ const [loading, setLoading] = useState<boolean>(false);
     }
   };
 
-     const GetCurrentUser = async(id : number)=>{
+     const GetCurrentUser = async()=>{
            try{
-             let response = await axiosInstance.get(USERS_URLS.GET_SPECIFIC_USER(id), {
+             let response = await axiosInstance.get(USERS_URLS.GET_CURRENT_USER, {
               params: { pageSize : 965 , pageNumber: 1}
             }
               )

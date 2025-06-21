@@ -1,10 +1,19 @@
-table thead th{
-    background-color: #315951E5 !important;
-    color: white !important;
-    font-weight: 300 !important;
-    text-align: center !important;
+table thead th {
+  background-color: #315951e5 !important;
+  color: white !important;
+  font-weight: 300 !important;
+  text-align: center !important;
 }
 
 table tbody td {
-    text-align: center;
+  text-align: center;
+}
+
+#root > div > div.w-100 > div > div > table > tbody > tr > td > div > button {
+  transition: transform 0.25s ease-in-out;
+  cursor: pointer;
+}
+
+#root > div > div.w-100 > div > div > table > tbody > tr > td > div > button:hover {
+  transform: scale(1.3);
 }

@@ -128,10 +128,6 @@ export default function Users() {
               value={searchTerm}
             />
           </div>
-          <button className="btn btn-outline-secondary rounded-pill d-flex align-items-center px-3">
-            <i className="fas fa-filter me-2"></i>
-            Filter
-          </button>
         </div>
 
         {isLoading ? (

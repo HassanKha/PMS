@@ -8,7 +8,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate } from 'react-router-dom';
 import type { ForgetPasswordForm } from '../../interfaces/ForgetPasswordForm';
-import LoadingPage from './../../shared/LoadingPage/LoadingPage';
+import LoadingPage from '../../shared/LoadingPage/LoadingPage';
 
 
 
