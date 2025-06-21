@@ -19,10 +19,10 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children }) => {
     } 
   }, [location.pathname]);
 
+  
 
-  if (auth?.loading || !auth?.LoginData ) {
+  if ( auth?.loading  ) {
    
-    
     return <LoadingPage />;
   }
 
@@ -30,7 +30,7 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children }) => {
     return <Navigate to="/login" replace state={{ from: location }} />;
   }
 
-  if(auth?.LoginData.roles[0] !== 'Manager' && location.pathname === '/dashboard/users')
+  if(auth?.LoginData && auth.LoginData.roles[0] !== 'Manager' && location.pathname === '/dashboard/users')
   {
     return <Navigate to="/login" />;
   }

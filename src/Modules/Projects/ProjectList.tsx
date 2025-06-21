@@ -5,7 +5,6 @@ import {
   faRedo,
   faSearch,
   faSort,
-  faSpinner,
 } from "@fortawesome/free-solid-svg-icons";
 import { ActionDropdown } from "./components/ActionDropdown";
 import "./../../styles/Projects.css";
