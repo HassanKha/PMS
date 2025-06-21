@@ -1,5 +1,5 @@
 table thead th {
-  background-color: #315951e5 !important;
+  background-color: #5a8a7a !important;
   color: white !important;
   font-weight: 300 !important;
   text-align: center !important;
@@ -16,4 +16,26 @@ table tbody td {
 
 #root > div > div.w-100 > div > div > table > tbody > tr > td > div > button:hover {
   transform: scale(1.3);
+}
+
+.loader
+{
+  min-height: 300px;
+}
+
+
+.activated{
+  background-color: #198754;
+}
+
+.deactivated{
+  background-color: #dc3545;
+}
+
+select{width: auto;}
+
+.user-img{
+  width: 120px;
+  height: 120px;
+  object-fit: cover;
 }

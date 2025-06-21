@@ -9,13 +9,20 @@ import Modal from 'react-bootstrap/Modal';
 import { toast } from 'react-toastify';
 import defaultImage from "../../assets/user-profile-icon-vector-avatar-600nw-2247726673.webp";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSort, faEllipsisV } from '@fortawesome/free-solid-svg-icons';
+import { faSort, faSortUp, faSortDown } from '@fortawesome/free-solid-svg-icons';
+import type { User } from '../../interfaces/UserProfile';
+import Header from '../../shared/Header';
+
+type SortField = keyof User;
+type SortDirection = "asc" | "desc" | null;
 
 export default function Users() {
   const [loading, setLoading] = useState(false);
   const [showDetails, setShowDetails] = useState(false);
   const [user, setUser] = useState<Logged_in_Users>();
-  const [searchTerm, setSearchTerm] = useState<string>('');
+  const [searchTerm, setSearchTerm] = useState('');
+  const [sortField, setSortField] = useState<SortField | null>(null);
+  const [sortDirection, setSortDirection] = useState<SortDirection>(null);
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(5);
   const [totalResults, setTotalResults] = useState<number | null>(null);
@@ -86,7 +93,7 @@ export default function Users() {
       setLoading(true);
       await axiosInstance.put(USERS_URLS.TOGGLE_ACTIVATED_EMPLOYEE(userId));
       toast.success(showActivate ? 'You have Activated this user successfully' : 'You have Blocked this user successfully');
-       GetAllLoggedUsers(itemsPerPage, currentPage, searchTerm);
+      GetAllLoggedUsers(itemsPerPage, currentPage, searchTerm);
       handleCloseActivate();
       handleCloseDeactivate();
       setLoading(false);
@@ -95,6 +102,58 @@ export default function Users() {
       setLoading(false);
     }
   };
+
+  const handleSort = (field: SortField) => {
+    if (sortField === field) {
+      if (sortDirection === "asc") {
+        setSortDirection("desc");
+      } else if (sortDirection === "desc") {
+        setSortField(null);
+        setSortDirection(null);
+      } else {
+        setSortDirection("asc");
+      }
+    } else {
+      setSortField(field);
+      setSortDirection("asc");
+    }
+  };
+
+  const getSortIcon = (field: SortField) => {
+    if (sortField !== field) return faSort;
+    return sortDirection === "asc" ? faSortUp : faSortDown;
+  };
+
+  const filtered = users.filter((p) =>
+    p.userName.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
+  const sorted = [...filtered].sort((a, b) => {
+    if (!sortField || !sortDirection) return 0;
+
+    const va = a[sortField];
+    const vb = b[sortField];
+
+    if (sortField === "creationDate") {
+      const da = new Date(va as string).getTime();
+      const db = new Date(vb as string).getTime();
+      return sortDirection === "asc" ? da - db : db - da;
+    }
+
+    if (typeof va === "boolean" && typeof vb === "boolean") {
+      return sortDirection === "asc"
+        ? Number(va) - Number(vb)
+        : Number(vb) - Number(va);
+    }
+
+    if (typeof va === "number" && typeof vb === "number") {
+      return sortDirection === "asc" ? va - vb : vb - va;
+    }
+
+    return sortDirection === "asc"
+      ? String(va).localeCompare(String(vb))
+      : String(vb).localeCompare(String(va));
+  });
 
   const handlePagination = (pageNumber: number) => {
     GetAllLoggedUsers(itemsPerPage, pageNumber, searchTerm);
@@ -112,9 +171,7 @@ export default function Users() {
 
   return (
     <>
-      <div className="bg-light p-3">
-        <h2 className="fw-bold">Users</h2>
-      </div>
+       <Header Title={"Users"} BtnTitle={""} />
 
       <div className="bg-white p-3 mt-3">
         <div className="p-2 d-flex gap-2">
@@ -131,36 +188,40 @@ export default function Users() {
         </div>
 
         {isLoading ? (
-          <div className="d-flex justify-content-center align-items-center" style={{ minHeight: "301px" }}>
+          <div className="d-flex justify-content-center align-items-center loader">
             <Loader />
           </div>
         ) : (
           <div className="table-responsive shadow-lg rounded-2">
             <table className="table table-hover mb-0">
-              <thead style={{ backgroundColor: "#5a8a7a" }}>
+              <thead >
                 <tr>
-                  <th className="text-white px-4 py-3">User Name <FontAwesomeIcon icon={faSort} size="sm" /></th>
-                  <th className="text-white px-4 py-3">Status <FontAwesomeIcon icon={faSort} size="sm" /></th>
-                  <th className="text-white px-4 py-3 d-none d-md-table-cell">Phone Number <FontAwesomeIcon icon={faSort} size="sm" /></th>
-                  <th className="text-white px-4 py-3 d-none d-lg-table-cell">Email <FontAwesomeIcon icon={faSort} size="sm" /></th>
-                  <th className="text-white px-4 py-3 d-none d-lg-table-cell">Date Created <FontAwesomeIcon icon={faSort} size="sm" /></th>
+                  <th className="text-white px-4 py-3" onClick={() => handleSort("userName")} style={{ cursor: "pointer" }}>
+                    User Name <FontAwesomeIcon className="ms-1" icon={getSortIcon("userName")} />
+                  </th>
+                  <th className="text-white px-4 py-3" onClick={() => handleSort("isActivated")} style={{ cursor: "pointer" }}>
+                    Status <FontAwesomeIcon className="ms-1" icon={getSortIcon("isActivated")} />
+                  </th>
+                  <th className="text-white px-4 py-3 d-none d-md-table-cell" onClick={() => handleSort("phoneNumber")} style={{ cursor: "pointer" }}>
+                    Phone Number <FontAwesomeIcon className="ms-1" icon={getSortIcon("phoneNumber")} />
+                  </th>
+                  <th className="text-white px-4 py-3 d-none d-lg-table-cell" onClick={() => handleSort("email")} style={{ cursor: "pointer" }}>
+                    Email <FontAwesomeIcon className="ms-1" icon={getSortIcon("email")} />
+                  </th>
+                  <th className="text-white px-4 py-3 d-none d-lg-table-cell" onClick={() => handleSort("creationDate")} style={{ cursor: "pointer" }}>
+                    Date Created <FontAwesomeIcon className="ms-1" icon={getSortIcon("creationDate")} />
+                  </th>
                   <th className="text-white px-4 py-3"></th>
                 </tr>
               </thead>
-              {users.length > 0 ? (
+              {sorted.length > 0 ? (
                 <tbody>
-                  {users.map((user) => (
+                  {sorted.map((user) => (
                     <tr key={user.id}>
                       <td className="px-4 py-3">{user.userName}</td>
                       <td className="px-4 py-3">
                         <span
-                          className="badge px-2 py-1"
-                          style={{
-                            backgroundColor: user.isActivated ? "#198754" : "#dc3545",
-                            color: "white",
-                            borderRadius: "12px",
-                            fontSize: "11px",
-                          }}
+                          className={`badge ${user.isActivated?'activated':'deactivated'} px-2 py-1 texr-white rounded-3`}
                         >
                           {user.isActivated ? "Active" : "NOT Active"}
                         </span>
@@ -171,15 +232,15 @@ export default function Users() {
                       <td className="px-4 py-3">
                         <div className="dropdown">
                           <button className="btn btn-link text-dark p-0" data-bs-toggle="dropdown">
-                            <FontAwesomeIcon icon={faEllipsisV} />
+                            <i className="fas fa-ellipsis-v"></i>
                           </button>
                           <ul className="dropdown-menu">
                             {user.isActivated ? (
-                              <li><button onClick={() => handleShowDeactivate(user.id)} className="dropdown-item text-danger">Block</button></li>
+                              <li><button onClick={() => handleShowDeactivate(user.id)} className="dropdown-item text-danger"><i className="fa-solid fa-user-slash text-danger fa-1x mb-2"></i> Block</button></li>
                             ) : (
-                              <li><button onClick={() => handleShowActivate(user.id)} className="dropdown-item text-success">Activate</button></li>
+                              <li><button onClick={() => handleShowActivate(user.id)} className="dropdown-item text-success"> <i className="fa-solid fa-user-check text-success fa-1x mb-2"></i> Activate</button></li>
                             )}
-                            <li><button onClick={() => handleShowDetails(user.id)} className="dropdown-item text-info">View</button></li>
+                            <li><button onClick={() => handleShowDetails(user.id)} className="dropdown-item text-info"><i className="fas fa-eye me-2"></i>View</button></li>
                           </ul>
                         </div>
                       </td>
@@ -203,7 +264,6 @@ export default function Users() {
               <span className="text-muted me-2">Showing</span>
               <select
                 className="form-select form-select-sm me-2"
-                style={{ width: "auto" }}
                 value={itemsPerPage}
                 onChange={handlePageSizeChange}
               >
@@ -253,62 +313,55 @@ export default function Users() {
       </Modal>
 
       <Modal show={showDetails} onHide={handleCloseDetails} centered>
-              <Modal.Header closeButton>
-                <Modal.Title className="d-flex align-items-center gap-2">
-                  <i className="fas fa-user text-primary"></i> User Details
-                </Modal.Title>
-              </Modal.Header>
-            
-              {loading ? (
-                <div className="d-flex justify-content-center align-items-center gap-2 p-4">
-                  <span className="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-                  Loading...
-                </div>
-              ) : (
-                <Modal.Body>
-                  <div className="text-center mb-3">
-                    <img
-                      className="img-fluid rounded-circle border"
-                      style={{ width: '120px', height: '120px', objectFit: 'cover' }}
-                      src={user?.imagePath ? `${ImageURL}${user?.imagePath}` : defaultImage}
-                      alt="User"
-                    />
-                  </div>
-                  <div className="list-group">
-                    <div className="list-group-item d-flex align-items-center gap-2">
-                      <i className="fas fa-id-badge text-secondary"></i> <strong>ID:</strong> {user?.id}
-                    </div>
-                    <div className="list-group-item d-flex align-items-center gap-2">
-                      <i className="fas fa-user text-primary"></i> <strong>Name:</strong> {user?.userName}
-                    </div>
-                    <div className="list-group-item d-flex align-items-center gap-2">
-                      <i className="fas fa-envelope text-danger"></i> <strong>Email:</strong> {user?.email}
-                    </div>
-                    <div className="list-group-item d-flex align-items-center gap-2">
-                      <i className="fas fa-globe text-success"></i> <strong>Country:</strong> {user?.country}
-                    </div>
-                    <div className="list-group-item d-flex align-items-center gap-2">
-                      <i className="fas fa-phone text-warning"></i> <strong>Phone:</strong> {user?.phoneNumber}
-                    </div>
-                    
-                    <div className="list-group-item d-flex align-items-center gap-2">
-                      <i className="fas fa-calendar-plus text-success"></i> <strong>Created:</strong> {user?.creationDate && new Date(user.creationDate).toLocaleString()}
-                    </div>
-                    <div className="list-group-item d-flex align-items-center gap-2">
-                      <i className="fas fa-calendar-check text-success"></i> <strong>Updated:</strong> {user?.modificationDate && new Date(user.modificationDate).toLocaleString()}
-                    </div>
-                  </div>
-                </Modal.Body>
-              )}
-            
-              <Modal.Footer>
-                <Button variant="secondary" onClick={handleCloseDetails}>
-                  Close
-                </Button>
-              </Modal.Footer>
-            </Modal>
+        <Modal.Header closeButton>
+          <Modal.Title className="d-flex align-items-center gap-2">
+            <i className="fas fa-user text-primary"></i> User Details
+          </Modal.Title>
+        </Modal.Header>
 
-
+        {loading ? (
+          <div className="d-flex justify-content-center align-items-center gap-2 p-4">
+            <span className="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+            Loading...
+          </div>
+        ) : (
+          <Modal.Body>
+            <div className="text-center mb-3">
+              <img
+                className="img-fluid user-img rounded-circle border"
+                src={user?.imagePath ? `${ImageURL}${user?.imagePath}` : defaultImage}
+                alt="User"
+              />
+            </div>
+            <div className="list-group">
+              <div className="list-group-item d-flex align-items-center gap-2">
+                <i className="fas fa-id-badge text-secondary"></i> <strong>ID:</strong> {user?.id}
+              </div>
+              <div className="list-group-item d-flex align-items-center gap-2">
+                <i className="fas fa-user text-primary"></i> <strong>Name:</strong> {user?.userName}
+              </div>
+              <div className="list-group-item d-flex align-items-center gap-2">
+                <i className="fas fa-envelope text-danger"></i> <strong>Email:</strong> {user?.email}
+              </div>
+              <div className="list-group-item d-flex align-items-center gap-2">
+                <i className="fas fa-globe text-success"></i> <strong>Country:</strong> {user?.country}
+              </div>
+              <div className="list-group-item d-flex align-items-center gap-2">
+                <i className="fas fa-phone text-warning"></i> <strong>Phone:</strong> {user?.phoneNumber}
+              </div>
+              <div className="list-group-item d-flex align-items-center gap-2">
+                <i className="fas fa-calendar-plus text-success"></i> <strong>Created:</strong> {user?.creationDate && new Date(user.creationDate).toLocaleString()}
+              </div>
+              <div className="list-group-item d-flex align-items-center gap-2">
+                <i className="fas fa-calendar-check text-success"></i> <strong>Updated:</strong> {user?.modificationDate && new Date(user.modificationDate).toLocaleString()}
+              </div>
+            </div>
+          </Modal.Body>
+        )}
+        <Modal.Footer>
+          <Button variant="secondary" onClick={handleCloseDetails}>Close</Button>
+        </Modal.Footer>
+      </Modal>
     </>
   );
 }
