@@ -2,7 +2,7 @@
 
 function TasksList() {
   return (
-    <div>TasksList</div>
+    <div className="font-mont-gen bold m-5">TasksList</div>
   )
 }
 

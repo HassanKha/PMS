@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faExclamationTriangle,
@@ -11,12 +11,12 @@ import { ActionDropdown } from "./components/ActionDropdown";
 import "./../../styles/Projects.css";
 import type { Project } from "../../interfaces/Project";
 import Header from "../../shared/Header";
-import { toast } from "react-toastify";
 import { axiosInstance, PROJECTS_URLS } from "../../services/Urls";
 import { ProjectModal } from "./components/ProjectModal";
 import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
-import { AuthContext } from "../../contexts/AuthContext";
+import { useProjectContext } from "../../contexts/ProjectContext";
+import NoData from "../../shared/NoData";
 
 type SortField = keyof Project;
 type SortDirection = "asc" | "desc" | null;
@@ -27,61 +27,24 @@ function ProjectList() {
   const [searchTerm, setSearchTerm] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(5);
-  const [totalResults, setTotalResults] = useState(null);
-  const [Projects, setProjects] = useState<Project[]>([]);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-  const [pages, setPages] = useState<number[]>([]);
-  const [modalOpen, setModalOpen] = useState(false)
-  const [selectedProjectId, setSelectedProjectId] = useState<number | null>(null)
-  const auth = useContext(AuthContext);
-let navigate=useNavigate()
+  const {
+    projects: Projects,
+    totalResults,
+    pages,
+    loading,
+    error,
+    fetchProjects,
+  } = useProjectContext();
+  const [modalOpen, setModalOpen] = useState(false);
+  const [selectedProjectId, setSelectedProjectId] = useState<number | null>(
+    null
+  );
+
+  let navigate = useNavigate();
+
   useEffect(() => {
-    getAllProjects(5, 1, "");
+    fetchProjects(5, 1, "");
   }, []);
-
-  const getAllProjects = async (
-    pageSize: number,
-    pageNumber: number,
-    title: string
-  ) => {
-    try {
-      setLoading(true);
-      setError(null);
-
-      let response = await axiosInstance.get(
-        PROJECTS_URLS.GET_PROJECTS(auth?.LoginData?.roles?.[0] ?? ""),
-        {
-          params: { pageSize, pageNumber, title },
-        }
-      );
-
-      const data = response.data.data;
-
-      const enhanced = data.map((proj: Project) => ({
-        ...proj, // existing properties: id, title, etc.
-        numTasks: proj.task.length, // count of tasks
-        tasksCount: proj.task, // actual task array (or rename/drop proj.task)
-      }));
-
-      setProjects(enhanced);
-      setPages(
-        Array(response.data.totalNumberOfPages)
-          .fill(0)
-          .map((_, idx) => idx + 1)
-      );
-      setItemsPerPage(response.data.pageSize);
-      setTotalResults(response.data.totalNumberOfRecords);
-      setCurrentPage(pageNumber);
-      setLoading(false);
-    } catch (error: any) {
-      console.log(error);
-      toast.error(error.response?.data?.message || "Something went wrong");
-      setError(error.response?.data?.message || "Something went wrong");
-    } finally {
-      setLoading(false);
-    }
-  };
 
   const handleSort = (field: SortField) => {
     if (sortField === field) {
@@ -89,8 +52,8 @@ let navigate=useNavigate()
         sortDirection === "asc"
           ? "desc"
           : sortDirection === "desc"
-            ? null
-            : "asc"
+          ? null
+          : "asc"
       );
       if (sortDirection === "desc") setSortField(null);
     } else {
@@ -99,23 +62,19 @@ let navigate=useNavigate()
     }
   };
 
-
   const handleView = (id: number) => {
-    setSelectedProjectId(id)
-    setModalOpen(true)
-  }
-
- 
+    setSelectedProjectId(id);
+    setModalOpen(true);
+  };
 
   //Delete Project
   const handleDelete = async (id: number, title: string) => {
-    // setNameProject(title)
     const swalWithBootstrapButtons = Swal.mixin({
       customClass: {
         confirmButton: "btn btn-danger mx-3",
-        cancelButton: "btn btn-secondary"
+        cancelButton: "btn btn-secondary",
       },
-      buttonsStyling: false
+      buttonsStyling: false,
     });
 
     const result = await swalWithBootstrapButtons.fire({
@@ -125,40 +84,37 @@ let navigate=useNavigate()
       showCancelButton: true,
       confirmButtonText: "Delete",
       cancelButtonText: "Cancel",
-      reverseButtons: true
+      reverseButtons: true,
     });
 
     if (result.isConfirmed) {
       try {
         await axiosInstance.delete(PROJECTS_URLS.DELETE_PROJECT(id));
 
-        getAllProjects(itemsPerPage, currentPage, searchTerm);
+        fetchProjects(itemsPerPage, currentPage, searchTerm);
 
         swalWithBootstrapButtons.fire({
           title: "Deleted!",
           text: `The project ${title} has been deleted successfully.`,
           icon: "success",
           timer: 2000,
-          showConfirmButton: false
+          showConfirmButton: false,
         });
       } catch (error: any) {
         swalWithBootstrapButtons.fire({
           title: "Error!",
-          text: error.response?.data?.message || "Failed to delete the project.",
-          icon: "error"
+          text:
+            error.response?.data?.message || "Failed to delete the project.",
+          icon: "error",
         });
       }
     }
-
   };
 
-
-
-
   const handleCloseModal = () => {
-    setModalOpen(false)
-    setSelectedProjectId(null)
-  }
+    setModalOpen(false);
+    setSelectedProjectId(null);
+  };
   const filtered = Projects.filter((p) =>
     p.title.toLowerCase().includes(searchTerm.toLowerCase())
   );
@@ -186,20 +142,22 @@ let navigate=useNavigate()
     setSearchTerm(value);
     setCurrentPage(1);
     setItemsPerPage(5);
-    getAllProjects(5, 1, value);
+    fetchProjects(5, 1, value);
   };
 
   useEffect(() => {
     setCurrentPage(1);
     setItemsPerPage(5);
-    getAllProjects(itemsPerPage, 1, searchTerm);
+    fetchProjects(itemsPerPage, 1, searchTerm);
   }, [searchTerm]);
 
   const getProjectById = (id: number): Project | undefined => {
-    return currentProjects.find((project) => project.id === id)
-  }
+    return currentProjects.find((project) => project.id === id);
+  };
 
-  const selectedProject = selectedProjectId ? getProjectById(selectedProjectId) : null
+  const selectedProject = selectedProjectId
+    ? getProjectById(selectedProjectId)
+    : null;
 
   return (
     <div
@@ -229,7 +187,7 @@ let navigate=useNavigate()
             onChange={(e) => handleSearch(e.target.value)}
             style={{
               borderRadius: "8px",
-              
+
               border: "1px solid #dee2e6",
               height: "45px",
             }}
@@ -267,7 +225,7 @@ let navigate=useNavigate()
           <p className="text-muted mb-4">{error}</p>
           <button
             className="btn d-inline-flex align-items-center px-4 py-2"
-            onClick={() => getAllProjects(10, 1, "")}
+            onClick={() => fetchProjects(10, 1, "")}
             style={{
               backgroundColor: "#5a8a7a",
               borderColor: "#5a8a7a",
@@ -337,65 +295,81 @@ let navigate=useNavigate()
                   ></th>
                 </tr>
               </thead>
-              <tbody>
-                {currentProjects.map((project, index) => (
-                  <tr
-                    key={project.id}
-                    className="table-row-hover"
-                    style={{
-                      backgroundColor: index % 2 === 0 ? "#ffffff" : "#f8f9fa",
-                    }}
-                  >
-                    <td className="px-4 py-3 text-dark">{project.title}</td>
-                    <td className="px-1 py-4">
-                      <span
-                        className="badge px-2 py-1 text-white table-header-wrap"
-                        style={{
-                          backgroundColor: "#5a8a7a",
-                          borderRadius: "20px",
-                          fontSize: "12px",
-                          maxWidth: "150px", // adjust as needed
-                          whiteSpace: "normal",
-                          wordWrap: "break-word",
-                          display: "inline-block",
-                          overflow: "hidden",
-                          textOverflow: "ellipsis",
-                        }}
-                      >
-                        {project.description.length > 25
-                          ? `${project.description.slice(0, 25)}...`
-                          : project.description}
-                      </span>
-                    </td>
-                    <td className="px-4 py-3 text-dark d-none d-md-table-cell">
-                      <span
-                        className="badge px-2 py-1"
-                        style={{
-                          backgroundColor: project.task.length > 0 ? "#5a8a7a" : "#6c757d",
-                          color: "white",
-                          borderRadius: "12px",
-                          fontSize: "11px",
-                        }}
-                      >
-                        {project.numTasks} tasks
-                      </span>
-                    </td>
-                    <td className="px-4 py-3 text-dark d-none d-lg-table-cell">
-                      {project.creationDate.slice(0, 10)}
-
-
-                    </td>
-                    <td className="px-lg-4 px-1 py-3">
-                      <ActionDropdown
-                        projectId={project.id}
-                        onView={handleView}
-                        onEdit={() => navigate(`/dashboard/project-data`, { state: project })}
-                        onDelete={() => handleDelete(project.id, project.title)}
-                      />
+              {currentProjects.length > 0 ? (
+                <tbody>
+                  {currentProjects.map((project, index) => (
+                    <tr
+                      key={project.id}
+                      className="table-row-hover"
+                      style={{
+                        backgroundColor:
+                          index % 2 === 0 ? "#ffffff" : "#f8f9fa",
+                      }}
+                    >
+                      <td className="px-4 py-3 text-dark">{project.title}</td>
+                      <td className="px-1 py-4">
+                        <span
+                          className="badge px-2 py-1 text-white table-header-wrap"
+                          style={{
+                            backgroundColor: "#5a8a7a",
+                            borderRadius: "20px",
+                            fontSize: "12px",
+                            maxWidth: "150px", // adjust as needed
+                            whiteSpace: "normal",
+                            wordWrap: "break-word",
+                            display: "inline-block",
+                            overflow: "hidden",
+                            textOverflow: "ellipsis",
+                          }}
+                        >
+                          {project.description.length > 25
+                            ? `${project.description.slice(0, 25)}...`
+                            : project.description}
+                        </span>
+                      </td>
+                      <td className="px-4 py-3 text-dark d-none d-md-table-cell">
+                        <span
+                          className="badge px-2 py-1"
+                          style={{
+                            backgroundColor:
+                              project.task.length > 0 ? "#5a8a7a" : "#6c757d",
+                            color: "white",
+                            borderRadius: "12px",
+                            fontSize: "11px",
+                          }}
+                        >
+                          {project.numTasks} tasks
+                        </span>
+                      </td>
+                      <td className="px-4 py-3 text-dark d-none d-lg-table-cell">
+                        {project.creationDate.slice(0, 10)}
+                      </td>
+                      <td className="px-lg-4 px-1 py-3">
+                        <ActionDropdown
+                          projectId={project.id}
+                          onView={handleView}
+                          onEdit={() =>
+                            navigate(`/dashboard/project-data`, {
+                              state: project,
+                            })
+                          }
+                          onDelete={() =>
+                            handleDelete(project.id, project.title)
+                          }
+                        />
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              ) : (
+                <tbody>
+                  <tr>
+                    <td colSpan={6} className="text-center py-4">
+                      <NoData />
                     </td>
                   </tr>
-                ))}
-              </tbody>
+                </tbody>
+              )}
             </table>
           </div>
 
@@ -409,7 +383,7 @@ let navigate=useNavigate()
                 onChange={(e) => {
                   const newPageSize = Number(e.target.value);
                   setItemsPerPage(newPageSize);
-                  getAllProjects(newPageSize, 1, searchTerm);
+                  fetchProjects(newPageSize, 1, searchTerm);
                 }}
               >
                 <option value={5}>5</option>
@@ -430,7 +404,8 @@ let navigate=useNavigate()
                   className="btn btn-outline-secondary btn-sm me-1"
                   onClick={() => {
                     const prev = currentPage - 1;
-                    if (prev >= 1) getAllProjects(itemsPerPage, prev, searchTerm);
+                    if (prev >= 1)
+                      fetchProjects(itemsPerPage, prev, searchTerm);
                   }}
                   disabled={currentPage === 1}
                 >
@@ -442,7 +417,7 @@ let navigate=useNavigate()
                   onClick={() => {
                     const next = currentPage + 1;
                     if (next <= pages.length)
-                      getAllProjects(itemsPerPage, next, searchTerm);
+                      fetchProjects(itemsPerPage, next, searchTerm);
                   }}
                   disabled={currentPage === pages.length}
                 >
@@ -454,9 +429,12 @@ let navigate=useNavigate()
         </div>
       )}
 
-
       {/* Project Modal */}
-      <ProjectModal isOpen={modalOpen} onClose={handleCloseModal} project={selectedProject} />
+      <ProjectModal
+        isOpen={modalOpen}
+        onClose={handleCloseModal}
+        project={selectedProject}
+      />
     </div>
   );
 }

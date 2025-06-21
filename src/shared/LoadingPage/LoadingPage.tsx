@@ -1,5 +1,5 @@
 
-import "./LogoLoader.css"
+import "./../../styles/LogoLoader.css"
 import logo from "../../assets/loading.png";
 export default function LoadingPage() {
   return (

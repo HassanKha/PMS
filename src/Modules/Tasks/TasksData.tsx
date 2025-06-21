@@ -2,7 +2,7 @@
 
 function TasksData() {
   return (
-    <div>TasksData</div>
+    <div className="font-mont-gen bold m-5">TasksData</div>
   )
 }
 
