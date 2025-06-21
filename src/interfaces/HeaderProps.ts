@@ -1,5 +1,4 @@
 export interface HeaderProps {
-  Title: string;
-  BtnTitle: string;
-  onBtnClick?: () => void;
+  Title: string | null;
+  BtnTitle: string | null;
 }

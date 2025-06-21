@@ -1,6 +1,7 @@
 import React, { useContext, useEffect } from "react";
 import { Navigate, Outlet, useLocation } from "react-router-dom";
 import { AuthContext } from "../contexts/AuthContext";
+import LoadingPage from "./LoadingPage/LoadingPage";
 
 interface ProtectedRouteProps {
   children?: React.ReactNode;
@@ -22,7 +23,7 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children }) => {
   if (auth?.loading || !auth?.LoginData ) {
    
     
-    return null;
+    return <LoadingPage />;
   }
 
   if (!auth?.LoginData && !auth?.loading ) {

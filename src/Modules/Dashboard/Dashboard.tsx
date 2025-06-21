@@ -110,7 +110,7 @@ const getAllTasks = async () => {
         {/* Content */}
         <div className="position-relative" style={{ zIndex: 2 }}>
           <h1 className="text-white mb-3" style={{ fontSize: "clamp(2rem, 5vw, 3.5rem)", fontWeight: "300" }}>
-            Welcome <span style={{ color: "#ed8936", fontWeight: "400" }}>Upskilling</span>
+            Welcome <span style={{ color: "#ed8936", fontWeight: "400" }}>{auth?.LoginData?.userName}</span>
           </h1>
           <p className="text-white mb-0" style={{ fontSize: "clamp(1rem, 2.5vw, 1.5rem)", opacity: 0.9 }}>
             You can add project and assign tasks to your team

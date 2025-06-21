@@ -10,6 +10,7 @@ import { toast } from 'react-toastify';
 import defaultImage from "../../assets/user-profile-icon-vector-avatar-600nw-2247726673.webp";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSort, faEllipsisV } from '@fortawesome/free-solid-svg-icons';
+import Header from '../../shared/Header';
 
 export default function Users() {
   const [loading, setLoading] = useState(false);
@@ -25,6 +26,9 @@ export default function Users() {
   const [userId, setUserId] = useState<number>(0);
   const [users, setUsers] = useState<Logged_in_Users[]>([]);
   const [isLoading, setIsLoading] = useState(false);
+const [sortColumn, setSortColumn] = useState<keyof Logged_in_Users | "">("");
+const [sortDirection, setSortDirection] = useState<"asc" | "desc">("asc");
+
 
   const handleCloseDeactivate = () => setShowDeactivate(false);
   const handleCloseActivate = () => setShowActivate(false);
@@ -106,17 +110,38 @@ export default function Users() {
     GetAllLoggedUsers(newPageSize, 1, searchTerm);
   };
 
+  const handleSort = (column: keyof Logged_in_Users) => {
+  const newDirection = sortColumn === column && sortDirection === "asc" ? "desc" : "asc";
+  setSortColumn(column);
+  setSortDirection(newDirection);
+  
+  const sortedUsers = [...users].sort((a, b) => {
+    const aValue = a[column] ?? "";
+    const bValue = b[column] ?? "";
+
+    if (typeof aValue === "string" && typeof bValue === "string") {
+      return newDirection === "asc"
+        ? aValue.localeCompare(bValue)
+        : bValue.localeCompare(aValue);
+    }
+
+    return newDirection === "asc"
+      ? String(aValue).localeCompare(String(bValue))
+      : String(bValue).localeCompare(String(aValue));
+  });
+
+  setUsers(sortedUsers);
+};
+
   useEffect(() => {
     GetAllLoggedUsers(itemsPerPage, 1, '');
   }, []);
 
   return (
     <>
-      <div className="bg-light p-3">
-        <h2 className="fw-bold">Users</h2>
-      </div>
+      <Header Title='Users' BtnTitle={null} />
 
-      <div className="bg-white p-3 mt-3">
+      <div className="bg-white p-3 mt-2">
         <div className="p-2 d-flex gap-2">
           <div className="position-relative w-25">
             <i className="fas fa-search position-absolute top-50 start-0 translate-middle-y ms-3 text-secondary"></i>
@@ -126,12 +151,13 @@ export default function Users() {
               className="form-control rounded-pill ps-5"
               placeholder="Search Users"
               value={searchTerm}
+                 style={{
+              borderRadius: "8px",
+              border: "1px solid #dee2e6",
+              height: "45px",
+            }}
             />
           </div>
-          <button className="btn btn-outline-secondary rounded-pill d-flex align-items-center px-3">
-            <i className="fas fa-filter me-2"></i>
-            Filter
-          </button>
         </div>
 
         {isLoading ? (
@@ -139,15 +165,15 @@ export default function Users() {
             <Loader />
           </div>
         ) : (
-          <div className="table-responsive shadow-lg rounded-2">
+          <div className="table-responsive shadow-lg mt-3 rounded-2">
             <table className="table table-hover mb-0">
               <thead style={{ backgroundColor: "#5a8a7a" }}>
                 <tr>
-                  <th className="text-white px-4 py-3">User Name <FontAwesomeIcon icon={faSort} size="sm" /></th>
-                  <th className="text-white px-4 py-3">Status <FontAwesomeIcon icon={faSort} size="sm" /></th>
-                  <th className="text-white px-4 py-3 d-none d-md-table-cell">Phone Number <FontAwesomeIcon icon={faSort} size="sm" /></th>
-                  <th className="text-white px-4 py-3 d-none d-lg-table-cell">Email <FontAwesomeIcon icon={faSort} size="sm" /></th>
-                  <th className="text-white px-4 py-3 d-none d-lg-table-cell">Date Created <FontAwesomeIcon icon={faSort} size="sm" /></th>
+                  <th className="text-white px-4 py-3">User Name <FontAwesomeIcon  onClick={() => handleSort("userName")} icon={faSort} size="sm" /></th>
+                  <th className="text-white px-4 py-3">Status <FontAwesomeIcon icon={faSort} size="sm"  onClick={() => handleSort("isActivated")} /></th>
+                  <th className="text-white px-4 py-3 d-none d-md-table-cell">Phone Number <FontAwesomeIcon icon={faSort} size="sm" onClick={() => handleSort("phoneNumber")} /></th>
+                  <th className="text-white px-4 py-3 d-none d-lg-table-cell">Email <FontAwesomeIcon icon={faSort} size="sm" onClick={() => handleSort("email")} /></th>
+                  <th className="text-white px-4 py-3 d-none d-lg-table-cell">Date Created <FontAwesomeIcon icon={faSort} size="sm" onClick={() => handleSort("creationDate")} /></th>
                   <th className="text-white px-4 py-3"></th>
                 </tr>
               </thead>

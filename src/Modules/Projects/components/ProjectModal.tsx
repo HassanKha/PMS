@@ -13,6 +13,7 @@ import {
   faClock,
 } from "@fortawesome/free-solid-svg-icons"
 import type { Project } from "../../../interfaces/Project"
+import { useNavigate } from "react-router-dom"
 
 
 
@@ -24,6 +25,7 @@ interface ProjectModalProps {
 
 export function ProjectModal({ isOpen, onClose, project }: ProjectModalProps) {
   const [isVisible, setIsVisible] = useState(false)
+const navigate = useNavigate();
 
   useEffect(() => {
     if (isOpen) {
@@ -343,6 +345,7 @@ export function ProjectModal({ isOpen, onClose, project }: ProjectModalProps) {
                     borderColor: "#5a8a7a",
                     color: "white",
                   }}
+                  onClick={() => navigate(`/dashboard/project-data`, { state: project })}
                 >
                   <FontAwesomeIcon icon={faEdit} className="me-2" />
                   Edit Project

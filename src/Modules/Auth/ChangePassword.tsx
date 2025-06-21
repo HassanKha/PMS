@@ -11,7 +11,7 @@ import "../../styles/ChangePass.css";
 import { toast } from 'react-toastify';
 import { Button } from 'react-bootstrap';
 import type { FormData } from '../../interfaces/FormData';
-import LoadingPage from './../../shared/LoadingPage/LoadingPage';
+import LoadingPage from '../../shared/LoadingPage/LoadingPage';
 
 
 function ChangePassword() {

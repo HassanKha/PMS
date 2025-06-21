@@ -223,12 +223,13 @@ let navigate=useNavigate()
           />
           <input
             type="text"
-            className="form-control ps-5"
+            className="form-control rounded-pill ps-5"
             placeholder="Search By Title"
             value={searchTerm}
             onChange={(e) => handleSearch(e.target.value)}
             style={{
               borderRadius: "8px",
+              
               border: "1px solid #dee2e6",
               height: "45px",
             }}
