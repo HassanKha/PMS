@@ -17,3 +17,13 @@ export interface User {
   creationDate: string;
   modificationDate: string;
 }
+
+export interface UserPrfoile {
+ 
+  userName: string;
+  email: string;
+  country: string;
+  phoneNumber: string;
+  imagePath: string | null;
+  confirmPassword:string
+}
