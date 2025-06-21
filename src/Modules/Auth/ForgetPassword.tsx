@@ -45,11 +45,11 @@ function ForgetPassword() {
       let response = await axiosInstance.post(USERS_URLS.RESET_PASS, data)
       console.log(response.data.message);
       toast.success(response.data.message || "password updated successfully");
-      setbtnloading(false);
       navigate("/login")
     } catch (error: any) {
       toast.error(error.response.data.message || "Something went wrong. Please try again.");
-      console.log(error);
+    }
+    finally {
       setbtnloading(false);
     }
   }

@@ -36,14 +36,13 @@ function ChangePassword() {
     setIsLoading(true);
     try {
       let response = await axiosInstance.put(USERS_URLS.CHANGE_PASS, data);
-      console.log(response);
-      toast.success("Password Changed Successfully");
-      setIsLoading(false);
+      toast.success(response.data.message||"Password Changed Successfully");
       navigate("/dashboard");
     } catch (error) {
-      console.log(error);
+     toast.error("Failed to change password");
+    }
+    finally {
       setIsLoading(false);
-      toast.error("Failed to change password");
     }
   };
 

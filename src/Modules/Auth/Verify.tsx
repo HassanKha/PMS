@@ -30,12 +30,9 @@ function Verify() {
 
   const onSubmit = async (data: FormDataVerify) => {
     setbtnloading(true)
-    console.log(data);
     try {
       await axiosInstance.put(USERS_URLS.Verify, data);
-
       toast.success("OTP Verified Successfully!");
-      setbtnloading(false)
       navigate("/login");
     } catch (error: any) {
       const errors = error?.response?.data?.additionalInfo?.errors;
@@ -49,6 +46,8 @@ function Verify() {
       } else {
         toast.error("OTP is not correct");
       }
+
+    } finally {
       setbtnloading(false)
     }
   };
