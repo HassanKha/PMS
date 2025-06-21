@@ -10,31 +10,21 @@ import { toast } from 'react-toastify';
 import defaultImage from "../../assets/user-profile-icon-vector-avatar-600nw-2247726673.webp";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSort, faEllipsisV } from '@fortawesome/free-solid-svg-icons';
-import Header from '../../shared/Header';
-import { useUsersContext } from '../../contexts/UsersContext';
 
 export default function Users() {
   const [loading, setLoading] = useState(false);
   const [showDetails, setShowDetails] = useState(false);
   const [user, setUser] = useState<Logged_in_Users>();
   const [searchTerm, setSearchTerm] = useState<string>('');
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage, setItemsPerPage] = useState(5);
+  const [totalResults, setTotalResults] = useState<number | null>(null);
+  const [pages, setPages] = useState<number[]>([]);
   const [showDeactivate, setShowDeactivate] = useState(false);
   const [showActivate, setShowActivate] = useState(false);
   const [userId, setUserId] = useState<number>(0);
-
-
-const [sortColumn, setSortColumn] = useState<keyof Logged_in_Users | "">("");
-const [sortDirection, setSortDirection] = useState<"asc" | "desc">("asc");
-const {
-  users,
-        isLoading,
-        currentPage,
-        pages,
-        totalResults,
-        getAllUsers,
-        setPageSize,
-        itemsPerPage
-  } = useUsersContext();
+  const [users, setUsers] = useState<Logged_in_Users[]>([]);
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleCloseDeactivate = () => setShowDeactivate(false);
   const handleCloseActivate = () => setShowActivate(false);
@@ -55,6 +45,24 @@ const {
     getSpecificUser(id);
   };
 
+  const GetAllLoggedUsers = async (pageSize: number, pageNumber: number, userName: string) => {
+    try {
+      setIsLoading(true);
+      const response = await axiosInstance.get(USERS_URLS.GET_LOGGED_IN_USERS, {
+        params: { pageSize, pageNumber, userName },
+      });
+      setUsers(response?.data?.data || []);
+      setPages(Array(response.data.totalNumberOfPages).fill(0).map((_, idx) => idx + 1));
+      setItemsPerPage(response.data.pageSize);
+      setTotalResults(response.data.totalNumberOfRecords);
+      setCurrentPage(pageNumber);
+      setIsLoading(false);
+    } catch (error) {
+      console.error(error);
+      setIsLoading(false);
+    }
+  };
+
   const getSpecificUser = async (id: number) => {
     try {
       setLoading(true);
@@ -70,7 +78,7 @@ const {
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
     setSearchTerm(value);
-    getAllUsers(itemsPerPage, 1, value);
+    GetAllLoggedUsers(itemsPerPage, 1, value);
   };
 
   const toggleActivatedEmployee = async () => {
@@ -78,7 +86,7 @@ const {
       setLoading(true);
       await axiosInstance.put(USERS_URLS.TOGGLE_ACTIVATED_EMPLOYEE(userId));
       toast.success(showActivate ? 'You have Activated this user successfully' : 'You have Blocked this user successfully');
-       getAllUsers(itemsPerPage, currentPage, searchTerm);
+       GetAllLoggedUsers(itemsPerPage, currentPage, searchTerm);
       handleCloseActivate();
       handleCloseDeactivate();
       setLoading(false);
@@ -89,33 +97,26 @@ const {
   };
 
   const handlePagination = (pageNumber: number) => {
-    getAllUsers(itemsPerPage, pageNumber, searchTerm);
+    GetAllLoggedUsers(itemsPerPage, pageNumber, searchTerm);
   };
 
   const handlePageSizeChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const newPageSize = Number(e.target.value);
-    setPageSize(newPageSize);
-    getAllUsers(newPageSize, 1, searchTerm);
+    setItemsPerPage(newPageSize);
+    GetAllLoggedUsers(newPageSize, 1, searchTerm);
   };
-const handleSort = (column: keyof Logged_in_Users) => {
-  const newDirection = sortColumn === column && sortDirection === "asc" ? "desc" : "asc";
-  setSortColumn(column);
-  setSortDirection(newDirection);
-
-  // If you want to sort and display, you should update the users in context or manage a local sortedUsers state.
-  // Here, we'll just call getAllUsers again with the new sort (if your API supports it), or you can implement local sorting state.
-  // For now, removing setUser(sortedUsers) to fix the error:
-};
 
   useEffect(() => {
-    getAllUsers(itemsPerPage, 1, '');
+    GetAllLoggedUsers(itemsPerPage, 1, '');
   }, []);
 
   return (
     <>
-      <Header Title='Users' BtnTitle={null} />
+      <div className="bg-light p-3">
+        <h2 className="fw-bold">Users</h2>
+      </div>
 
-      <div className="bg-white p-3 mt-2">
+      <div className="bg-white p-3 mt-3">
         <div className="p-2 d-flex gap-2">
           <div className="position-relative w-25">
             <i className="fas fa-search position-absolute top-50 start-0 translate-middle-y ms-3 text-secondary"></i>
@@ -125,13 +126,12 @@ const handleSort = (column: keyof Logged_in_Users) => {
               className="form-control rounded-pill ps-5"
               placeholder="Search Users"
               value={searchTerm}
-                 style={{
-              borderRadius: "8px",
-              border: "1px solid #dee2e6",
-              height: "45px",
-            }}
             />
           </div>
+          <button className="btn btn-outline-secondary rounded-pill d-flex align-items-center px-3">
+            <i className="fas fa-filter me-2"></i>
+            Filter
+          </button>
         </div>
 
         {isLoading ? (
@@ -139,15 +139,15 @@ const handleSort = (column: keyof Logged_in_Users) => {
             <Loader />
           </div>
         ) : (
-          <div className="table-responsive shadow-lg mt-3 rounded-2">
+          <div className="table-responsive shadow-lg rounded-2">
             <table className="table table-hover mb-0">
               <thead style={{ backgroundColor: "#5a8a7a" }}>
                 <tr>
-                  <th className="text-white px-4 py-3">User Name <FontAwesomeIcon  onClick={() => handleSort("userName")} icon={faSort} size="sm" /></th>
-                  <th className="text-white px-4 py-3">Status <FontAwesomeIcon icon={faSort} size="sm"  onClick={() => handleSort("isActivated")} /></th>
-                  <th className="text-white px-4 py-3 d-none d-md-table-cell">Phone Number <FontAwesomeIcon icon={faSort} size="sm" onClick={() => handleSort("phoneNumber")} /></th>
-                  <th className="text-white px-4 py-3 d-none d-lg-table-cell">Email <FontAwesomeIcon icon={faSort} size="sm" onClick={() => handleSort("email")} /></th>
-                  <th className="text-white px-4 py-3 d-none d-lg-table-cell">Date Created <FontAwesomeIcon icon={faSort} size="sm" onClick={() => handleSort("creationDate")} /></th>
+                  <th className="text-white px-4 py-3">User Name <FontAwesomeIcon icon={faSort} size="sm" /></th>
+                  <th className="text-white px-4 py-3">Status <FontAwesomeIcon icon={faSort} size="sm" /></th>
+                  <th className="text-white px-4 py-3 d-none d-md-table-cell">Phone Number <FontAwesomeIcon icon={faSort} size="sm" /></th>
+                  <th className="text-white px-4 py-3 d-none d-lg-table-cell">Email <FontAwesomeIcon icon={faSort} size="sm" /></th>
+                  <th className="text-white px-4 py-3 d-none d-lg-table-cell">Date Created <FontAwesomeIcon icon={faSort} size="sm" /></th>
                   <th className="text-white px-4 py-3"></th>
                 </tr>
               </thead>
