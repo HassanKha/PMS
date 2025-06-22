@@ -171,7 +171,7 @@ export default function Users() {
       <div className='Users'>
             <Header Title="Users" BtnTitle="" />
              <div className="bg-white p-3 mt-3">
-        <div className="p-2 d-flex gap-2">
+        <div className="p-2 d-flex mb-4 gap-2">
           <div className="position-relative w-25">
             <FontAwesomeIcon icon={faSearch} className="text-secondary position-absolute top-50 start-0 translate-middle-y ms-3" />
             <input

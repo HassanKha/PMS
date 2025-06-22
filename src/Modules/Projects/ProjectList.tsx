@@ -186,7 +186,7 @@ function ProjectList() {
               borderRadius: "8px",
 
               border: "1px solid #dee2e6",
-              height: "45px",
+          
             }}
           />
         </div>

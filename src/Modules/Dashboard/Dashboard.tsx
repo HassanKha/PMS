@@ -48,6 +48,8 @@ export default function Dashboard() {
     }
   };
 
+  console.log(auth?.LoginData?.roles)
+
   return (
     <div
       className="p-4"
