@@ -52,8 +52,8 @@ function ProjectList() {
         sortDirection === "asc"
           ? "desc"
           : sortDirection === "desc"
-          ? null
-          : "asc"
+            ? null
+            : "asc"
       );
       if (sortDirection === "desc") setSortField(null);
     } else {
@@ -67,7 +67,6 @@ function ProjectList() {
     setModalOpen(true);
   };
 
-  //Delete Project
   const handleDelete = async (id: number, title: string) => {
     const swalWithBootstrapButtons = Swal.mixin({
       customClass: {
@@ -164,9 +163,7 @@ function ProjectList() {
       className="px-4 pt-1 pb-2"
       style={{ backgroundColor: "#f8f9fa", minHeight: "calc(100vh - 70px)" }}
     >
-      {/* Page Header */}
       <Header Title={"Projects"} BtnTitle={"Add New Project"} />
-      {/* Search Bar */}
       <div className="mb-4">
         <div className="position-relative" style={{ maxWidth: "400px" }}>
           <FontAwesomeIcon
@@ -195,14 +192,13 @@ function ProjectList() {
         </div>
       </div>
 
-      {/* Loading State */}
+     
       {loading && (
-         <div className="d-flex justify-content-center align-items-center loader">
-                <Loader name='Projects'/>
-          </div>
+        <div className="d-flex justify-content-center align-items-center loader">
+          <Loader name='Projects' />
+        </div>
       )}
 
-      {/* Error State */}
       {error && (
         <div className="bg-white rounded shadow-sm p-5 text-center">
           <FontAwesomeIcon
@@ -228,7 +224,6 @@ function ProjectList() {
           </button>
         </div>
       )}
-      {/* Projects Table */}
       {!loading && !error && (
         <div className="bg-white  rounded shadow-sm">
           <div className="table-responsive rounded-2">
@@ -304,7 +299,7 @@ function ProjectList() {
                             backgroundColor: "#5a8a7a",
                             borderRadius: "20px",
                             fontSize: "12px",
-                            maxWidth: "150px", // adjust as needed
+                            maxWidth: "150px",
                             whiteSpace: "normal",
                             wordWrap: "break-word",
                             display: "inline-block",
@@ -419,7 +414,6 @@ function ProjectList() {
         </div>
       )}
 
-      {/* Project Modal */}
       <ProjectModal
         isOpen={modalOpen}
         onClose={handleCloseModal}

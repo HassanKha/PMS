@@ -9,10 +9,6 @@ import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate } from 'react-router-dom';
 import type { ForgetPasswordForm } from '../../interfaces/ForgetPasswordForm';
 import LoadingPage from '../../shared/LoadingPage/LoadingPage';
-
-
-
-
 function ForgetPassword() {
   let [userEmail, setUserEmail] = useState('')
   const [showPassword, setShowPassword] = useState(false);
@@ -24,18 +20,16 @@ function ForgetPassword() {
   const password = watch("password");
 
   async function handelForgetPassword(data: any) {
-
     setbtnloading(true);
-
     try {
       let response = await axiosInstance.post(USERS_URLS.FORGET_PASS, data)
-
       toast.success(response.data.message || "success,please check your email");
-      setbtnloading(false);
       setDisplayForm(false)
       setUserEmail(data.email);
     } catch (error: any) {
       toast.error(error.response.data.message || "Something went wrong. Please try again.");
+    }
+    finally {
       setbtnloading(false);
     }
   }
@@ -43,7 +37,6 @@ function ForgetPassword() {
     setbtnloading(true);
     try {
       let response = await axiosInstance.post(USERS_URLS.RESET_PASS, data)
-      console.log(response.data.message);
       toast.success(response.data.message || "password updated successfully");
       navigate("/login")
     } catch (error: any) {
@@ -66,21 +59,21 @@ function ForgetPassword() {
         <div className="ForgetPassword" >
           <div className="container-fluid overlay">
             <div className="row min-vh-100 justify-content-center align-items-center">
-              <div className="col-12 col-md-6 rounded-3 py-5 ">
+              <div className="col-12 col-md-5 rounded-3 py-5 ">
                 <div>
-                  {/* /logoimg/ */}
+                
                   <div className="log_img_forget text-center ">
                     <img src={logoForGet} className='w-100' alt="food-logo" />
                   </div>
                   <div className="form_forget">
-                    {/* /title/ */}
+                 
                     <div className="title_forget">
                       <p >welcome to PMS</p>
                       <h2><span>F</span>orget Password</h2>
                     </div>
-                    {/* /form/ */}
+                  
                     <form onSubmit={handleSubmit(handelForgetPassword)} >
-                      {/* /email/ */}
+                     
                       <div className="input-group mt-3">
                         <p style={{
                           color: '#EF9B28',
@@ -118,19 +111,19 @@ function ForgetPassword() {
             <div className="row justify-content-center min-vh-100  ">
               <div className="col-12 col-md-6 rounded-3 py-5 ">
                 <div>
-                  {/* /logoimg/ */}
+                 
                   <div className="log_img_forget text-center ">
                     <img src={logoForGet} className='w-100' alt="pms-logo" />
                   </div>
                   <div className="form_rest">
-                    {/* /title/ */}
+                  
                     <div className="title_rest">
                       <p >welcome to PMS</p>
                       <h2><span>R</span>eset  Password</h2>
                     </div>
-                    {/* /form/ */}
+                  
                     <form onSubmit={handleSubmit(updatePassword)} >
-                      {/* /email/ */}
+                    
                       <div className="input-group mt-3">
                         <p style={{
                           color: '#EF9B28',
@@ -155,7 +148,7 @@ function ForgetPassword() {
                           readOnly
                         />
                       </div>
-                      {/* /otp/ */}
+                     
                       <div className="input-group mt-3">
                         <p style={{
                           color: '#EF9B28',
@@ -180,7 +173,7 @@ function ForgetPassword() {
                         />
                       </div>
 
-                      {/* password */}
+                
                       <div className="input-group mt-3">
                         <p style={{
                           color: '#EF9B28',
@@ -241,10 +234,7 @@ function ForgetPassword() {
                           </div>
                         )}
                       </div>
-
-
-
-                      {/* confirmPassword */}
+                     
                       <div className="input-group mt-3">
                         <p style={{
                           color: '#EF9B28',

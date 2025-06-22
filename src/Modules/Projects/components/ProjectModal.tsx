@@ -13,7 +13,7 @@ import {
   faClock,
 } from "@fortawesome/free-solid-svg-icons"
 import type { Project } from "../../../interfaces/Project"
-import { useNavigate } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 
 
 
@@ -25,8 +25,6 @@ interface ProjectModalProps {
 
 export function ProjectModal({ isOpen, onClose, project }: ProjectModalProps) {
   const [isVisible, setIsVisible] = useState(false)
-const navigate = useNavigate();
-
   useEffect(() => {
     if (isOpen) {
       setIsVisible(true)
@@ -82,7 +80,7 @@ const navigate = useNavigate();
 
   return (
     <>
-      {/* Backdrop */}
+
       <div
         className={`modal-backdrop ${isOpen ? "show" : ""}`}
         style={{
@@ -99,7 +97,7 @@ const navigate = useNavigate();
         onClick={onClose}
       />
 
-      {/* Modal */}
+
       <div
         className={`modal d-block ${isOpen ? "show" : ""}`}
         style={{
@@ -134,7 +132,7 @@ const navigate = useNavigate();
               overflow: "hidden",
             }}
           >
-            {/* Modal Header */}
+
             <div
               className="modal-header border-0 position-relative"
               style={{
@@ -167,7 +165,7 @@ const navigate = useNavigate();
                   </button>
                 </div>
 
-                {/* Project Stats */}
+
                 <div className="row g-lg-3 justify-content-center align-items-center g-1 ">
                   <div className="col-md-4  col-sm-4 ">
                     <div className="d-flex align-items-center ">
@@ -229,9 +227,9 @@ const navigate = useNavigate();
               </div>
             </div>
 
-            {/* Modal Body */}
+    
             <div className="modal-body p-0">
-              {/* Project Details Section */}
+          
               <div className="p-4 border-bottom">
                 <h5 className="mb-3 d-flex align-items-center">
                   <FontAwesomeIcon icon={faCalendarAlt} className="me-2 text-muted" />
@@ -259,7 +257,6 @@ const navigate = useNavigate();
                 </div>
               </div>
 
-              {/* Tasks Section */}
               <div className="p-4">
                 <div className="d-flex justify-content-between align-items-center mb-4">
                   <h5 className="mb-0 d-flex align-items-center">
@@ -331,13 +328,14 @@ const navigate = useNavigate();
               </div>
             </div>
 
-            {/* Modal Footer */}
             <div className="modal-footer border-0 bg-light p-4">
               <div className="d-flex justify-content-end gap-2 w-100">
                 <button type="button" className="btn btn-outline-secondary px-4" onClick={onClose}>
                   Close
                 </button>
-                <button
+                <Link
+                  state={{ project }}
+                  to={`/dashboard/project-data`}
                   type="button"
                   className="btn px-4"
                   style={{
@@ -345,11 +343,11 @@ const navigate = useNavigate();
                     borderColor: "#5a8a7a",
                     color: "white",
                   }}
-                  onClick={() => navigate(`/dashboard/project-data`, { state: project })}
+
                 >
                   <FontAwesomeIcon icon={faEdit} className="me-2" />
                   Edit Project
-                </button>
+                </Link>
               </div>
             </div>
           </div>

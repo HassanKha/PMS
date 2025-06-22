@@ -1,6 +1,6 @@
 export  interface ForgetPasswordForm {
       email: string;
-      seed?: string; // for OTP
+      seed?: string;
       password?: string;
       confirmPassword?: string;
     };

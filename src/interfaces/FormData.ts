@@ -11,7 +11,7 @@ export interface FormData {
   phoneNumber: string;
   password: string;
   confirmPassword: string;
-  profileImage?: FileList; // or FileList | null depending on your logic
+  profileImage?: FileList; 
 }
 
 

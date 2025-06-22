@@ -49,13 +49,11 @@ const SideBar: React.FC<SideBarProps> = ({
             boxShadow: "2px 0 6px rgba(0,21,41,.35)",
           }}
         >
-          {/* Sidebar Header with Toggle Button */}
+       
           <div
             className="d-flex align-items-center justify-content-end "
             style={{ minHeight: "40px" }}
           >
-
-            {/* Toggle button inside sidebar */}
             <button
               className="btn btn-sm sidebar-toggle-btn text-white d-none mb-0 d-lg-block"
               onClick={handleCollapseSidebar}
@@ -73,8 +71,6 @@ const SideBar: React.FC<SideBarProps> = ({
                 size="sm"
               />
             </button>
-
-            {/* Close button for mobile */}
             <button
               className="btn btn-sm text-white d-lg-none XIcon"
               onClick={handleCollapseSidebar}
@@ -103,8 +99,6 @@ const SideBar: React.FC<SideBarProps> = ({
               subMenuContent: {
                 backgroundColor: "#2c3136",
               },
-
-
             }}
             className="mt-5"
           >

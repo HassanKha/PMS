@@ -32,7 +32,7 @@ function App() {
         { index: true, element: <Login /> },
         { path: "login", element: <Login /> },
         { path: "register", element: <Register /> },
-        { path: "forget-pass", element: <ForgetPassword /> },
+        { path: "forget-password", element: <ForgetPassword /> },
         { path: "verify-account", element: <Verify /> },
         { path: "change-password", element: <ChangePassword /> },
       ],

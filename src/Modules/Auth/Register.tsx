@@ -87,7 +87,7 @@ function Register() {
           <img src={PMSIcon} alt="PMSIcon" className="w-25 ImgSize  h-25" />
           <div className="d-flex Register-container g-3 flex-column align-items-center justify-content-center">
             <div className=" w-100 px-3  py-3  Register-main-container  border-0 shadow-lg">
-              {/* Header */}
+            
               <div className="text-lg-start mt-3 mx-5">
                 <h2
                   className="fw-bold d-flex flex-column "
@@ -108,7 +108,7 @@ function Register() {
                 </h2>
               </div>
 
-              {/* Form */}
+           
               <form onSubmit={handleSubmit(onSubmit)}>
                 <div className="text-center mb-4">
                   <label htmlFor="profileImageInput" style={{ cursor: "pointer" }}>
@@ -150,7 +150,7 @@ function Register() {
                   />
                 </div>
                 <div className="row px-5  ">
-                  {/* User Name */}
+                
                   <div className="col-12 mb-2 d-flex flex-column  col-md-6">
                     <label
                       className="form-label fw-medium"
@@ -180,7 +180,7 @@ function Register() {
                     )}
                   </div>
 
-                  {/* Email */}
+                 
                   <div className="col-12 mb-2 d-flex flex-column  col-md-6">
                     <label
                       className="form-label fw-medium"
@@ -210,7 +210,7 @@ function Register() {
                     )}
                   </div>
 
-                  {/* Country */}
+               
                   <div className="col-12 mb-2 d-flex flex-column  col-md-6">
                     <label
                       className="form-label fw-medium"
@@ -239,7 +239,7 @@ function Register() {
                     )}
                   </div>
 
-                  {/* Phone Number */}
+                
                   <div className="col-12 mb-2 d-flex flex-column  col-md-6">
                     <label
                       className="form-label fw-medium"
@@ -268,7 +268,7 @@ function Register() {
                     )}
                   </div>
 
-                  {/* Password */}
+                 
                   <div className="col-12 mb-2 d-flex flex-column  col-md-6">
                     <label
                       className="form-label fw-medium"
@@ -404,5 +404,4 @@ function Register() {
 
   );
 }
-
 export default Register;

@@ -234,8 +234,6 @@ padding: 6px 14px !important;
   text-align: center;
   cursor: pointer;
 }
-
-
 /* //projectForm */
 .headerProject{
   padding: 0 20px;
@@ -247,11 +245,10 @@ padding: 6px 14px !important;
   width: 80%;
   margin: auto;
   margin-top: 20px;
-  padding: 20px;
+  padding: 55px 20px !important;
   border-radius: 20px;
-  background-color: rgba(252, 251, 251, 0.38);
+  background-color: rgb(255, 255, 255);
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-
 }
 .btnSaveProject{
   background-color: #EF9B28;
@@ -287,7 +284,7 @@ padding: 6px 14px !important;
 
 .fancy-hover-link:hover {
   transform: translateX(-3px) scale(1.03);
-  color: #ed8936 !important; /* Optional highlight color */
+  color: #ed8936 !important; 
   text-decoration: none;
 }
 

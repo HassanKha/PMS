@@ -61,14 +61,13 @@ export function ActionDropdown({ projectId, onView, onEdit, onDelete }: ActionDr
 
       {isOpen && (
         <>
-          {/* Backdrop */}
+          
           <div
             className="position-fixed top-0 start-0 w-100 h-100"
             style={{ zIndex: 1040 }}
             onClick={() => setIsOpen(false)}
           />
 
-          {/* Dropdown Menu */}
           <div
             className="dropdown-menu show position-absolute"
             style={{
@@ -85,7 +84,7 @@ export function ActionDropdown({ projectId, onView, onEdit, onDelete }: ActionDr
               animation: "dropdownSlideIn 0.2s ease-out",
             }}
           >
-            {/* View Button */}
+           
             <button
               className="dropdown-item d-flex align-items-center px-2 py-1 action-item-view"
               onClick={(e) => handleAction(() => onView(projectId), e)}
@@ -149,7 +148,7 @@ export function ActionDropdown({ projectId, onView, onEdit, onDelete }: ActionDr
               </div>
             </button>
 
-            {/* Update Button */}
+          
             <button
               className="dropdown-item d-flex align-items-center px-2 py-1 action-item-edit"
               onClick={(e) => handleAction(() => onEdit(projectId), e)}
@@ -214,7 +213,7 @@ export function ActionDropdown({ projectId, onView, onEdit, onDelete }: ActionDr
               </div>
             </button>
 
-            {/* Divider */}
+           
             <hr
               className="dropdown-divider my-2"
               style={{
@@ -224,7 +223,7 @@ export function ActionDropdown({ projectId, onView, onEdit, onDelete }: ActionDr
               }}
             />
 
-            {/* Delete Button */}
+           
             <button
               className="dropdown-item d-flex align-items-center px-2 py-1 action-item-delete"
               onClick={(e) => handleAction(() => onDelete(projectId), e)}

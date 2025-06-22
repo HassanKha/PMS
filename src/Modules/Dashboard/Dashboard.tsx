@@ -39,13 +39,9 @@ export default function Dashboard() {
 
   const getAllTasks = async () => {
     try {
-      setLoadingTasks(true);
       let response = await axiosInstance.get(TASKS_URLS.GET_TASKS_COUNT);
-      console.log(response);
       setTasksCount(response.data);
-      setLoadingTasks(false);
     } catch (error: any) {
-      console.log(error);
       toast.error(error.response?.data?.message || "Something went wrong");
     } finally {
       setLoadingTasks(false);
@@ -57,7 +53,7 @@ export default function Dashboard() {
       className="p-4"
       style={{ backgroundColor: "#f8f9fa", minHeight: "calc(100vh - 70px)" }}
     >
-      {/* Hero Section */}
+     
       <div
         className="rounded-4 p-5 mb-5 position-relative overflow-hidden"
         style={{
@@ -68,7 +64,7 @@ export default function Dashboard() {
           minHeight: "200px",
         }}
       >
-        {/* Content */}
+       
         <div className="position-relative" style={{ zIndex: 2 }}>
           <h1
             className="text-white mb-3"
@@ -88,11 +84,11 @@ export default function Dashboard() {
         </div>
       </div>
 
-      {/* Stats Section */}
+    
       <div className="row g-4">
-        {/* Tasks Section */}
+      
         <div className="col-lg-6">
-          {/* Header */}
+        
           <div className="d-flex align-items-start mb-3">
             <div
               className="me-3"
@@ -112,9 +108,9 @@ export default function Dashboard() {
             </div>
           </div>
 
-          {/* Cards */}
+       
           <div className="row g-3">
-            {/* Progress Card */}
+         
             <div className="col-md-6 col-lg-4">
               <div
                 className="card border-0 h-100 dashboard-card"
@@ -214,7 +210,7 @@ export default function Dashboard() {
               </div>
             </div>
 
-            {/* Projects Number */}
+           
             <div className="col-md-6 col-lg-4">
               <div
                 className="card border-0 h-100 dashboard-card"
@@ -261,7 +257,7 @@ export default function Dashboard() {
         </div>
         {auth?.LoginData?.roles[0] === "Manager" ? (
           <div className="col-lg-6">
-            {/* Header */}
+           
             <div className="d-flex align-items-start mb-3">
               <div
                 className="me-3"
@@ -281,9 +277,9 @@ export default function Dashboard() {
               </div>
             </div>
 
-            {/* Cards */}
+            
             <div className="row g-3">
-              {/* Active Users */}
+             
               <div className="col-md-6">
                 <div
                   className="card border-0 h-100 dashboard-card"
@@ -327,7 +323,7 @@ export default function Dashboard() {
                 </div>
               </div>
 
-              {/* Inactive Users */}
+           
               <div className="col-md-6">
                 <div
                   className="card border-0 h-100 dashboard-card"

@@ -1,11 +1,12 @@
 import { jwtDecode } from "jwt-decode";
 import { createContext, useEffect, useState } from "react";
-import type {  FC } from "react";
+import type { FC } from "react";
 import type { DecodedToken } from "../interfaces/DecodedToken";
 import type { AuthContextType } from "../interfaces/AuthContextType";
 import type { AuthProviderProps } from "../interfaces/AuthProviderProps";
 import { axiosInstance, USERS_URLS } from "../services/Urls";
 import type { User } from "../interfaces/UserProfile";
+import { toast } from "react-toastify";
 
 
 
@@ -20,13 +21,13 @@ const AuthContextProvider: FC<AuthProviderProps> = ({ children }) => {
       return null;
     }
   };
-const [loading, setLoading] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(false);
 
   const [LoginData, setLoginData] = useState<DecodedToken | null>(
     getInitialLoggedData()
   );
 
-    const [CurrentUserData, setCurrentUserData] = useState<User | null>();
+  const [CurrentUserData, setCurrentUserData] = useState<User | null>();
 
   const SaveLoginData = () => {
     setLoading(true)
@@ -44,21 +45,18 @@ const [loading, setLoading] = useState<boolean>(false);
     }
   };
 
-     const GetCurrentUser = async()=>{
-           try{
-             let response = await axiosInstance.get(USERS_URLS.GET_CURRENT_USER, {
-              params: { pageSize : 965 , pageNumber: 1}
-            }
-              )
-             console.log(response.data);
-             setCurrentUserData(response?.data)
-           }
-           catch(error){
-             console.log(error);
-             
-          
-           }
-         }
+  const GetCurrentUser = async () => {
+    try {
+      let response = await axiosInstance.get(USERS_URLS.GET_CURRENT_USER, {
+        params: { pageSize: 965, pageNumber: 1 }
+      }
+      )
+      setCurrentUserData(response?.data)
+    }
+    catch (error: any) {
+      toast.error(error?.response?.data?.message || 'An error occurred');
+    }
+  }
 
 
   useEffect(() => {
@@ -70,18 +68,20 @@ const [loading, setLoading] = useState<boolean>(false);
         try {
           const decodedToken = jwtDecode<DecodedToken>(token);
           setLoginData(decodedToken);
-          setLoading(false)
+
         } catch (error: any) {
-          console.error("Invalid token:", error.message);
-          localStorage.removeItem("token"); // Clean up
-          setLoading(true)
+          toast.error(error?.response?.data?.message || 'invalid token');
+          localStorage.removeItem("token");
+        }
+        finally {
+          setLoading(false)
         }
       }
     }
   }, []);
 
   return (
-    <AuthContext.Provider value={{ LoginData,setLoginData, SaveLoginData , CurrentUserData , loading ,setLoading}}>
+    <AuthContext.Provider value={{ LoginData, setLoginData, SaveLoginData, CurrentUserData, loading, setLoading }}>
       {children}
     </AuthContext.Provider>
   );

@@ -4,9 +4,9 @@ export interface Project {
   id: number;
   title: string;
   description: string;
-  creationDate: string;        // e.g. "2025-06-20T01:12:37.838Z"
+  creationDate: string;        
   modificationDate: string;
   task: Task[];  
-  numTasks: number;      // total number of tasks
+  numTasks: number;  
   tasksCount: Task[];
 }

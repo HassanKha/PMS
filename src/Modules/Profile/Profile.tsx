@@ -11,22 +11,24 @@ export default function Profile() {
   const [dataPersons, setDataPerson] = useState<UserPrfoile | null>(null);
   const [btnLoad, setBtnLoad] = useState(false);
   const [show, setShow] = useState(false);
-  const [loading,setLoading] = useState<boolean>(false)
+  const [loading, setLoading] = useState<boolean>(false)
 
   const { register, handleSubmit, formState: { errors }, setValue } = useForm<UserPrfoile>();
 
   async function GetUser() {
+    setLoading(true)
+
     try {
-        setLoading(true)
       const response = await axiosInstance.get<UserPrfoile>(USERS_URLS.GET_CURRENT_USER);
-      console.log(response);
       setDataPerson(response.data);
-      setLoading(false)
-    } 
+      
+    }
     catch (error: any) {
-      console.log(error);
-      setLoading(false)
+      
       toast.error(error?.response?.data?.message || 'An error occurred');
+    }
+    finally {
+      setLoading(false)
     }
   }
 
@@ -34,7 +36,6 @@ export default function Profile() {
     setBtnLoad(true);
     try {
       const response = await axiosInstance.put(USERS_URLS.UPDATE_CURRENT_PROFILE, data);
-      console.log(response);
       toast.success('Profile updated successfully.');
     } catch (error: any) {
       toast.error(error?.response?.data?.message || 'Invalid password');
@@ -60,7 +61,7 @@ export default function Profile() {
     <>
       {loading ? (
         <div className="d-flex justify-content-center align-items-center vh-100 ">
-          <Loader/>
+          <Loader />
         </div>
       ) : (
         <div className="container">
@@ -93,7 +94,7 @@ export default function Profile() {
                   {errors.email && <span className="text-danger">{errors.email.message}</span>}
                 </div>
 
-           
+
                 <div>
                   <div className="input-group mt-3">
                     <span className="input-group-text" id="basic-addon1"><i className="fa-solid fa-earth-americas"></i></span>
@@ -107,7 +108,7 @@ export default function Profile() {
                   {errors.country && <span className="text-danger">{errors.country.message}</span>}
                 </div>
 
-             
+
                 <div>
                   <div className="input-group mt-3">
                     <span className="input-group-text" id="basic-addon1"><i className="fa-solid fa-mobile-screen-button"></i></span>
@@ -123,29 +124,29 @@ export default function Profile() {
                 <div>
                   <div className="input-group mt-3 position-relative">
                     <span className="input-group-text" id="basic-addon1">
-                        <i className="fa-solid fa-lock"></i>
+                      <i className="fa-solid fa-lock"></i>
                     </span>
 
                     <input
-                        {...register('confirmPassword', validateRegisterForm.password)}
-                        type={show ? "text" : "password"}
-                        className="form-control input_height bord_pass pe-5"
-                        placeholder="Confirm Password"
-                        style={{ zIndex: 1 }}
+                      {...register('confirmPassword', validateRegisterForm.password)}
+                      type={show ? "text" : "password"}
+                      className="form-control input_height bord_pass pe-5"
+                      placeholder="Confirm Password"
+                      style={{ zIndex: 1 }}
                     />
 
                     <span
-                        className="position-absolute end-0 top-50 translate-middle-y pe-3 cursor-pointer"
-                        style={{ zIndex: 2 }}
-                        onClick={() => setShow((prev) => !prev)}
+                      className="position-absolute end-0 top-50 translate-middle-y pe-3 cursor-pointer"
+                      style={{ zIndex: 2 }}
+                      onClick={() => setShow((prev) => !prev)}
                     >
-                        {show ? (
+                      {show ? (
                         <i className="fa-solid fa-eye p-2"></i>
-                        ) : (
+                      ) : (
                         <i className="fa-solid fa-eye-slash p-2"></i>
-                        )}
+                      )}
                     </span>
-                    </div>
+                  </div>
 
                   {errors.confirmPassword && <span className="text-danger">{errors.confirmPassword.message}</span>}
                 </div>

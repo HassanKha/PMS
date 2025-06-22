@@ -1,4 +1,4 @@
-import { useForm } from "react-hook-form";
+import { set, useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 import { Link, useNavigate } from "react-router-dom";
 import "../../styles/register.css";
@@ -19,7 +19,6 @@ import { axiosInstance, USERS_URLS } from "../../services/Urls";
 
 function Login() {
   const [showPassword, setShowPassword] = useState(false);
-
   const {
     register,
     handleSubmit,
@@ -34,7 +33,7 @@ function Login() {
     setLoading(true);
     try {
       const response = await axiosInstance.post(USERS_URLS.LOGIN, data);
-      toast.success(response?.data?.message||"Login success!");
+      toast.success(response?.data?.message || "Login successful");
       localStorage.setItem("token", response?.data?.token);
       navigate("/dashboard");
     } catch (error: unknown) {
@@ -43,7 +42,6 @@ function Login() {
         toast.error(message);
       } else {
         toast.error("Unexpected error");
-        console.log("Unexpected Error:", error);
       }
     } finally {
       setLoading(false);
@@ -74,7 +72,7 @@ function Login() {
         <div
           className="Verify-container d-flex flex-column align-items-center justify-content-center px-3 w-100"
           style={{
-            maxWidth: "500px",
+            maxWidth: "550px",
           }}
         >
           <div className="w-100 py-3 Verify-main-container d-flex flex-column justify-content-lg-start border-0 shadow-lg">
@@ -98,10 +96,10 @@ function Login() {
                 </span>
               </h2>
             </div>
-
+           
             <form onSubmit={handleSubmit(onSubmit)}>
               <div className="d-flex mt-3 mx-5 justify-content-lg-center justify-content-start align-content-lg-center flex-column">
-                {/* Email */}
+              
                 <div className="col-12 mb-3 d-flex flex-column">
                   <label
                     className="form-label fw-medium"
@@ -129,7 +127,7 @@ function Login() {
                   )}
                 </div>
 
-                {/* Password */}
+              
                 <div className="input-group mt-3">
                   <label
                     className="form-label fw-medium"
@@ -198,7 +196,7 @@ function Login() {
                     Register Now?
                   </Link>
                   <Link
-                    to="/forget-pass"
+                    to="/forget-password"
                     className="text-decoration-none links-container_F_R text-white"
                   >
                     Forget Password?
@@ -223,8 +221,6 @@ function Login() {
                   </button>
                 </div>
               </div>
-
-
             </form>
           </div>
         </div>

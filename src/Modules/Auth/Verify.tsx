@@ -1,4 +1,3 @@
-
 import Verfiybg from "../../assets/VerfiyBackground.svg";
 import PMSIcon from "../../assets/PMSIcon.png";
 import { useForm } from "react-hook-form";
@@ -67,7 +66,7 @@ function Verify() {
         <img src={PMSIcon} alt="PMSIcon" className="w-25 ImgSize h-25" />
         <div className="d-flex Verify-container g-3 flex-column align-items-center justify-content-center">
           <div className="w-100  py-3 Verify-main-container  d-flex flex-column justify-content-lg-start border-0 shadow-lg">
-            {/* Header */}
+           
             <div className="text-start mt-5 mx-5">
               <h2
                 className="fw-bold d-flex flex-column title-auth"
@@ -87,7 +86,7 @@ function Verify() {
 
             <form onSubmit={handleSubmit(onSubmit)}>
               <div className="d-flex mt-3 mx-5 justify-content-lg-center justify-content-start  align-content-lg-center   flex-column ">
-                {/* Email */}
+
                 <div className="col-12 mb-3  d-flex flex-column ">
                   <label
                     className="form-label fw-medium"
@@ -115,7 +114,7 @@ function Verify() {
                   )}
                 </div>
 
-                {/* OTP */}
+              
                 <div className="col-12 mb-3 d-flex flex-column ">
                   <label
                     className="form-label fw-medium"
@@ -147,7 +146,7 @@ function Verify() {
                 </div>
               </div>
 
-              {/* Submit Button */}
+              
               <div className="d-flex justify-content-center mx-sm-5 mx-lg-0 mt-4">
                 <button
                   type="submit"

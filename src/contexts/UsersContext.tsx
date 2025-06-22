@@ -34,9 +34,8 @@ export const UsersProvider = ({ children }: { children: React.ReactNode }) => {
       setItemsPerPage(res.data.pageSize);
       setTotalResults(res.data.totalNumberOfRecords);
       setCurrentPage(pgNum);
-    } catch (err) {
-      console.error(err);
-      toast.error("Failed to fetch users.");
+    } catch (err: any) {
+      toast.error(err.response?.data?.message || "Failed to fetch users.");
     } finally {
       setIsLoading(false);
     }

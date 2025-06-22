@@ -9,7 +9,7 @@ export const verifyValidation = {
   code: {
     required: "OTP is required",
     pattern: {
-      value: /^[A-Za-z0-9]{4}$/, // allows 4 digits or letters
+      value: /^[A-Za-z0-9]{4}$/, 
       message: "OTP must be 4 letters or digits",
     },
   },
