@@ -13,7 +13,7 @@ import {
   faClock,
 } from "@fortawesome/free-solid-svg-icons"
 import type { Project } from "../../../interfaces/Project"
-import { Link, useNavigate } from "react-router-dom"
+import { Link } from "react-router-dom"
 
 
 

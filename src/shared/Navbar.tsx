@@ -15,6 +15,7 @@ import {
 import PMSIcon from "../assets/PMS2.png";
 import { AuthContext } from "../contexts/AuthContext";
 import { ImageURL } from "../services/Urls";
+import NotePopup from "./NotePopup";
 
 interface NavbarProps {
   handleToggleSidebar: () => void;
@@ -37,6 +38,8 @@ const Navbar: React.FC<NavbarProps> = ({
     navigate("/login", { replace: true });
   };
 
+
+    const [showPrivileges, setShowPrivileges] = useState(false)
   return (
     <nav className="navbar navbar-expand-lg navbar-light bg-white border-bottom shadow-sm">
       <div className="container-fluid d-flex justify-content-between align-items-center">
@@ -49,15 +52,18 @@ const Navbar: React.FC<NavbarProps> = ({
           </button>
           <img src={PMSIcon} alt="PMSIcon" style={{ height: 40 }} />
         </div>
-
+<NotePopup showPrivileges={showPrivileges} setShowPrivileges={setShowPrivileges} />
         <div className="d-flex align-items-center ">
-          <button className="btn btn-link text-secondary position-relative me-4 p-1">
+          <button className="btn btn-link text-secondary position-relative me-4 p-1 notification-btn"     onMouseEnter={() => setShowPrivileges(true)}
+                  onMouseLeave={() => setShowPrivileges(false)}
+                  onClick={() => setShowPrivileges(!showPrivileges)}>
             <FontAwesomeIcon
               icon={faBell}
               size="lg"
+               className="notification-icon"
               style={{ color: "#EF9B28" }}
             />
-            <span className="badge bg-danger position-absolute top-0 start-100 translate-middle rounded-pill">
+            <span className="badge bg-danger notification-badge position-absolute top-0 start-100 translate-middle rounded-pill">
               1
             </span>
           </button>

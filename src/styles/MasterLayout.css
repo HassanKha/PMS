@@ -95,3 +95,20 @@
     transform: scale(1.03);
     box-shadow: 0 10px 25px rgba(0, 0, 0, 0.12);
   }
+
+  .notification-btn .notification-icon {
+  transition: all 0.3s ease;
+}
+
+.notification-btn:hover .notification-icon {
+  filter: drop-shadow(0 0 6px #ef9b28);
+  transform: scale(1.15) rotate(-5deg);
+}
+
+.notification-badge {
+  transition: transform 0.3s ease-in-out;
+}
+
+.notification-btn:hover .notification-badge {
+  transform: scale(1.2) translateY(-2px);
+}
