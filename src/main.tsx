@@ -9,13 +9,16 @@ import "./index.css";
 import AuthContextProvider from "./contexts/AuthContext.tsx";
 import ProjectProvider from "./contexts/ProjectContext.tsx";
 import UsersProvider from "./contexts/UsersContext.tsx";
+import { TaskProvider } from "./contexts/TaskContext.tsx";
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
     <AuthContextProvider>
       <ProjectProvider>
         <UsersProvider>
-          <App />
+          <TaskProvider>
+            <App />
+          </TaskProvider>
         </UsersProvider>
       </ProjectProvider>
     </AuthContextProvider>

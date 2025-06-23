@@ -19,8 +19,9 @@ import ProjectData from "./Modules/Projects/ProjectData";
 import ProjectList from "./Modules/Projects/ProjectList";
 import Users from "./Modules/Users/Users";
 import ProtectedRoute from "./shared/ProtectedRoute";
-import TasksList from "./Modules/Tasks/TasksList";
 import Profile from "./Modules/Profile/Profile";
+import ProtectedTasksRoute from "./shared/ProtectedTasksRoute";
+import TasksData from "./Modules/Tasks/TasksData";
 
 function App() {
    const routes: RouteObject[] = [
@@ -45,8 +46,10 @@ function App() {
         { path: "projects", element: <ProjectList /> },
         { path: "project-data", element: <ProjectData /> },
         { path: "users" , element : <Users/>},
-        { path: "tasks" , element : <TasksList/>},
-        { path: "profile" , element : <Profile/>}
+        { path: "tasks" , element : <ProtectedTasksRoute/>},
+          { path: "tasks-data" , element : <TasksData/>},
+        { path: "profile" , element : <Profile/>},
+        
       ],
     },
     {

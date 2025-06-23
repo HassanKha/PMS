@@ -40,5 +40,6 @@ export const PROJECTS_URLS = {
 };
 
 export const TASKS_URLS = {
-  GET_TASKS_COUNT: `/Task/count`
+  GET_TASKS_COUNT: `/Task/count`,
+  GET_TASKS_MANAGER: `/Task/manager`
 }

@@ -27,7 +27,7 @@ const Header: React.FC<HeaderProps> = ({
           to={
             location.pathname == "/dashboard/projects"
               ? "/dashboard/project-data"
-              : "/dashboard/tasks"
+              : "/dashboard/tasks-data"
           }
         >
           <FontAwesomeIcon
