@@ -20,10 +20,11 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children }) => {
   }
 
 
-  if(auth?.LoginData && auth.LoginData.roles[0] !== 'Manager' && location.pathname === '/dashboard/users')
+  if(auth?.LoginData && auth.LoginData.roles[0] !== 'Manager' && (location.pathname === '/dashboard/users' || location.pathname === '/dashboard/tasks-data'))
   {
     return <Navigate to="/login" />;
   }
+
   return children ?? <Outlet />;
 };
 export default ProtectedRoute;
