@@ -17,6 +17,7 @@ import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
 import type { Task } from "../../interfaces/Tasks";
 import { TaskModal } from "./components/TaskModel";
+import { axiosInstance, TASKS_URLS } from "../../services/Urls";
 
 type SortField = "title" | "description" | "status" | "creationDate";
 type SortDirection = "asc" | "desc" | null;
@@ -96,15 +97,49 @@ function TaskList() {
     setModalOpen(false);
     setSelectedTaskId(null);
   };
-    const handleDelete = async (id: number, title: string) => {
-      const swalWithBootstrapButtons = Swal.mixin({
-        customClass: {
-          confirmButton: "btn btn-danger mx-3",
-          cancelButton: "btn btn-secondary",
-        },
-        buttonsStyling: false,
-      });
-    };
+    const handleDeleteTask = async (id: number, title: string) => {
+       const swalWithBootstrapButtons = Swal.mixin({
+         customClass: {
+           confirmButton: "btn btn-danger mx-3",
+           cancelButton: "btn btn-secondary",
+         },
+         buttonsStyling: false,
+       });
+   
+       const result = await swalWithBootstrapButtons.fire({
+         title: "Are you sure?",
+         text: `This will permanently delete the task "${title}".`,
+         icon: "warning",
+         showCancelButton: true,
+         confirmButtonText: "Delete",
+         cancelButtonText: "Cancel",
+         reverseButtons: true,
+       });
+   
+       if (result.isConfirmed) {
+         try {
+           await axiosInstance.delete(TASKS_URLS.DELETE_TASK_BY_MANAGER(id));
+   
+           fetchTasks(itemsPerPage, currentPage, searchTerm);
+   
+           swalWithBootstrapButtons.fire({
+             title: "Deleted!",
+             text: `The task ${title} has been deleted successfully.`,
+             icon: "success",
+             timer: 2000,
+             showConfirmButton: false,
+           });
+         } catch (error: any) {
+           swalWithBootstrapButtons.fire({
+             title: "Error!",
+             text:
+               error.response?.data?.message || "Failed to delete the task.",
+             icon: "error",
+           });
+         }
+       }
+     };
+   
 
       const getTaskById = (id: number): Task | undefined => {
         return currentTasks.find((task) => task.id === id);
@@ -208,21 +243,21 @@ function TaskList() {
                 {currentTasks.length > 0 ? (
                   currentTasks.map((task, index) => (
                     <tr
-                      key={task.id}
+                      key={task?.id}
                       style={{
                         backgroundColor:
                           index % 2 === 0 ? "#ffffff" : "#f8f9fa",
                       }}
                     >
-                      <td>{task.title}</td>
-                      <td>{task.description}</td>
-                      <td>{task.status}</td>
-                      <td>{task.project.title}</td>
-                      <td>{task.employee.userName}</td>
-                      <td>{task.creationDate.slice(0, 10)}</td>
+                      <td>{task?.title}</td>
+                      <td>{task?.description}</td>
+                      <td>{task?.status}</td>
+                      <td>{task?.project?.title}</td>
+                      <td>{task?.employee?.userName}</td>
+                      <td>{task?.creationDate.slice(0, 10)}</td>
                         <td className="px-lg-4 px-1 py-3">
                                               <ActionDropdown
-                                               projectId={task.id}
+                                               projectId={task?.id}
                           onView={handleView}
                           onEdit={() =>
                             navigate(`/dashboard/tasks-data`, {
@@ -230,7 +265,7 @@ function TaskList() {
                             )
                           }
                           onDelete={() =>
-                            handleDelete(task.id, task.title)
+                            handleDeleteTask(task?.id, task?.title)
                           }
                                               />
                                             </td>
