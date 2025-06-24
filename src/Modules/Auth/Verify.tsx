@@ -30,8 +30,8 @@ function Verify() {
   const onSubmit = async (data: FormDataVerify) => {
     setbtnloading(true)
     try {
-      await axiosInstance.put(USERS_URLS.Verify, data);
-      toast.success("OTP Verified Successfully!");
+      let response = await axiosInstance.put(USERS_URLS.Verify, data);
+      toast.success(response?.data?.message ||"OTP Verified Successfully!");
       navigate("/login");
     } catch (error: any) {
       const errors = error?.response?.data?.additionalInfo?.errors;
@@ -39,11 +39,11 @@ function Verify() {
       if (errors) {
         Object.entries(errors).forEach(([_, messages]) => {
           (messages as string[]).forEach((msg) => {
-            toast.error(msg);
+            toast.error(msg||"OTP is not correct");
           });
         });
       } else {
-        toast.error("OTP is not correct");
+        toast.error(error?.response?.data?.message||"OTP is not correct");
       }
 
     } finally {
@@ -88,13 +88,14 @@ function Verify() {
               <div className="d-flex mt-3 mx-5 justify-content-lg-center justify-content-start  align-content-lg-center   flex-column ">
 
                 <div className="col-12 mb-3  d-flex flex-column ">
-                  <label
+                  <label htmlFor="email"
                     className="form-label fw-medium"
                     style={{ color: "#ffa726" }}
                   >
                     E-mail
                   </label>
                   <input
+                  id="email"
                     type="email"
                     placeholder="Enter your E-mail"
                     className="bg-transparent text-white w-100"
@@ -117,12 +118,14 @@ function Verify() {
               
                 <div className="col-12 mb-3 d-flex flex-column ">
                   <label
+                    htmlFor="OTP"
                     className="form-label fw-medium"
                     style={{ color: "#ffa726" }}
                   >
                     OTP Verification
                   </label>
                   <input
+                    id="OTP"
                     type="text"
                     placeholder="Enter Verification"
                     maxLength={6}

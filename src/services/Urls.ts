@@ -42,5 +42,7 @@ export const PROJECTS_URLS = {
 export const TASKS_URLS = {
   GET_TASKS_COUNT: `/Task/count`,
   GET_TASKS_MANAGER: `/Task/manager`,
-  DELETE_TASK_BY_MANAGER:(ID:Number)=>`/Task/${ID}`
+  DELETE_TASK_BY_MANAGER:(ID:Number)=>`/Task/${ID}`,
+   GET_ASSIGNED_TASKS: `/Task`,
+  UPDATE_ASSIGNED_TASK: (ID: Number) => `/Task/${ID}/change-status`,
 }

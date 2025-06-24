@@ -36,7 +36,7 @@ export default function Profile() {
     setBtnLoad(true);
     try {
       const response = await axiosInstance.put(USERS_URLS.UPDATE_CURRENT_PROFILE, data);
-      toast.success('Profile updated successfully.');
+      toast.success(response?.data?.message ||'Profile updated successfully.');
     } catch (error: any) {
       toast.error(error?.response?.data?.message || 'Invalid password');
     } finally {

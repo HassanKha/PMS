@@ -41,7 +41,7 @@ function Login() {
         const message = error.response?.data?.message || "Login Failed!";
         toast.error(message);
       } else {
-        toast.error("Unexpected error");
+        toast.error( "Unexpected error");
       }
     } finally {
       setLoading(false);
@@ -101,13 +101,14 @@ function Login() {
               <div className="d-flex mt-3 mx-5 justify-content-lg-center justify-content-start align-content-lg-center flex-column">
               
                 <div className="col-12 mb-3 d-flex flex-column">
-                  <label
+                  <label htmlFor="email"
                     className="form-label fw-medium"
                     style={{ color: "#ffa726" }}
                   >
                     E-mail
                   </label>
                   <input
+                  id="email"
                     type="email"
                     placeholder="Enter your E-mail"
                     className="bg-transparent text-white w-100"
@@ -129,7 +130,7 @@ function Login() {
 
               
                 <div className="input-group mt-3">
-                  <label
+                  <label htmlFor="password"
                     className="form-label fw-medium"
                     style={{ color: "#ffa726" }}
                   >
@@ -142,6 +143,7 @@ function Login() {
                     }}
                   >
                     <input
+                      id="password"
                       type={showPassword ? "text" : "password"}
                       className="w-100"
 

@@ -19,9 +19,6 @@ function ChangePassword() {
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [showOldPassword, setShowOldPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-
-
-
   const {
     register,
     handleSubmit,
@@ -75,11 +72,12 @@ function ChangePassword() {
 
                   
                     <div className="col-12 mb-3 d-flex flex-column">
-                      <label className="form-label fw-medium">
+                      <label htmlFor="oldPassword" className="form-label fw-medium">
                         Old Password
                       </label>
                       <div className="position-relative">
                         <input
+                          id="oldPassword"
                           type={showOldPassword ? "text" : "password"}
                           placeholder="Enter your Old Password"
                           className='change-pass-input bg-transparent text-white'
@@ -102,11 +100,13 @@ function ChangePassword() {
 
                  
                     <div className="col-12 mb-3 d-flex flex-column">
-                      <label className="form-label fw-medium">
+                      
+                      <label htmlFor="newPassword" className="form-label fw-medium">
                         New Password
                       </label>
                       <div className="position-relative">
                         <input
+                          id="newPassword"
                           type={showNewPassword ? "text" : "password"}
                           placeholder="Enter your New Password"
                           {...register("newPassword", validateRegisterForm.password)}
@@ -129,11 +129,12 @@ function ChangePassword() {
 
                    
                     <div className="col-12 mb-3 d-flex flex-column">
-                      <label className="form-label fw-medium">
+                      <label htmlFor="confirmNewPassword" className="form-label fw-medium">
                         Confirm New Password
                       </label>
                       <div className="position-relative">
                         <input
+                          id="confirmNewPassword"
                           type={showConfirmPassword ? "text" : "password"}
                           placeholder="Confirm your New Password"
                           {...register("confirmNewPassword", validateRegisterForm.confirmPassword(newPassword))}
