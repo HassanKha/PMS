@@ -29,8 +29,8 @@ function Verify() {
   const onSubmit = async (data: FormDataVerify) => {
     setbtnloading(true);
     try {
-      await axiosInstance.put(USERS_URLS.Verify, data);
-      toast.success("OTP Verified Successfully!");
+      let response = await axiosInstance.put(USERS_URLS.Verify, data);
+      toast.success(response?.data?.message ||"OTP Verified Successfully!");
       navigate("/login");
     } catch (error: any) {
       const errors = error?.response?.data?.additionalInfo?.errors;
@@ -39,7 +39,7 @@ function Verify() {
           (messages as string[]).forEach((msg) => toast.error(msg));
         });
       } else {
-        toast.error("OTP is not correct");
+        toast.error(error?.response?.data?.message||"OTP is not correct");
       }
     } finally {
       setbtnloading(false);

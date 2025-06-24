@@ -1,4 +1,3 @@
-// TaskList.tsx
 import { useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -43,8 +42,8 @@ function TaskList() {
         sortDirection === "asc"
           ? "desc"
           : sortDirection === "desc"
-          ? null
-          : "asc"
+            ? null
+            : "asc"
       );
       if (sortDirection === "desc") setSortField(null);
     } else {
@@ -86,70 +85,70 @@ function TaskList() {
     fetchTasks(itemsPerPage, 1, searchTerm);
   }, [searchTerm]);
 
- const [modalOpen, setModalOpen] = useState(false);
+  const [modalOpen, setModalOpen] = useState(false);
   const [selectedTaskId, setSelectedTaskId] = useState<number | null>(
     null
   );
-    const handleView = (id: number) => {
-       setSelectedTaskId(id);
-       setModalOpen(true);
-    };
-    const handleCloseModal = () => {
+  const handleView = (id: number) => {
+    setSelectedTaskId(id);
+    setModalOpen(true);
+  };
+  const handleCloseModal = () => {
     setModalOpen(false);
     setSelectedTaskId(null);
   };
-    const handleDeleteTask = async (id: number, title: string) => {
-       const swalWithBootstrapButtons = Swal.mixin({
-         customClass: {
-           confirmButton: "btn btn-danger mx-3",
-           cancelButton: "btn btn-secondary",
-         },
-         buttonsStyling: false,
-       });
-   
-       const result = await swalWithBootstrapButtons.fire({
-         title: "Are you sure?",
-         text: `This will permanently delete the task "${title}".`,
-         icon: "warning",
-         showCancelButton: true,
-         confirmButtonText: "Delete",
-         cancelButtonText: "Cancel",
-         reverseButtons: true,
-       });
-   
-       if (result.isConfirmed) {
-         try {
-           await axiosInstance.delete(TASKS_URLS.DELETE_TASK_BY_MANAGER(id));
-   
-           fetchTasks(itemsPerPage, currentPage, searchTerm);
-   
-           swalWithBootstrapButtons.fire({
-             title: "Deleted!",
-             text: `The task ${title} has been deleted successfully.`,
-             icon: "success",
-             timer: 2000,
-             showConfirmButton: false,
-           });
-         } catch (error: any) {
-           swalWithBootstrapButtons.fire({
-             title: "Error!",
-             text:
-               error.response?.data?.message || "Failed to delete the task.",
-             icon: "error",
-           });
-         }
-       }
-     };
-   
+  const handleDeleteTask = async (id: number, title: string) => {
+    const swalWithBootstrapButtons = Swal.mixin({
+      customClass: {
+        confirmButton: "btn btn-danger mx-3",
+        cancelButton: "btn btn-secondary",
+      },
+      buttonsStyling: false,
+    });
 
-      const getTaskById = (id: number): Task | undefined => {
-        return currentTasks.find((task) => task.id === id);
-      };
-    
-      const selectedTask = selectedTaskId
-        ? getTaskById(selectedTaskId)
-        : null;
-    
+    const result = await swalWithBootstrapButtons.fire({
+      title: "Are you sure?",
+      text: `This will permanently delete the task "${title}".`,
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonText: "Delete",
+      cancelButtonText: "Cancel",
+      reverseButtons: true,
+    });
+
+    if (result.isConfirmed) {
+      try {
+        await axiosInstance.delete(TASKS_URLS.DELETE_TASK_BY_MANAGER(id));
+
+        fetchTasks(itemsPerPage, currentPage, searchTerm);
+
+        swalWithBootstrapButtons.fire({
+          title: "Deleted!",
+          text: `The task ${title} has been deleted successfully.`,
+          icon: "success",
+          timer: 2000,
+          showConfirmButton: false,
+        });
+      } catch (error: any) {
+        swalWithBootstrapButtons.fire({
+          title: "Error!",
+          text:
+            error.response?.data?.message || "Failed to delete the task.",
+          icon: "error",
+        });
+      }
+    }
+  };
+
+
+  const getTaskById = (id: number): Task | undefined => {
+    return currentTasks.find((task) => task.id === id);
+  };
+
+  const selectedTask = selectedTaskId
+    ? getTaskById(selectedTaskId)
+    : null;
+
   return (
     <div
       className="px-4 tasks pt-1 pb-2"
@@ -161,7 +160,7 @@ function TaskList() {
           <FontAwesomeIcon
             icon={faSearch}
             className="position-absolute text-muted search-icon"
-           
+
           />
           <input
             type="text"
@@ -231,7 +230,7 @@ function TaskList() {
                   </th>
                   <th className="text-white"></th>
                 </tr>
-                
+
               </thead>
               <tbody>
                 {currentTasks.length > 0 ? (
@@ -249,22 +248,23 @@ function TaskList() {
                       <td>{task?.project?.title}</td>
                       <td>{task?.employee?.userName}</td>
                       <td>{task?.creationDate.slice(0, 10)}</td>
-                        <td className="px-lg-4 px-1 py-3">
-                                              <ActionDropdown
-                                               projectId={task?.id}
+                      <td className="px-lg-4 px-1 py-3">
+                        <ActionDropdown
+                          projectId={task?.id}
                           onView={handleView}
                           onEdit={() =>
                             navigate(`/dashboard/tasks-data`, {
-                              state: task}
+                              state: task
+                            }
                             )
                           }
                           onDelete={() =>
                             handleDeleteTask(task?.id, task?.title)
                           }
-                                              />
-                                            </td>
+                        />
+                      </td>
                     </tr>
-                    
+
                   ))
                 ) : (
                   <tr>
@@ -284,10 +284,10 @@ function TaskList() {
                 className="form-select form-select-sm me-2"
                 value={itemsPerPage}
                 onChange={(e) => {
-                 const newSize = Number(e.target.value);
-        setItemsPerPage(newSize);
-        setCurrentPage(1); // Reset to valid page
-        fetchTasks(newSize, 1, searchTerm);
+                  const newSize = Number(e.target.value);
+                  setItemsPerPage(newSize);
+                  setCurrentPage(1); // Reset to valid page
+                  fetchTasks(newSize, 1, searchTerm);
                 }}
               >
                 <option value={5}>5</option>
@@ -332,13 +332,13 @@ function TaskList() {
           </div>
         </div>
       )}
-        {/* <TaskModal
+      {/* <TaskModal
               isOpen={modalOpen}
               onClose={handleCloseModal}
               project={selectedTask}
             /> */}
 
-             <TaskModal isOpen={modalOpen} onClose={handleCloseModal} task={selectedTask} />
+      <TaskModal isOpen={modalOpen} onClose={handleCloseModal} task={selectedTask} />
     </div>
   );
 }

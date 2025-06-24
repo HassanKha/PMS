@@ -41,12 +41,12 @@ function Register() {
       if (data.profileImage && data.profileImage[0]) {
         formData.append("profileImage", data.profileImage[0]);
       }
-      await axiosInstance.post(USERS_URLS.REGISTER, formData, {
+   let response =   await axiosInstance.post(USERS_URLS.REGISTER, formData, {
         headers: {
           "Content-Type": "multipart/form-data",
         },
       });
-      toast.success("Account created successfully!");
+      toast.success(response?.data?.message ||"Account created successfully!");
       navigate("/verify-account", {
         state: { email: data.email },
       })
@@ -64,7 +64,7 @@ function Register() {
           });
         });
       } else {
-        toast.error("Something went wrong. Please try again.");
+        toast.error(error?.response?.data?.message||"Something went wrong. Please try again.");
       }
 
     } finally {

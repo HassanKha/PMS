@@ -56,76 +56,89 @@ function ChangePassword() {
                 </h2>
               </div>
 
-              <form onSubmit={handleSubmit(onSubmit)}>
-                <div className="row px-5">
-                  {/* Old Password */}
-                  <div className="col-12 mb-3 d-flex flex-column">
-                    <label className="form-label fw-medium">Old Password</label>
-                    <div className="position-relative">
-                      <input
-                        type={showOldPassword ? "text" : "password"}
-                        placeholder="Enter your Old Password"
-                        className="change-pass-input bg-transparent text-white"
-                        {...register("oldPassword", validateRegisterForm.password)}
-                      />
-                      <button
-                        type="button"
-                        className="position-absolute top-50 end-0 translate-middle-y me-2 toggle-password-btn"
-                        onClick={() => setShowOldPassword(!showOldPassword)}
-                      >
-                        <FontAwesomeIcon icon={showOldPassword ? faEyeSlash : faEye} />
-                      </button>
-                    </div>
-                    {errors.oldPassword && (
-                      <div className="invalid-feedback d-block">{errors.oldPassword.message}</div>
-                    )}
-                  </div>
+                <form onSubmit={handleSubmit(onSubmit)}>
+                  <div className="row  px-5">
 
-                  {/* New Password */}
-                  <div className="col-12 mb-3 d-flex flex-column">
-                    <label className="form-label fw-medium">New Password</label>
-                    <div className="position-relative">
-                      <input
-                        type={showNewPassword ? "text" : "password"}
-                        placeholder="Enter your New Password"
-                        className="change-pass-input bg-transparent text-white"
-                        {...register("newPassword", validateRegisterForm.password)}
-                      />
-                      <button
-                        type="button"
-                        className="position-absolute top-50 end-0 translate-middle-y me-2 toggle-password-btn"
-                        onClick={() => setShowNewPassword(!showNewPassword)}
-                      >
-                        <FontAwesomeIcon icon={showNewPassword ? faEyeSlash : faEye} />
-                      </button>
-                    </div>
-                    {errors.newPassword && (
-                      <div className="invalid-feedback d-block">{errors.newPassword.message}</div>
-                    )}
-                  </div>
 
-                  {/* Confirm New Password */}
-                  <div className="col-12 mb-3 d-flex flex-column">
-                    <label className="form-label fw-medium">Confirm New Password</label>
-                    <div className="position-relative">
-                      <input
-                        type={showConfirmPassword ? "text" : "password"}
-                        placeholder="Confirm your New Password"
-                        className="change-pass-input bg-transparent text-white"
-                        {...register("confirmNewPassword", validateRegisterForm.confirmPassword(newPassword))}
-                      />
-                      <button
-                        type="button"
-                        className="position-absolute top-50 end-0 translate-middle-y me-2 toggle-password-btn"
-                        onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                      >
-                        <FontAwesomeIcon icon={showConfirmPassword ? faEyeSlash : faEye} />
-                      </button>
+                  
+                    <div className="col-12 mb-3 d-flex flex-column">
+                      <label className="form-label fw-medium">
+                        Old Password
+                      </label>
+                      <div className="position-relative">
+                        <input
+                          type={showOldPassword ? "text" : "password"}
+                          placeholder="Enter your Old Password"
+                          className='change-pass-input bg-transparent text-white'
+                          {...register("oldPassword", validateRegisterForm.password)}
+
+                        />
+                        <Button
+                          type="button"
+                          className="btn border-0 bg-transparent toggle-password-btn position-absolute top-50 end-0 translate-middle-y me-2"
+                          onClick={() => setShowOldPassword(!showOldPassword)}
+                        >
+                          <FontAwesomeIcon icon={showOldPassword ? faEyeSlash : faEye} />
+                        </Button>
+                      </div>
+
+                      {errors.oldPassword && (
+                        <div className="invalid-feedback d-block">{errors.oldPassword.message}</div>
+                      )}
                     </div>
-                    {errors.confirmNewPassword && (
-                      <div className="invalid-feedback d-block">{errors.confirmNewPassword.message}</div>
-                    )}
-                  </div>
+
+                 
+                    <div className="col-12 mb-3 d-flex flex-column">
+                      <label className="form-label fw-medium">
+                        New Password
+                      </label>
+                      <div className="position-relative">
+                        <input
+                          type={showNewPassword ? "text" : "password"}
+                          placeholder="Enter your New Password"
+                          {...register("newPassword", validateRegisterForm.password)}
+                          className='change-pass-input bg-transparent text-white'
+                        />
+                        <Button
+                          type="button"
+                          className="btn border-0 bg-transparent toggle-password-btn position-absolute top-50 end-0 translate-middle-y me-2"
+                          onClick={() => setShowNewPassword(!showNewPassword)}
+
+                        >
+                          <FontAwesomeIcon icon={showNewPassword ? faEyeSlash : faEye} />
+                        </Button>
+                      </div>
+
+                      {errors.newPassword && (
+                        <div className="invalid-feedback d-block">{errors.newPassword.message}</div>
+                      )}
+                    </div>
+
+                   
+                    <div className="col-12 mb-3 d-flex flex-column">
+                      <label className="form-label fw-medium">
+                        Confirm New Password
+                      </label>
+                      <div className="position-relative">
+                        <input
+                          type={showConfirmPassword ? "text" : "password"}
+                          placeholder="Confirm your New Password"
+                          {...register("confirmNewPassword", validateRegisterForm.confirmPassword(newPassword))}
+                          className='change-pass-input bg-transparent text-white'
+                        />
+                        <Button
+                          type="button"
+                          className="btn border-0 bg-transparent toggle-password-btn position-absolute top-50 end-0 translate-middle-y me-2"
+                          onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                        >
+                          <FontAwesomeIcon icon={showConfirmPassword ? faEyeSlash : faEye} />
+                        </Button>
+                      </div>
+
+                      {errors.confirmNewPassword && (
+                        <div className="invalid-feedback d-block">{errors.confirmNewPassword.message}</div>
+                      )}
+                    </div>
 
                   {/* Submit */}
                   <button
