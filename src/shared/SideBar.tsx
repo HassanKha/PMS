@@ -1,5 +1,6 @@
 import { Sidebar, Menu, MenuItem } from "react-pro-sidebar";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import "../styles/Sidebar.css";
 import {
   faUsers,
   faTh,
@@ -31,15 +32,13 @@ const SideBar: React.FC<SideBarProps> = ({
 
   return (
     <div
-      className={`col-auto d-lg-block ${sidebarVisible ? "d-block" : "d-none"}`}
-      style={{
-        transition: "all 0.3s ease",
-        height: "100vh"
-      }}
+      className={`col-auto sidebar d-lg-block ${sidebarVisible ? "d-block" : "d-none"}`}
+
     >
       <div className="sidbarContant  ">
         <Sidebar
           collapsed={collapsed}
+          className="side"
           backgroundColor="#0E382F"
           width="270px"
           collapsedWidth="80px"
@@ -52,18 +51,11 @@ const SideBar: React.FC<SideBarProps> = ({
        
           <div
             className="d-flex align-items-center justify-content-end "
-            style={{ minHeight: "40px" }}
+           
           >
             <button
-              className="btn btn-sm sidebar-toggle-btn text-white d-none mb-0 d-lg-block"
+              className="btn btn-sm sidebar-toggle-btn toggle-btn text-white d-none mb-0 d-lg-block"
               onClick={handleCollapseSidebar}
-              style={{
-                backgroundColor: "#EF9B28",
-                border: "1px solid #495057",
-                borderTopLeftRadius: "8px",
-                borderBottomLeftRadius: "8px",
-                padding: "4px 5px",
-              }}
               title={collapsed ? "Expand Sidebar" : "Collapse Sidebar"}
             >
               <FontAwesomeIcon
@@ -72,15 +64,9 @@ const SideBar: React.FC<SideBarProps> = ({
               />
             </button>
             <button
-              className="btn btn-sm text-white d-lg-none XIcon"
+              className="btn btn-sm text-white sidebar-toggle-btn toggle-btn d-lg-none XIcon"
               onClick={handleCollapseSidebar}
-              style={{
-                border: "1px solid #495057",
-                backgroundColor: "#EF9B28",
-                      borderTopLeftRadius: "8px",
-                borderBottomLeftRadius: "8px",
-                padding: "4px 8px",
-              }}
+             
             >
              <FontAwesomeIcon
                 icon={collapsed ? faChevronLeft: faChevronRight}
@@ -105,6 +91,7 @@ const SideBar: React.FC<SideBarProps> = ({
             <MenuItem
               icon={<FontAwesomeIcon icon={faHome} />}
               component={<Link to="/dashboard" />}
+              className=""
             style={location.pathname === "/dashboard" ? activeBg : undefined}
             >
               Home

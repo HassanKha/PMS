@@ -1,5 +1,6 @@
 import { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
+import "../styles/Navbar.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faBars,
@@ -74,8 +75,7 @@ const Navbar: React.FC<NavbarProps> = ({
               onClick={toggleDropdown}
             >
               <div
-                className="rounded-circle me-3 text-white d-flex align-items-center justify-content-center"
-                style={{ width: 40, height: 40, backgroundColor: "#20c997" }}
+                className="rounded-circle me-3 img-container text-white d-flex align-items-center justify-content-center"
               >
                 {auth?.CurrentUserData?.imagePath ? (
                   <img

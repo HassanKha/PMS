@@ -193,20 +193,20 @@ export default function Users() {
             <table className="table table-hover mb-0">
               <thead>
                 <tr>
-                  <th className="text-white px-4 py-3" onClick={() => handleSort("userName")} style={{ cursor: "pointer" }}>
-                    User Name <FontAwesomeIcon className="ms-1" icon={getSortIcon("userName")} />
+                  <th className="text-white px-4 py-3" onClick={() => handleSort("userName")}>
+                    User Name <FontAwesomeIcon className="ms-1 sort" icon={getSortIcon("userName")} />
                   </th>
-                  <th className="text-white px-4 py-3" onClick={() => handleSort("isActivated")} style={{ cursor: "pointer" }}>
-                    Status <FontAwesomeIcon className="ms-1" icon={getSortIcon("isActivated")} />
+                  <th className="text-white px-4 py-3 " onClick={() => handleSort("isActivated")}>
+                    Status <FontAwesomeIcon className="ms-1 sort" icon={getSortIcon("isActivated")} />
                   </th>
-                  <th className="text-white px-4 py-3 d-none d-md-table-cell" onClick={() => handleSort("phoneNumber")} style={{ cursor: "pointer" }}>
-                    Phone Number <FontAwesomeIcon className="ms-1" icon={getSortIcon("phoneNumber")} />
+                  <th className="text-white px-4 py-3 d-none d-md-table-cell" onClick={() => handleSort("phoneNumber")}>
+                    Phone Number <FontAwesomeIcon className="ms-1 sort" icon={getSortIcon("phoneNumber")} />
                   </th>
-                  <th className="text-white px-4 py-3 d-none d-lg-table-cell" onClick={() => handleSort("email")} style={{ cursor: "pointer" }}>
-                    Email <FontAwesomeIcon className="ms-1" icon={getSortIcon("email")} />
+                  <th className="text-white px-4 py-3  d-none d-lg-table-cell" onClick={() => handleSort("email")}>
+                    Email <FontAwesomeIcon className="ms-1 sort" icon={getSortIcon("email")} />
                   </th>
-                  <th className="text-white px-4 py-3 d-none d-lg-table-cell" onClick={() => handleSort("creationDate")} style={{ cursor: "pointer" }}>
-                    Date Created <FontAwesomeIcon className="ms-1" icon={getSortIcon("creationDate")} />
+                  <th className="text-white px-4 py-3 d-none d-lg-table-cell" onClick={() => handleSort("creationDate")}>
+                    Date Created <FontAwesomeIcon className="ms-1 sort" icon={getSortIcon("creationDate")} />
                   </th>
                   <th className="text-white px-4 py-3"></th>
                 </tr>

@@ -9,6 +9,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import Header from "../../shared/Header";
 import NoData from "../../shared/NoData";
+import "../../styles/Tasks.css";
 import Loader from "../../shared/Loader";
 import { useTaskContext } from "../../contexts/TaskContext";
 import "./../../styles/Projects.css";
@@ -151,8 +152,7 @@ function TaskList() {
     
   return (
     <div
-      className="px-4 pt-1 pb-2"
-      style={{ backgroundColor: "#f8f9fa", minHeight: "calc(100vh - 70px)" }}
+      className="px-4 tasks pt-1 pb-2"
     >
       <Header Title={"Tasks"} BtnTitle={"Add New Task"} />
 
@@ -160,13 +160,8 @@ function TaskList() {
         <div className="position-relative" style={{ maxWidth: "400px" }}>
           <FontAwesomeIcon
             icon={faSearch}
-            className="position-absolute text-muted"
-            style={{
-              left: "12px",
-              top: "50%",
-              transform: "translateY(-50%)",
-              zIndex: 2,
-            }}
+            className="position-absolute text-muted search-icon"
+           
           />
           <input
             type="text"
@@ -189,7 +184,6 @@ function TaskList() {
           <FontAwesomeIcon
             icon={faExclamationTriangle}
             size="2x"
-            style={{ color: "#dc3545" }}
             className="mb-3"
           />
           <h5 className="text-dark mb-3">Something went wrong</h5>
@@ -207,7 +201,7 @@ function TaskList() {
         <div className="bg-white rounded shadow-sm">
           <div className="table-responsive rounded-2">
             <table className="table table-hover mb-0">
-              <thead style={{ backgroundColor: "#5a8a7a" }}>
+              <thead >
                 <tr>
                   <th
                     className="text-white cursor-pointer"
@@ -291,9 +285,9 @@ function TaskList() {
                 value={itemsPerPage}
                 onChange={(e) => {
                  const newSize = Number(e.target.value);
-  setItemsPerPage(newSize);
-  setCurrentPage(1); // Reset to valid page
-  fetchTasks(newSize, 1, searchTerm);
+        setItemsPerPage(newSize);
+        setCurrentPage(1); // Reset to valid page
+        fetchTasks(newSize, 1, searchTerm);
                 }}
               >
                 <option value={5}>5</option>

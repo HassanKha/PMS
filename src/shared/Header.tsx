@@ -20,10 +20,6 @@ const Header: React.FC<HeaderProps> = ({
         <Link
           type="button"
           className="btn LinkBTM text-white d-flex align-items-center gap-2 px-3 px-lg-4 py-2"
-          style={{
-            border: "none",
-            borderRadius: "8px",
-          }}
           to={
             location.pathname == "/dashboard/projects"
               ? "/dashboard/project-data"

@@ -39,3 +39,7 @@ select{width: auto;}
   height: 120px;
   object-fit: cover;
 }
+
+.sort{
+  cursor: pointer;
+}
