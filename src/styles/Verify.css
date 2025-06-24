@@ -1,0 +1,92 @@
+.verify-bg {
+  min-height: 100vh;
+  background-image: url("../../src/assets/AuthBackground.svg");
+  background-size: cover;
+  background-position: center;
+  overflow: hidden;
+}
+
+.Verify-container {
+  width: 40%;
+}
+
+.Verify-main-container {
+  background-color: rgba(49, 89, 81, 0.9);
+  border-radius: 16px;
+}
+
+.FC {
+  text-decoration: underline;
+}
+
+.verify-title {
+  font-size: clamp(1.5rem, 5vw, 2.25rem);
+}
+
+.verify-subtitle {
+  font-size: 13px;
+}
+
+.verify-input {
+  border: none;
+  outline: none;
+  border-bottom: 1px solid white;
+  color: white;
+  padding: 6px 12px;
+}
+
+.verify-input::placeholder {
+  color: rgba(255, 255, 255, 0.6);
+  font-style: italic;
+}
+
+.verify-btn {
+  max-width: 300px;
+  background: linear-gradient(45deg, #ffa726, #ff9800);
+  border: none;
+  border-radius: 25px !important;
+  color: white !important;
+  font-size: 18px !important;
+}
+
+/* Autofill fix */
+.verify-input:-webkit-autofill {
+  box-shadow: 0 0 0 1000px transparent inset !important;
+  -webkit-box-shadow: 0 0 0 1000px transparent inset !important;
+  -webkit-text-fill-color: white !important;
+  transition: background-color 9999s ease-out;
+}
+
+@media (max-width: 768px) {
+  .Verify-container {
+    padding: 0 1rem;
+    width: 90%;
+  }
+
+  .ImgSize {
+    width: 50% !important;
+    height: 50% !important;
+  }
+
+  .Verify-main-container {
+    width: 100% !important;
+    margin: 0 !important;
+    padding: 1rem 0 !important;
+  }
+
+  .Verify-main-container input {
+    font-size: 14px;
+  }
+
+  .Verify-main-container h2 {
+    font-size: 1rem !important;
+    text-align: center;
+  }
+
+  .Verify-main-container .btn {
+    padding: 0.3rem 1rem !important;
+    font-size: 16px !important;
+    margin-right: 1rem !important;
+    margin-left: 1rem !important;
+  }
+}

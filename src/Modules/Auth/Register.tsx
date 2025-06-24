@@ -1,5 +1,6 @@
+// Refactored to external CSS and Bootstrap (No color or design changes)
+
 import { useState } from "react";
-import Authbg from "../../assets/AuthBackground.svg";
 import PMSIcon from "../../assets/PMSIcon.png";
 import { useForm } from "react-hook-form";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -11,7 +12,6 @@ import { Link, useNavigate } from "react-router-dom";
 import { validateRegisterForm } from "../../services/Validations";
 import type { FormDataRegister } from './../../interfaces/FormData';
 import LoadingPage from '../../shared/LoadingPage/LoadingPage';
-
 
 function Register() {
   const [showPassword, setShowPassword] = useState(false);
@@ -56,7 +56,7 @@ function Register() {
       const errors = error?.response?.data?.additionalInfo?.errors;
 
       if (apiMessage) {
-        toast.error(apiMessage); 
+        toast.error(apiMessage);
       } else if (errors) {
         Object.entries(errors).forEach(([_, messages]) => {
           (messages as string[]).forEach((msg) => {
@@ -66,77 +66,44 @@ function Register() {
       } else {
         toast.error("Something went wrong. Please try again.");
       }
-      
+
     } finally {
       setLoading(false)
     }
   };
+
   return (
     <>
       {loading ? <LoadingPage /> :
-        <div
-          className="d-flex gap-2 flex-column align-items-center justify-content-center "
-          style={{
-            minHeight: "100vh",
-            backgroundImage: `url(${Authbg})`,
-            backgroundSize: "cover",
-            backgroundPosition: "center",
-            overflow: "hidden",
-          }}
-        >
-          <img src={PMSIcon} alt="PMSIcon" className="w-25 ImgSize  h-25" />
+        <div className="register-page-container">
+          <img src={PMSIcon} alt="PMSIcon" className="w-25 ImgSize h-25" />
           <div className="d-flex Register-container g-3 flex-column align-items-center justify-content-center">
-            <div className=" w-100 px-3  py-3  Register-main-container  border-0 shadow-lg">
-            
+            <div className="w-100 px-3 py-3 Register-main-container border-0 shadow-lg">
+
               <div className="text-lg-start mt-3 mx-5">
-                <h2
-                  className="fw-bold d-flex flex-column "
-                  style={{ color: "#ffa726", fontSize: "clamp(1.5rem, 5vw, 2.25rem)" }}
-                >
-                  <span
-                    className="text-white fw-light  "
-                    style={{
-                      fontSize: "13px",
-                    }}
-                  >
-                    welcome to PMS
-                  </span>
+                <h2 className="fw-bold d-flex flex-column heading-style">
+                  <span className="text-white fw-light sub-heading">welcome to PMS</span>
                   <span className="d-flex align-items-center">
                     <span className="FC">C</span>reate New Account
                   </span>
-
                 </h2>
               </div>
 
-           
               <form onSubmit={handleSubmit(onSubmit)}>
                 <div className="text-center mb-4">
-                  <label htmlFor="profileImageInput" style={{ cursor: "pointer" }}>
-                    <div
-                      className="rounded-circle mx-auto d-flex align-items-center justify-content-center"
-                      style={{
-                        width: "80px",
-                        height: "80px",
-                        background: "rgba(255, 167, 38, 0.2)",
-                        border: "3px solid rgba(255, 167, 38, 0.3)",
-                        overflow: "hidden",
-                      }}
-                    >
+                  <label htmlFor="profileImageInput" className="profile-label">
+                    <div className="profile-image-container">
                       {watch("profileImage") && watch("profileImage")?.[0] ? (
                         <img
                           src={URL.createObjectURL(watch("profileImage")![0])}
                           alt="Preview"
-                          style={{
-                            width: "100%",
-                            height: "100%",
-                            objectFit: "cover",
-                          }}
+                          className="profile-image-preview"
                         />
                       ) : (
                         <FontAwesomeIcon
                           icon={faUser}
                           size="2x"
-                          style={{ color: "#ffa726" }}
+                          className="profile-icon"
                         />
                       )}
                     </div>
@@ -149,168 +116,49 @@ function Register() {
                     className="d-none"
                   />
                 </div>
-                <div className="row px-5  ">
-                
-                  <div className="col-12 mb-2 d-flex flex-column  col-md-6">
-                    <label
-                      className="form-label fw-medium"
-                      style={{ color: "#ffa726" }}
-                    >
-                      User Name
-                    </label>
-                    <input
-                      type="text"
-                      placeholder="Enter your name"
 
-                      className="bg-transparent text-white w-100"
-                      style={{
-                        border: "none",
-                        outline: "none",
-                        borderBottom: "1px solid white",
-                        color: "white",
-                        padding: "6px 12px",
-                      }}
-                      {...register("userName", validateRegisterForm.userName)}
-                    />
+                <div className="row px-5">
+                  {/* Repeated Form Inputs */}
+                  {[
+                    { label: "User Name", name: "userName", type: "text", placeholder: "Enter your name", validation: validateRegisterForm.userName },
+                    { label: "E-mail", name: "email", type: "email", placeholder: "Enter your E-mail", validation: validateRegisterForm.email },
+                    { label: "Country", name: "country", type: "text", placeholder: "Enter your country", validation: validateRegisterForm.country },
+                    { label: "Phone Number", name: "phoneNumber", type: "tel", placeholder: "Enter your phone number", validation: validateRegisterForm.phoneNumber },
+                  ].map((field, index) => (
+                    <div key={index} className="col-12 mb-2 d-flex flex-column col-md-6">
+                      <label className="form-label fw-medium input-label">{field.label}</label>
+                      <input
+                        type={field.type}
+                        placeholder={field.placeholder}
+                        className="form-control bg-transparent text-white custom-input"
+                        {...register(field.name as keyof FormDataRegister, field.validation)}
+                      />
+                      {errors[field.name as keyof FormDataRegister] && (
+                        <div className="invalid-feedback d-block">
+                          {errors[field.name as keyof FormDataRegister]?.message}
+                        </div>
+                      )}
+                    </div>
+                  ))}
 
-                    {errors.userName && (
-                      <div className="invalid-feedback d-block">
-                        {errors.userName.message}
-                      </div>
-                    )}
-                  </div>
-
-                 
-                  <div className="col-12 mb-2 d-flex flex-column  col-md-6">
-                    <label
-                      className="form-label fw-medium"
-                      style={{ color: "#ffa726" }}
-                    >
-                      E-mail
-                    </label>
-                    <input
-                      type="email"
-                      placeholder="Enter your E-mail"
-                      className="bg-transparent text-white w-100"
-                      style={{
-                        border: "none",
-                        outline: "none",
-                        borderBottom: "1px solid white",
-                        color: "white",
-                        padding: "6px 12px",
-                      }}
-
-                      {...register("email", validateRegisterForm.email)}
-                    />
-
-                    {errors.email && (
-                      <div className="invalid-feedback d-block">
-                        {errors.email.message}
-                      </div>
-                    )}
-                  </div>
-
-               
-                  <div className="col-12 mb-2 d-flex flex-column  col-md-6">
-                    <label
-                      className="form-label fw-medium"
-                      style={{ color: "#ffa726" }}
-                    >
-                      Country
-                    </label>
-                    <input
-                      type="text"
-                      placeholder="Enter your country"
-                      className="bg-transparent text-white w-100"
-                      style={{
-                        border: "none",
-                        outline: "none",
-                        borderBottom: "1px solid white",
-                        color: "white",
-                        padding: "6px 12px",
-                      }}
-                      {...register("country", validateRegisterForm.country)}
-                    />
-
-                    {errors.country && (
-                      <div className="invalid-feedback d-block">
-                        {errors.country.message}
-                      </div>
-                    )}
-                  </div>
-
-                
-                  <div className="col-12 mb-2 d-flex flex-column  col-md-6">
-                    <label
-                      className="form-label fw-medium"
-                      style={{ color: "#ffa726" }}
-                    >
-                      Phone Number
-                    </label>
-                    <input
-                      type="tel"
-                      placeholder="Enter your phone number"
-                      className="bg-transparent text-white w-100"
-                      style={{
-                        border: "none",
-                        outline: "none",
-                        borderBottom: "1px solid white",
-                        color: "white",
-                        padding: "6px 12px",
-                      }}
-                      {...register("phoneNumber", validateRegisterForm.phoneNumber)}
-                    />
-
-                    {errors.phoneNumber && (
-                      <div className="invalid-feedback d-block">
-                        {errors.phoneNumber.message}
-                      </div>
-                    )}
-                  </div>
-
-                 
-                  <div className="col-12 mb-2 d-flex flex-column  col-md-6">
-                    <label
-                      className="form-label fw-medium"
-                      style={{ color: "#ffa726" }}
-                    >
-                      Password
-                    </label>
-                    <div
-                      className="position-relative col-12  w-100"
-                      style={{
-                        width: "100%",
-                      }}
-                    >
+                  {/* Password */}
+                  <div className="col-12 mb-2 d-flex flex-column col-md-6">
+                    <label className="form-label fw-medium input-label">Password</label>
+                    <div className="position-relative w-100">
                       <input
                         type={showPassword ? "text" : "password"}
                         placeholder="Enter your Password"
-                        className="bg-transparent text-white w-100"
-                        style={{
-                          border: "none",
-                          outline: "none",
-                          borderBottom: "1px solid white",
-                          color: "white",
-                          padding: "6px 12px",
-                        }}
+                        className="form-control bg-transparent text-white custom-input"
                         {...register("password", validateRegisterForm.password)}
                       />
-
                       <button
                         type="button"
-                        className="btn position-absolute top-50 end-0 translate-middle-y me-2"
-                        style={{
-                          border: "none",
-                          background: "transparent",
-                          color: "rgba(255, 255, 255, 0.6)",
-                          padding: "4px",
-                        }}
+                        className="btn position-absolute top-50 end-0 translate-middle-y me-2 toggle-password-btn"
                         onClick={() => setShowPassword(!showPassword)}
                       >
                         <FontAwesomeIcon icon={showPassword ? faEyeSlash : faEye} />
                       </button>
                     </div>
-
                     {errors.password && (
                       <div className="invalid-feedback d-block">
                         {errors.password.message}
@@ -319,52 +167,32 @@ function Register() {
                   </div>
 
                   {/* Confirm Password */}
-                  <div className="col-12 mb-2 d-flex flex-column  col-md-6">
-                    <label
-                      className="form-label fw-medium"
-                      style={{ color: "#ffa726" }}
-                    >
-                      Confirm Password
-                    </label>
+                  <div className="col-12 mb-2 d-flex flex-column col-md-6">
+                    <label className="form-label fw-medium input-label">Confirm Password</label>
                     <div className="position-relative">
                       <input
                         type={showConfirmPassword ? "text" : "password"}
                         placeholder="Confirm New Password"
-                        className="bg-transparent text-white w-100"
-                        style={{
-                          border: "none",
-                          outline: "none",
-                          borderBottom: "1px solid white",
-                          color: "white",
-                          padding: "6px 12px",
-                        }}
+                        className="form-control bg-transparent text-white custom-input"
                         {...register("confirmPassword", validateRegisterForm.confirmPassword(password))}
                       />
                       <button
                         type="button"
-                        className="btn position-absolute top-50 end-0 translate-middle-y me-2"
-                        style={{
-                          border: "none",
-                          background: "transparent",
-                          color: "rgba(255, 255, 255, 0.6)",
-                          padding: "4px",
-                        }}
+                        className="btn position-absolute top-50 end-0 translate-middle-y me-2 toggle-password-btn"
                         onClick={() => setShowConfirmPassword(!showConfirmPassword)}
                       >
-                        <FontAwesomeIcon
-                          icon={showConfirmPassword ? faEyeSlash : faEye}
-                        />
+                        <FontAwesomeIcon icon={showConfirmPassword ? faEyeSlash : faEye} />
                       </button>
                     </div>
-
                     {errors.confirmPassword && (
                       <div className="invalid-feedback d-block">
                         {errors.confirmPassword.message}
                       </div>
                     )}
                   </div>
+
                   <div className="text-end mt-2">
-                    <Link to={'/login'} className=' links-container_F_R  text-decoration-none '>Login Now?</Link>
+                    <Link to={'/login'} className='links-container_F_R text-decoration-none'>Login Now?</Link>
                   </div>
                 </div>
 
@@ -372,26 +200,8 @@ function Register() {
                 <div className="d-flex justify-content-center mx-sm-5 mx-lg-0 mt-3">
                   <button
                     type="submit"
-                    className="btn btn-lg fw-bold"
+                    className="btn btn-lg fw-bold custom-submit-btn"
                     disabled={isSubmitting}
-                    style={{
-                      background: "linear-gradient(45deg, #ffa726, #ff9800)",
-                      border: "none",
-                      borderRadius: "25px",
-                      color: "white",
-                      padding: "0.3rem 10rem 0.3rem 10rem",
-                      fontSize: "18px",
-                      transition: "all 0.3s ease",
-                    }}
-                    onMouseOver={(e) => {
-                      e.currentTarget.style.transform = "translateY(-2px)";
-                      e.currentTarget.style.boxShadow =
-                        "0 8px 25px rgba(255, 167, 38, 0.3)";
-                    }}
-                    onMouseOut={(e) => {
-                      e.currentTarget.style.transform = "translateY(0)";
-                      e.currentTarget.style.boxShadow = "none";
-                    }}
                   >
                     Save
                   </button>
@@ -401,7 +211,7 @@ function Register() {
           </div>
         </div>}
     </>
-
   );
 }
+
 export default Register;

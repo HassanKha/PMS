@@ -1,6 +1,6 @@
-import { useEffect, useState } from 'react'
-import logoForGet from '../../assets/PMS 3@2x.png'
-import { useForm } from 'react-hook-form'
+import { useEffect, useState } from 'react';
+import logoForGet from '../../assets/PMS 3@2x.png';
+import { useForm } from 'react-hook-form';
 import { axiosInstance, USERS_URLS } from '../../services/Urls';
 import { validateRegisterForm } from '../../services/Validations';
 import { toast } from 'react-toastify';
@@ -9,304 +9,173 @@ import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate } from 'react-router-dom';
 import type { ForgetPasswordForm } from '../../interfaces/ForgetPasswordForm';
 import LoadingPage from '../../shared/LoadingPage/LoadingPage';
+
+import "../../styles/ForgetPassword.css";
+
 function ForgetPassword() {
-  let [userEmail, setUserEmail] = useState('')
+  const [userEmail, setUserEmail] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-  const [dispalyForm, setDisplayForm] = useState(true)
-  let [btnloading, setbtnloading] = useState(false);
-  let { register, handleSubmit, formState: { errors }, watch, setValue } = useForm<ForgetPasswordForm>();
-  let navigate = useNavigate()
-  const password = watch("password");
+  const [dispalyForm, setDisplayForm] = useState(true);
+  const [btnloading, setbtnloading] = useState(false);
 
-  async function handelForgetPassword(data: any) {
+  const { register, handleSubmit, formState: { errors }, watch, setValue } = useForm<ForgetPasswordForm>();
+  const password = watch("password");
+  const navigate = useNavigate();
+
+  async function handelForgetPassword(data: ForgetPasswordForm) {
     setbtnloading(true);
     try {
-      let response = await axiosInstance.post(USERS_URLS.FORGET_PASS, data)
-      toast.success(response.data.message || "success,please check your email");
-      setDisplayForm(false)
+      let response = await axiosInstance.post(USERS_URLS.FORGET_PASS, data);
+      toast.success(response.data.message || "success, please check your email");
+      setDisplayForm(false);
       setUserEmail(data.email);
     } catch (error: any) {
-      toast.error(error.response.data.message || "Something went wrong. Please try again.");
-    }
-    finally {
+      toast.error(error.response?.data?.message || "Something went wrong.");
+    } finally {
       setbtnloading(false);
     }
   }
-  async function updatePassword(data: any) {
+
+  async function updatePassword(data: ForgetPasswordForm) {
     setbtnloading(true);
     try {
-      let response = await axiosInstance.post(USERS_URLS.RESET_PASS, data)
-      toast.success(response.data.message || "password updated successfully");
-      navigate("/login")
+      let response = await axiosInstance.post(USERS_URLS.RESET_PASS, data);
+      toast.success(response.data.message || "Password updated successfully");
+      navigate("/login");
     } catch (error: any) {
-      toast.error(error.response.data.message || "Something went wrong. Please try again.");
-    }
-    finally {
+      toast.error(error.response?.data?.message || "Something went wrong.");
+    } finally {
       setbtnloading(false);
     }
   }
+
   useEffect(() => {
     if (userEmail) {
-      setValue('email', userEmail);
+      setValue("email", userEmail);
     }
-  }, [userEmail, setValue]);
+  }, [userEmail]);
 
   return (
     <>
-    {btnloading?<LoadingPage/>:<>
-     {dispalyForm ?
-        <div className="ForgetPassword" >
-          <div className="container-fluid overlay">
-            <div className="row min-vh-100 justify-content-center align-items-center">
-              <div className="col-12 col-md-5 rounded-3 py-5 ">
-                <div>
-                
-                  <div className="log_img_forget text-center ">
-                    <img src={logoForGet} className='w-100' alt="food-logo" />
+      {btnloading ? (
+        <LoadingPage />
+      ) : (
+        dispalyForm ? (
+          <div className="ForgetPassword">
+            <div className="container-fluid overlay">
+              <div className="row min-vh-100 justify-content-center align-items-center">
+                <div className="col-12 col-md-5 rounded-3 py-5">
+                  <div className="log_img_forget text-center">
+                    <img src={logoForGet} className="w-100" alt="PMS-logo" />
                   </div>
                   <div className="form_forget">
-                 
                     <div className="title_forget">
-                      <p >welcome to PMS</p>
+                      <p>welcome to PMS</p>
                       <h2><span>F</span>orget Password</h2>
                     </div>
-                  
-                    <form onSubmit={handleSubmit(handelForgetPassword)} >
-                     
-                      <div className="input-group mt-3">
-                        <p style={{
-                          color: '#EF9B28',
-                          fontSize: '13px',
-                          marginBottom: '4px',
-                          marginLeft: '5px'
-                        }}>
-                          E-mail
-                        </p>
+                    <form onSubmit={handleSubmit(handelForgetPassword)}>
+                      <div className="form-group">
+                        <label className="input-label">E-mail</label>
                         <input
                           {...register("email", validateRegisterForm.email)}
                           type="email"
                           placeholder="Enter your E-mail"
-                          className="bg-transparent text-white w-100"
-                          style={{
-                            border: "none",
-                            outline: "none",
-                            borderBottom: "1px solid white",
-                            padding: "6px 12px",
-                            color: "white",
-                          }}
+                          className="form-control custom-input"
                         />
+                        {errors.email && (
+                          <div className="invalid-feedback d-block">{errors.email.message}</div>
+                        )}
                       </div>
-                      <button type="submit" className=' btn_forget w-100 '>Send </button>
+                      <button type="submit" className="btn_forget w-100 mt-3">Send</button>
                     </form>
                   </div>
                 </div>
               </div>
             </div>
           </div>
-        </div> :
-
-        <div className="ForgetPassword">
-          <div className="container " >
-            <div className="row justify-content-center min-vh-100  ">
-              <div className="col-12 col-md-6 rounded-3 py-5 ">
-                <div>
-                 
-                  <div className="log_img_forget text-center ">
-                    <img src={logoForGet} className='w-100' alt="pms-logo" />
+        ) : (
+          <div className="ForgetPassword">
+            <div className="container">
+              <div className="row justify-content-center min-vh-100">
+                <div className="col-12 col-md-6 rounded-3 py-5">
+                  <div className="log_img_forget text-center">
+                    <img src={logoForGet} className="w-100" alt="PMS-logo" />
                   </div>
                   <div className="form_rest">
-                  
                     <div className="title_rest">
-                      <p >welcome to PMS</p>
-                      <h2><span>R</span>eset  Password</h2>
+                      <p>welcome to PMS</p>
+                      <h2><span>R</span>eset Password</h2>
                     </div>
-                  
-                    <form onSubmit={handleSubmit(updatePassword)} >
-                    
-                      <div className="input-group mt-3">
-                        <p style={{
-                          color: '#EF9B28',
-                          fontSize: '13px',
-                          marginBottom: '4px',
-                          marginLeft: '5px'
-                        }}>
-                          E-mail
-                        </p>
+                    <form onSubmit={handleSubmit(updatePassword)}>
+                      <div className="form-group">
+                        <label className="input-label">E-mail</label>
                         <input
                           {...register("email", validateRegisterForm.email)}
                           type="email"
+                          className="form-control custom-input"
                           placeholder="Enter your E-mail"
-                          className="bg-transparent text-white w-100"
-                          style={{
-                            border: "none",
-                            outline: "none",
-                            borderBottom: "1px solid white",
-                            padding: "6px 12px",
-                            color: "white",
-                          }}
                           readOnly
                         />
                       </div>
-                     
-                      <div className="input-group mt-3">
-                        <p style={{
-                          color: '#EF9B28',
-                          fontSize: '13px',
-                          marginBottom: '4px',
-                          marginLeft: '5px'
-                        }}>
-                          OTP Verification
-                        </p>
+                      <div className="form-group">
+                        <label className="input-label">OTP Verification</label>
                         <input
                           {...register("seed", { required: "OTP is required" })}
                           type="text"
                           placeholder="Enter Verification"
-                          className="bg-transparent text-white w-100"
-                          style={{
-                            border: "none",
-                            outline: "none",
-                            borderBottom: "1px solid white",
-                            padding: "6px 12px",
-                            color: "white",
-                          }}
+                          className="form-control custom-input"
                         />
                       </div>
-
-                
-                      <div className="input-group mt-3">
-                        <p style={{
-                          color: '#EF9B28',
-                          fontSize: '13px',
-                          marginBottom: '4px',
-                          marginLeft: '5px'
-                        }}>
-                          New Password
-                        </p>
-                        <div
-                          className="position-relative col-12  w-100"
-                          style={{
-                            width: "100%",
-                          }}
+                      <div className="form-group position-relative">
+                        <label className="input-label">New Password</label>
+                        <input
+                          type={showPassword ? "text" : "password"}
+                          placeholder="Enter your New Password"
+                          className="form-control custom-input"
+                          {...register("password", validateRegisterForm.password)}
+                        />
+                        <button
+                          type="button"
+                          className="toggle-password-btn position-absolute top-50 end-0 translate-middle-y me-2"
+                          onClick={() => setShowPassword(!showPassword)}
                         >
-                          <input
-                            type={showPassword ? "text" : "password"}
-                            className="w-100"
-
-                            placeholder="Enter your New Password"
-                            style={{
-                              border: "none",
-                              background: "none",
-                              outline: "none",
-                              borderBottomWidth: "1px",
-                              borderRadius: "8px",
-                              color: "white",
-                              padding: "6px 12px",
-                              boxShadow: "none",
-                            }}
-                            {...register("password", validateRegisterForm.password)}
-                          />
-
-                          <button
-                            type="button"
-                            className="btn position-absolute top-50 end-0 translate-middle-y me-2"
-                            style={{
-                              border: "none",
-                              background: "transparent",
-                              color: "rgba(255, 255, 255, 0.6)",
-                              padding: "4px",
-                            }}
-                            onClick={() => setShowPassword(!showPassword)}
-                          >
-                            <FontAwesomeIcon icon={showPassword ? faEyeSlash : faEye} />
-                          </button>
-                        </div>
-                        <div
-                          style={{
-                            height: "1px",
-                            width: "100%",
-                            background: "white",
-                          }}
-                        ></div>
-                        {errors.password && (
-                          <div className="invalid-feedback d-block">
-                            {errors.password.message}
-                          </div>
-                        )}
+                          <FontAwesomeIcon icon={showPassword ? faEyeSlash : faEye} />
+                        </button>
                       </div>
-                     
-                      <div className="input-group mt-3">
-                        <p style={{
-                          color: '#EF9B28',
-                          fontSize: '13px',
-                          marginBottom: '4px',
-                          marginLeft: '5px'
-                        }}>
-                          New Password
-                        </p>
-                        <div
-                          className="position-relative col-12  w-100"
-                          style={{
-                            width: "100%",
-                          }}
+                      {errors.password && (
+                        <div className="invalid-feedback d-block">{errors.password.message}</div>
+                      )}
+                      <div className="form-group position-relative">
+                        <label className="input-label">Confirm Password</label>
+                        <input
+                          type={showConfirmPassword ? "text" : "password"}
+                          placeholder="Confirm your New Password"
+                          className="form-control custom-input"
+                          {...register("confirmPassword", validateRegisterForm.confirmPassword(password))}
+                        />
+                        <button
+                          type="button"
+                          className="toggle-password-btn position-absolute top-50 end-0 translate-middle-y me-2"
+                          onClick={() => setShowConfirmPassword(!showConfirmPassword)}
                         >
-                          <input
-                            type={showConfirmPassword ? "text" : "password"}
-                            className="w-100"
-                            placeholder="Enter your New Password"
-                            style={{
-                              border: "none",
-                              background: "none",
-                              outline: "none",
-                              borderBottomWidth: "1px",
-                              borderRadius: "8px",
-                              color: "white",
-                              padding: "6px 12px",
-                              boxShadow: "none",
-                            }}
-                            {...register("confirmPassword", validateRegisterForm.confirmPassword(password))}
-                          />
-
-                          <button
-                            type="button"
-                            className="btn position-absolute top-50 end-0 translate-middle-y me-2"
-                            style={{
-                              border: "none",
-                              background: "transparent",
-                              color: "rgba(255, 255, 255, 0.6)",
-                              padding: "4px",
-                            }}
-                            onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                          >
-                            <FontAwesomeIcon icon={showConfirmPassword ? faEyeSlash : faEye} />
-                          </button>
-                        </div>
-                        <div
-                          style={{
-                            height: "1px",
-                            width: "100%",
-                            background: "white",
-                          }}
-                        ></div>
-                        {errors.confirmPassword && (
-                          <div className="invalid-feedback d-block">
-                            {errors.confirmPassword.message}
-                          </div>
-                        )}
+                          <FontAwesomeIcon icon={showConfirmPassword ? faEyeSlash : faEye} />
+                        </button>
                       </div>
-
-                      <button type="submit" className=' btn_resetPass w-100 '>Send </button>
+                      {errors.confirmPassword && (
+                        <div className="invalid-feedback d-block">{errors.confirmPassword.message}</div>
+                      )}
+                      <button type="submit" className="btn_resetPass w-100 mt-3">Send</button>
                     </form>
                   </div>
                 </div>
               </div>
             </div>
           </div>
-        </div>}
-    </>}
-     
+        )
+      )}
     </>
-  )
+  );
 }
 
-export default ForgetPassword
+export default ForgetPassword;
