@@ -79,10 +79,11 @@ function Login() {
                 <div className="d-flex mt-3 mx-5 justify-content-lg-center justify-content-start align-content-lg-center flex-column">
                   {/* Email */}
                   <div className="col-12 mb-3 d-flex flex-column">
-                    <label className="form-label fw-medium input-label">
+                    <label htmlFor="email" className="form-label fw-medium input-label">
                       E-mail
                     </label>
                     <input
+                    id="email"
                       type="email"
                       placeholder="Enter your E-mail"
                       className="login-input"
@@ -99,11 +100,12 @@ function Login() {
 
                   {/* Password */}
                   <div className="input-group mt-3">
-                    <label className="form-label fw-medium input-label">
+                    <label htmlFor="password" className="form-label fw-medium input-label">
                       Password
                     </label>
                     <div className="position-relative col-12 w-100">
                       <input
+                      id="password"
                         type={showPassword ? "text" : "password"}
                         placeholder="Enter your Password"
                         className="login-password-input"

@@ -62,24 +62,25 @@ function ChangePassword() {
 
                   
                     <div className="col-12 mb-3 d-flex flex-column">
-                      <label className="form-label fw-medium">
+                      <label htmlFor="oldPassword" className="form-label fw-medium">
                         Old Password
                       </label>
                       <div className="position-relative">
                         <input
+                        id="oldPassword"
                           type={showOldPassword ? "text" : "password"}
                           placeholder="Enter your Old Password"
                           className='change-pass-input bg-transparent text-white'
                           {...register("oldPassword", validateRegisterForm.password)}
 
                         />
-                        <Button
+                        <button
                           type="button"
                           className="btn border-0 bg-transparent toggle-password-btn position-absolute top-50 end-0 translate-middle-y me-2"
                           onClick={() => setShowOldPassword(!showOldPassword)}
                         >
                           <FontAwesomeIcon icon={showOldPassword ? faEyeSlash : faEye} />
-                        </Button>
+                        </button>
                       </div>
 
                       {errors.oldPassword && (
@@ -89,24 +90,25 @@ function ChangePassword() {
 
                  
                     <div className="col-12 mb-3 d-flex flex-column">
-                      <label className="form-label fw-medium">
+                      <label htmlFor="newPassword" className="form-label fw-medium">
                         New Password
                       </label>
                       <div className="position-relative">
                         <input
+                        id="newPassword"
                           type={showNewPassword ? "text" : "password"}
                           placeholder="Enter your New Password"
                           {...register("newPassword", validateRegisterForm.password)}
                           className='change-pass-input bg-transparent text-white'
                         />
-                        <Button
+                        <button
                           type="button"
                           className="btn border-0 bg-transparent toggle-password-btn position-absolute top-50 end-0 translate-middle-y me-2"
                           onClick={() => setShowNewPassword(!showNewPassword)}
 
                         >
                           <FontAwesomeIcon icon={showNewPassword ? faEyeSlash : faEye} />
-                        </Button>
+                        </button>
                       </div>
 
                       {errors.newPassword && (
@@ -116,23 +118,24 @@ function ChangePassword() {
 
                    
                     <div className="col-12 mb-3 d-flex flex-column">
-                      <label className="form-label fw-medium">
+                      <label htmlFor="confirmNewPassword" className="form-label fw-medium">
                         Confirm New Password
                       </label>
                       <div className="position-relative">
                         <input
+                        id="confirmNewPassword"
                           type={showConfirmPassword ? "text" : "password"}
                           placeholder="Confirm your New Password"
                           {...register("confirmNewPassword", validateRegisterForm.confirmPassword(newPassword))}
                           className='change-pass-input bg-transparent text-white'
                         />
-                        <Button
+                        <button
                           type="button"
                           className="btn border-0 bg-transparent toggle-password-btn position-absolute top-50 end-0 translate-middle-y me-2"
                           onClick={() => setShowConfirmPassword(!showConfirmPassword)}
                         >
                           <FontAwesomeIcon icon={showConfirmPassword ? faEyeSlash : faEye} />
-                        </Button>
+                        </button>
                       </div>
 
                       {errors.confirmNewPassword && (
@@ -140,7 +143,7 @@ function ChangePassword() {
                       )}
                     </div>
 
-                  {/* Submit */}
+
                   <button
                     type="submit"
                     className="btn btn-lg fw-bold mt-4 change-pass-submit"

@@ -69,8 +69,9 @@ function Verify() {
               <form onSubmit={handleSubmit(onSubmit)}>
                 <div className="d-flex mt-3 mx-5 justify-content-lg-center justify-content-start align-content-lg-center flex-column">
                   <div className="col-12 mb-3 d-flex flex-column">
-                    <label className="form-label fw-medium text-warning">E-mail</label>
+                    <label htmlFor="email" className="form-label fw-medium text-warning">E-mail</label>
                     <input
+                    id="email"
                       type="email"
                       placeholder="Enter your E-mail"
                       className="verify-input bg-transparent text-white w-100"
@@ -83,8 +84,9 @@ function Verify() {
                   </div>
 
                   <div className="col-12 mb-3 d-flex flex-column">
-                    <label className="form-label fw-medium text-warning">OTP Verification</label>
+                    <label htmlFor="OTP" className="form-label fw-medium text-warning">OTP Verification</label>
                     <input
+                    id="OTP"
                       type="text"
                       placeholder="Enter Verification"
                       maxLength={6}

@@ -26,7 +26,7 @@ function ForgetPassword() {
   async function handelForgetPassword(data: ForgetPasswordForm) {
     setbtnloading(true);
     try {
-      let response = await axiosInstance.post(USERS_URLS.FORGET_PASS, data);
+      const response = await axiosInstance.post(USERS_URLS.FORGET_PASS, data);
       toast.success(response.data.message || "success, please check your email");
       setDisplayForm(false);
       setUserEmail(data.email);
@@ -40,7 +40,7 @@ function ForgetPassword() {
   async function updatePassword(data: ForgetPasswordForm) {
     setbtnloading(true);
     try {
-      let response = await axiosInstance.post(USERS_URLS.RESET_PASS, data);
+      const response = await axiosInstance.post(USERS_URLS.RESET_PASS, data);
       toast.success(response.data.message || "Password updated successfully");
       navigate("/login");
     } catch (error: any) {
@@ -54,7 +54,7 @@ function ForgetPassword() {
     if (userEmail) {
       setValue("email", userEmail);
     }
-  }, [userEmail]);
+  }, [userEmail, setValue]);
 
   return (
     <>
@@ -109,8 +109,9 @@ function ForgetPassword() {
                     </div>
                     <form onSubmit={handleSubmit(updatePassword)}>
                       <div className="form-group">
-                        <label className="input-label">E-mail</label>
+                        <label  htmlFor="email" className="input-label">E-mail</label>
                         <input
+                        id='email'
                           {...register("email", validateRegisterForm.email)}
                           type="email"
                           className="form-control custom-input"
@@ -119,8 +120,9 @@ function ForgetPassword() {
                         />
                       </div>
                       <div className="form-group">
-                        <label className="input-label">OTP Verification</label>
+                        <label htmlFor="OTP" className="input-label">OTP Verification</label>
                         <input
+                        id='OTP'
                           {...register("seed", { required: "OTP is required" })}
                           type="text"
                           placeholder="Enter Verification"
@@ -128,8 +130,9 @@ function ForgetPassword() {
                         />
                       </div>
                       <div className="form-group position-relative">
-                        <label className="input-label">New Password</label>
+                        <label htmlFor="password" className="input-label">New Password</label>
                         <input
+                        id='password'
                           type={showPassword ? "text" : "password"}
                           placeholder="Enter your New Password"
                           className="form-control custom-input"
@@ -147,8 +150,9 @@ function ForgetPassword() {
                         <div className="invalid-feedback d-block">{errors.password.message}</div>
                       )}
                       <div className="form-group position-relative">
-                        <label className="input-label">Confirm Password</label>
+                        <label htmlFor="Confirmpassword" className="input-label">Confirm Password</label>
                         <input
+                         id='Confirmpassword'
                           type={showConfirmPassword ? "text" : "password"}
                           placeholder="Confirm your New Password"
                           className="form-control custom-input"
