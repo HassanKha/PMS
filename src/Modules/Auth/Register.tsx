@@ -1,10 +1,7 @@
-// Refactored to external CSS and Bootstrap (No color or design changes)
-
 import { useState } from "react";
 import PMSIcon from "../../assets/PMSIcon.png";
 import { useForm } from "react-hook-form";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faEye, faEyeSlash, faUser } from "@fortawesome/free-solid-svg-icons";
+import { EyeIcon, EyeSlashIcon, UserPlusIcon } from "../../assets/SVGIcons/NotificationIcons";
 import "../../styles/register.css";
 import { axiosInstance, USERS_URLS } from "../../services/Urls";
 import { toast } from "react-toastify";
@@ -100,11 +97,8 @@ function Register() {
                           className="profile-image-preview"
                         />
                       ) : (
-                        <FontAwesomeIcon
-                          icon={faUser}
-                          size="2x"
-                          className="profile-icon"
-                        />
+                        <UserPlusIcon />
+                        
                       )}
                     </div>
                   </label>
@@ -156,7 +150,7 @@ function Register() {
                         className="btn position-absolute top-50 end-0 translate-middle-y me-2 toggle-password-btn"
                         onClick={() => setShowPassword(!showPassword)}
                       >
-                        <FontAwesomeIcon icon={showPassword ? faEyeSlash : faEye} />
+                        {showPassword ? <EyeSlashIcon /> : <EyeIcon />}
                       </button>
                     </div>
                     {errors.password && (
@@ -181,7 +175,7 @@ function Register() {
                         className="btn position-absolute top-50 end-0 translate-middle-y me-2 toggle-password-btn"
                         onClick={() => setShowConfirmPassword(!showConfirmPassword)}
                       >
-                        <FontAwesomeIcon icon={showConfirmPassword ? faEyeSlash : faEye} />
+                        {showConfirmPassword ? <EyeSlashIcon /> : <EyeIcon />}
                       </button>
                     </div>
                     {errors.confirmPassword && (

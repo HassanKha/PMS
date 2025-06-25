@@ -43,3 +43,7 @@ select{width: auto;}
 .sort{
   cursor: pointer;
 }
+
+.check{
+  font-size: 20px !important;
+}

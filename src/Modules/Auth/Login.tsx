@@ -6,8 +6,7 @@ import PMSIcon from "../../assets/PMSIcon.png";
 import LoginBg from "../../assets/LoginBG.svg";
 import axios from "axios";
 import { useContext, useEffect, useState } from "react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
+import { EyeIcon, EyeSlashIcon } from "../../assets/SVGIcons/NotificationIcons";
 import { validateRegisterForm } from "../../services/Validations";
 import type { LoginFormInputs } from "../../interfaces/LoginFormInputs";
 import { AuthContext } from "../../contexts/AuthContext";
@@ -120,9 +119,7 @@ function Login() {
                         className="btn position-absolute top-50 end-0 translate-middle-y me-2 password-toggle-btn"
                         onClick={() => setShowPassword(!showPassword)}
                       >
-                        <FontAwesomeIcon
-                          icon={showPassword ? faEyeSlash : faEye}
-                        />
+                        {showPassword ? <EyeSlashIcon /> : <EyeIcon />}
                       </button>
                     </div>
 

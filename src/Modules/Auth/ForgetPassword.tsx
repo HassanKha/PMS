@@ -4,8 +4,7 @@ import { useForm } from 'react-hook-form';
 import { axiosInstance, USERS_URLS } from '../../services/Urls';
 import { validateRegisterForm } from '../../services/Validations';
 import { toast } from 'react-toastify';
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
+import { EyeIcon, EyeSlashIcon } from "../../assets/SVGIcons/NotificationIcons";
 import { useNavigate } from 'react-router-dom';
 import type { ForgetPasswordForm } from '../../interfaces/ForgetPasswordForm';
 import LoadingPage from '../../shared/LoadingPage/LoadingPage';
@@ -143,7 +142,7 @@ function ForgetPassword() {
                           className="toggle-password-btn position-absolute top-50 end-0 translate-middle-y me-2"
                           onClick={() => setShowPassword(!showPassword)}
                         >
-                          <FontAwesomeIcon icon={showPassword ? faEyeSlash : faEye} />
+                          {showPassword ? <EyeSlashIcon /> : <EyeIcon />}
                         </button>
                       </div>
                       {errors.password && (
@@ -163,7 +162,8 @@ function ForgetPassword() {
                           className="toggle-password-btn position-absolute top-50 end-0 translate-middle-y me-2"
                           onClick={() => setShowConfirmPassword(!showConfirmPassword)}
                         >
-                          <FontAwesomeIcon icon={showConfirmPassword ? faEyeSlash : faEye} />
+                          {showConfirmPassword ? <EyeSlashIcon /> : <EyeIcon />}
+
                         </button>
                       </div>
                       {errors.confirmPassword && (

@@ -8,8 +8,22 @@ import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import { toast } from 'react-toastify';
 import defaultImage from "../../assets/user-profile-icon-vector-avatar-600nw-2247726673.webp";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSort, faSortUp, faSortDown, faSearch, faEllipsisV, faUserSlash, faUserCheck, faEye, faIdBadge, faUser as faUserIcon, faEnvelope, faGlobe, faPhone, faCalendarPlus, faCalendarCheck } from '@fortawesome/free-solid-svg-icons';
+import {
+  SearchIcon,
+  EllipsisIcon,
+  UserSlashIcon,
+  UserCheckIcon,
+  EyeIcon,
+  IdBadgeIcon,
+  UsersIcon,
+  EnvelopeIcon,
+  GlobeIcon,
+  PhoneIcon,
+  CalendarPlusIcon,
+  CalendarCheckIcon,
+  SortIcon
+} from "../../assets/SVGIcons/NotificationIcons";
+
 import Header from '../../shared/Header';
 
 export default function Users() {
@@ -173,7 +187,10 @@ export default function Users() {
              <div className="bg-white p-3 mt-3">
         <div className="p-2 d-flex mb-4 gap-2">
           <div className="position-relative w-25">
-            <FontAwesomeIcon icon={faSearch} className="text-secondary position-absolute top-50 start-0 translate-middle-y ms-3" />
+            <div className='position-absolute px-2 py-1'>
+                 <SearchIcon />
+            </div>
+          
             <input
               onChange={handleSearch}
               type="text"
@@ -194,19 +211,19 @@ export default function Users() {
               <thead>
                 <tr>
                   <th className="text-white px-4 py-3" onClick={() => handleSort("userName")}>
-                    User Name <FontAwesomeIcon className="ms-1 sort" icon={getSortIcon("userName")} />
+                    User Name <SortIcon />
                   </th>
                   <th className="text-white px-4 py-3 " onClick={() => handleSort("isActivated")}>
-                    Status <FontAwesomeIcon className="ms-1 sort" icon={getSortIcon("isActivated")} />
+                    Status <SortIcon />
                   </th>
                   <th className="text-white px-4 py-3 d-none d-md-table-cell" onClick={() => handleSort("phoneNumber")}>
-                    Phone Number <FontAwesomeIcon className="ms-1 sort" icon={getSortIcon("phoneNumber")} />
+                    Phone Number <SortIcon />
                   </th>
                   <th className="text-white px-4 py-3  d-none d-lg-table-cell" onClick={() => handleSort("email")}>
-                    Email <FontAwesomeIcon className="ms-1 sort" icon={getSortIcon("email")} />
+                    Email <SortIcon />
                   </th>
                   <th className="text-white px-4 py-3 d-none d-lg-table-cell" onClick={() => handleSort("creationDate")}>
-                    Date Created <FontAwesomeIcon className="ms-1 sort" icon={getSortIcon("creationDate")} />
+                    Date Created <SortIcon />
                   </th>
                   <th className="text-white px-4 py-3"></th>
                 </tr>
@@ -227,25 +244,25 @@ export default function Users() {
                       <td className="px-4 py-3">
                         <div className="dropdown">
                           <button className="btn btn-link text-dark p-0" data-bs-toggle="dropdown">
-                            <FontAwesomeIcon icon={faEllipsisV} />
+                            <EllipsisIcon />
                           </button>
                           <ul className="dropdown-menu">
                             {user.isActivated ? (
                               <li>
                                 <button onClick={() => handleShowDeactivate(user.id)} className="dropdown-item text-danger">
-                                  <FontAwesomeIcon icon={faUserSlash} className="me-2" /> Block
+                                  <UserSlashIcon /> Block
                                 </button>
                               </li>
                             ) : (
                               <li>
                                 <button onClick={() => handleShowActivate(user.id)} className="dropdown-item text-success">
-                                  <FontAwesomeIcon icon={faUserCheck} className="me-2" /> Activate
+                                 <UserCheckIcon /> Activate
                                 </button>
                               </li>
                             )}
                             <li>
                               <button onClick={() => handleShowDetails(user.id)} className="dropdown-item text-info">
-                                <FontAwesomeIcon icon={faEye} className="me-2" /> View
+                                <EyeIcon /> View
                               </button>
                             </li>
                           </ul>
@@ -294,7 +311,7 @@ export default function Users() {
 
       <Modal show={showDeactivate} onHide={handleCloseDeactivate} centered>
         <Modal.Body className="d-flex flex-column justify-content-center align-items-center">
-          <FontAwesomeIcon icon={faUserSlash} className="text-danger fa-2x mb-2" />
+          <span className='text-danger'><UserSlashIcon /></span> 
           Are You Sure You Want to Block This User?!
         </Modal.Body>
         <Modal.Footer>
@@ -307,7 +324,7 @@ export default function Users() {
 
       <Modal show={showActivate} onHide={handleCloseActivate} centered>
         <Modal.Body className="d-flex flex-column justify-content-center align-items-center">
-          <FontAwesomeIcon icon={faUserCheck} className="text-success fa-2x mb-2" />
+          <span className='text-success'><UserCheckIcon /></span>
           Are You Sure You Want to Activate This User?!
         </Modal.Body>
         <Modal.Footer>
@@ -321,7 +338,7 @@ export default function Users() {
       <Modal show={showDetails} onHide={handleCloseDetails} centered>
         <Modal.Header closeButton>
           <Modal.Title className="d-flex align-items-center gap-2">
-            <FontAwesomeIcon icon={faUserIcon} className="text-primary" /> User Details
+            <UsersIcon /> User Details
           </Modal.Title>
         </Modal.Header>
 
@@ -341,25 +358,26 @@ export default function Users() {
             </div>
             <div className="list-group">
               <div className="list-group-item d-flex align-items-center gap-2">
-                <FontAwesomeIcon icon={faIdBadge} className="text-secondary" /> <strong>ID:</strong> {user?.id}
+                <IdBadgeIcon  />
+                <strong>ID:</strong> {user?.id}
               </div>
               <div className="list-group-item d-flex align-items-center gap-2">
-                <FontAwesomeIcon icon={faUserIcon} className="text-primary" /> <strong>Name:</strong> {user?.userName}
+                <UsersIcon />  <strong>Name:</strong> {user?.userName}
               </div>
               <div className="list-group-item d-flex align-items-center gap-2">
-                <FontAwesomeIcon icon={faEnvelope} className="text-danger" /> <strong>Email:</strong> {user?.email}
+                <EnvelopeIcon />  <strong>Email:</strong> {user?.email}
               </div>
               <div className="list-group-item d-flex align-items-center gap-2">
-                <FontAwesomeIcon icon={faGlobe} className="text-success" /> <strong>Country:</strong> {user?.country}
+                <GlobeIcon /> <strong>Country:</strong> {user?.country}
               </div>
               <div className="list-group-item d-flex align-items-center gap-2">             
-              <FontAwesomeIcon icon={faPhone} className="text-warning" /> <strong>Phone:</strong> {user?.phoneNumber}
+              <PhoneIcon /><strong>Phone:</strong> {user?.phoneNumber}
               </div>
               <div className="list-group-item d-flex align-items-center gap-2">
-                <FontAwesomeIcon icon={faCalendarPlus} className="text-success" /> <strong>Created:</strong> {user?.creationDate && new Date(user.creationDate).toLocaleString()}
+                <CalendarPlusIcon /> <strong>Created:</strong> {user?.creationDate && new Date(user.creationDate).toLocaleString()}
               </div>
               <div className="list-group-item d-flex align-items-center gap-2">
-                <FontAwesomeIcon icon={faCalendarCheck} className="text-success" /> <strong>Updated:</strong> {user?.modificationDate && new Date(user.modificationDate).toLocaleString()}
+                <CalendarCheckIcon /> <strong>Updated:</strong> {user?.modificationDate && new Date(user.modificationDate).toLocaleString()}
               </div>
             </div>
           </Modal.Body>

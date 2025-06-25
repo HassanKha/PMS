@@ -3,8 +3,7 @@ import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import PMSIcon from "../../assets/PMSIcon.png";
 import { validateRegisterForm } from "../../services/Validations";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
+import { EyeIcon, EyeSlashIcon } from '../../assets/SVGIcons/NotificationIcons';
 import { axiosInstance, USERS_URLS } from '../../services/Urls';
 import "../../styles/ChangePass.css";
 import { toast } from 'react-toastify';
@@ -79,7 +78,7 @@ function ChangePassword() {
                           className="btn border-0 bg-transparent toggle-password-btn position-absolute top-50 end-0 translate-middle-y me-2"
                           onClick={() => setShowOldPassword(!showOldPassword)}
                         >
-                          <FontAwesomeIcon icon={showOldPassword ? faEyeSlash : faEye} />
+                          {showOldPassword ? <EyeSlashIcon /> : <EyeIcon />}
                         </button>
                       </div>
 
@@ -107,7 +106,7 @@ function ChangePassword() {
                           onClick={() => setShowNewPassword(!showNewPassword)}
 
                         >
-                          <FontAwesomeIcon icon={showNewPassword ? faEyeSlash : faEye} />
+                          {showNewPassword ? <EyeSlashIcon /> : <EyeIcon />}
                         </button>
                       </div>
 
@@ -134,7 +133,7 @@ function ChangePassword() {
                           className="btn border-0 bg-transparent toggle-password-btn position-absolute top-50 end-0 translate-middle-y me-2"
                           onClick={() => setShowConfirmPassword(!showConfirmPassword)}
                         >
-                          <FontAwesomeIcon icon={showConfirmPassword ? faEyeSlash : faEye} />
+                         {showConfirmPassword ? <EyeSlashIcon /> : <EyeIcon />}
                         </button>
                       </div>
 

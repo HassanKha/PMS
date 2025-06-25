@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
-  faExclamationTriangle,
-  faRedo,
-  faSearch,
-  faSort,
-} from "@fortawesome/free-solid-svg-icons";
+  SearchIcon,
+  SortIcon,
+  ExclamationTriangleIcon,
+  RedoIcon
+} from "../../assets/SVGIcons/NotificationIcons";
+
 import Header from "../../shared/Header";
 import NoData from "../../shared/NoData";
 import "../../styles/Tasks.css";
@@ -157,11 +157,9 @@ function TaskList() {
 
       <div className="mb-4">
         <div className="position-relative" style={{ maxWidth: "400px" }}>
-          <FontAwesomeIcon
-            icon={faSearch}
-            className="position-absolute text-muted search-icon"
+          <div className="position-absolute px-2 py-1 text-muted"><SearchIcon/></div>
+          
 
-          />
           <input
             type="text"
             className="form-control rounded-pill ps-5"
@@ -180,18 +178,14 @@ function TaskList() {
 
       {error && (
         <div className="bg-white rounded shadow-sm p-5 text-center">
-          <FontAwesomeIcon
-            icon={faExclamationTriangle}
-            size="2x"
-            className="mb-3"
-          />
+          <ExclamationTriangleIcon  />
           <h5 className="text-dark mb-3">Something went wrong</h5>
           <p className="text-muted mb-4">{error}</p>
           <button
             className="btn btn-danger px-4 py-2"
             onClick={() => fetchTasks(itemsPerPage, 1, searchTerm)}
           >
-            <FontAwesomeIcon icon={faRedo} className="me-2" /> Try Again
+            <RedoIcon/> Try Again
           </button>
         </div>
       )}
@@ -206,19 +200,19 @@ function TaskList() {
                     className="text-white cursor-pointer"
                     onClick={() => handleSort("title")}
                   >
-                    Title <FontAwesomeIcon icon={faSort} />
+                    Title <SortIcon />
                   </th>
                   <th
                     className="text-white cursor-pointer"
                     onClick={() => handleSort("description")}
                   >
-                    Description <FontAwesomeIcon icon={faSort} />
+                    Description<SortIcon />
                   </th>
                   <th
                     className="text-white"
                     onClick={() => handleSort("status")}
                   >
-                    Status <FontAwesomeIcon icon={faSort} />
+                    Status <SortIcon />
                   </th>
                   <th className="text-white">Project</th>
                   <th className="text-white">Employee</th>
@@ -226,7 +220,7 @@ function TaskList() {
                     className="text-white cursor-pointer"
                     onClick={() => handleSort("creationDate")}
                   >
-                    Date Created <FontAwesomeIcon icon={faSort} />
+                    Date Created <SortIcon />
                   </th>
                   <th className="text-white"></th>
                 </tr>
@@ -332,11 +326,7 @@ function TaskList() {
           </div>
         </div>
       )}
-      {/* <TaskModal
-              isOpen={modalOpen}
-              onClose={handleCloseModal}
-              project={selectedTask}
-            /> */}
+   
 
       <TaskModal isOpen={modalOpen} onClose={handleCloseModal} task={selectedTask} />
     </div>
