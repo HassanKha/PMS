@@ -1,304 +1,307 @@
 .ForgetPassword {
-  min-height: 100vh;
-  height: 100vh;
-  background-image: url(./assets/forGet.png);
-  background-size: cover;
-  background-repeat: no-repeat;
-  background-position: center;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 0 20px;
-  overflow: hidden;
-  box-sizing: border-box;
+    min-height: 100vh;
+    height: 100vh;
+    background-image: url(./assets/forGet.png);
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0 20px;
+    overflow: hidden;
+    box-sizing: border-box;
 }
 
 @media (max-width: 768px) {
-
-  .form_forget,
-  .form_rest {
-    padding: 1rem !important;
-  }
-
-
-  .title_forget h2,
-  .title_rest h2 {
-    font-size: 1.5rem !important;
-
-  }
-
-
-  .btn_forget,
-  .btn_resetPass {
-    font-size: 14px;
-    padding: 0.5rem 1rem;
-  }
-
-
-  .log_img_forget img {
-    width: 80%;
-    max-width: 100%;
-    height: auto;
-  }
-
+    .form_forget,
+    .form_rest {
+        padding: 1rem !important;
+    }
+    .title_forget h2,
+    .title_rest h2 {
+        font-size: 1.5rem !important;
+    }
+    .btn_forget,
+    .btn_resetPass {
+        font-size: 14px;
+        padding: 0.5rem 1rem;
+    }
+    .log_img_forget img {
+        width: 80%;
+        max-width: 100%;
+        height: auto;
+    }
 }
 
 .log_img_forget {
-  width: 50%;
-  margin: auto;
+    width: 50%;
+    margin: auto;
 }
 
 .form_forget {
-  background-color: #315951E5;
-  border-radius: 16px;
-  padding: 50px;
-  margin-top: 20px;
+    background-color: #315951E5;
+    border-radius: 16px;
+    padding: 50px;
+    margin-top: 20px;
 }
 
 .title_forget {
-  color: #fff;
-  margin-bottom: 50px;
+    color: #fff;
+    margin-bottom: 50px;
 }
 
 .title_forget h2 {
-  color: #EF9B28;
-  font-size: 32px;
-  font-weight: 700;
-  line-height: 46px;
+    color: #EF9B28;
+    font-size: 32px;
+    font-weight: 700;
+    line-height: 46px;
 }
 
 .title_forget p {
-  padding: 0;
-  margin: 0;
-  font-size: 13px;
-  margin-top: 30px;
+    padding: 0;
+    margin: 0;
+    font-size: 13px;
+    margin-top: 30px;
 }
 
 .title_forget span {
-  text-decoration-line: underline;
+    text-decoration-line: underline;
 }
 
 .btn_forget {
-  background-color: #EF9B28;
-  border-radius: 96px;
-  color: #fff;
-  border: none;
-  height: 50px;
-  margin-top: 50px !important;
+    background-color: #EF9B28;
+    border-radius: 96px;
+    color: #fff;
+    border: none;
+    height: 50px;
+    margin-top: 50px !important;
 }
 
 .btn_resetPass {
-  background-color: #EF9B28;
-  border-radius: 96px;
-  color: #fff;
-  border: none;
-  height: 50px;
-  margin-top: 30px !important;
+    background-color: #EF9B28;
+    border-radius: 96px;
+    color: #fff;
+    border: none;
+    height: 50px;
+    margin-top: 30px !important;
 }
 
 .form_rest {
-  background-color: #315951E5;
-  border-radius: 16px;
-  padding: 30px;
-  margin-top: 20px;
+    background-color: #315951E5;
+    border-radius: 16px;
+    padding: 30px;
+    margin-top: 20px;
 }
 
 .title_rest {
-  color: #fff;
-
+    color: #fff;
 }
 
 .title_rest h2 {
-  color: #EF9B28;
-  font-size: 32px;
-  font-weight: 700;
-  line-height: 46px;
+    color: #EF9B28;
+    font-size: 32px;
+    font-weight: 700;
+    line-height: 46px;
 }
 
 .title_rest p {
-  padding: 0;
-  margin: 0;
-  font-size: 13px;
+    padding: 0;
+    margin: 0;
+    font-size: 13px;
 }
 
 .title_rest span {
-  text-decoration-line: underline;
+    text-decoration-line: underline;
 }
 
+
 /* ////login */
+
 .links-container_F_R {
-  transition: 0.5s;
-  color: #ede6e6 !important;
+    transition: 0.5s;
+    color: #ede6e6 !important;
 }
 
 .links-container_F_R:hover {
-  color: #EF9B28 !important;
+    color: #EF9B28 !important;
 }
 
 @media (max-width: 576px) {
-  .change-pass-main-container {
-    width: 100% !important;
-  }
+    .change-pass-main-container {
+        width: 100% !important;
+    }
 }
 
-/* /////Projects */
-.header_Project {
-  padding: 0 20px;
 
+/* /////Projects */
+
+.header_Project {
+    padding: 0 20px;
 }
 
 .header_Project .container-fluid {
-  background-color: rgba(250, 237, 237, 0.38);
-  border-radius: 20px;
-  padding: 30px 20px;
-  margin-top: 10px;
-  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    background-color: rgba(250, 237, 237, 0.38);
+    border-radius: 20px;
+    padding: 30px 20px;
+    margin-top: 10px;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
 }
 
 .header_Project button {
-  background-color: #EF9B28;
-  border-radius: 32px;
-  color: #fff;
-  border: none;
-  padding: 10px 20px;
-  margin-left: 10px;
+    background-color: #EF9B28;
+    border-radius: 32px;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    margin-left: 10px;
 }
 
 .sidbarContant .css-td6zew {
-  height: 100vh !important;
+    height: 100vh !important;
 }
 
 .table-projects th {
-  background-color: #315951E5 !important;
-  padding: 10px !important;
-  border: none !important;
-  color: #fff !important;
-  text-align: center !important
+    background-color: #315951E5 !important;
+    padding: 10px !important;
+    border: none !important;
+    color: #fff !important;
+    text-align: center !important
 }
 
 .dropdown-toggle::after {
-  content: "...";
-  border-top: none !important;
-  border-right: none !important;
-  border-bottom: 0;
-  border-left: none !important;
+    content: "...";
+    border-top: none !important;
+    border-right: none !important;
+    border-bottom: 0;
+    border-left: none !important;
 }
 
 .action .dropdown-item {
-  text-align: start;
-  padding-left: 20px;
-  padding: 0 !important;
-  overflow: hidden;
+    text-align: start;
+    padding-left: 20px;
+    padding: 0 !important;
+    overflow: hidden;
 }
 
 .dropdown-menu {
-  cursor: pointer;
+    cursor: pointer;
 }
 
 .fa-eye {
-  cursor: pointer;
-  color: rgb(154, 154, 244);
+    cursor: pointer;
+    color: rgb(154, 154, 244);
 }
 
 .fa-trash {
-  cursor: pointer;
-  color: rgb(182, 53, 53);
+    cursor: pointer;
+    color: rgb(182, 53, 53);
 }
 
 .fa-pen-to-square {
-  cursor: pointer;
-  color: rgb(43, 195, 119);
+    cursor: pointer;
+    color: rgb(43, 195, 119);
 }
 
 .action .dropdown-toggle {
-  padding: 0;
-
-
+    padding: 0;
 }
 
 .action .dropdown-toggle:focus {
-  border: none !important;
+    border: none !important;
 }
 
 .search_Projects {
-  width: 200px;
-  margin-right: 10px;
+    width: 200px;
+    margin-right: 10px;
 }
 
 .statues_Project {
-padding: 6px 14px !important;
-  background-color: #315951E5 !important;
-  border-radius: 16px;
-  color: #fff;
-  margin: 5px;
-  text-align: center;
-  cursor: pointer;
+    padding: 6px 14px !important;
+    background-color: #315951E5 !important;
+    border-radius: 16px;
+    color: #fff;
+    margin: 5px;
+    text-align: center;
+    cursor: pointer;
 }
-/* //projectForm */
-.headerProject{
-  padding: 0 20px;
-  background-color: white;
-  margin-top: 5px;
-  border-radius: 10px;
-}
-.formProjects{
-  width: 80%;
-  margin: auto;
-  margin-top: 20px;
-  padding: 55px 20px !important;
-  border-radius: 20px;
-  background-color: rgb(255, 255, 255);
-  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-}
-.btnSaveProject{
-  background-color: #EF9B28;
-  border-radius: 24px;
-  color: #fff;
-  border: none;
-  height: 43px;
-  width: 100px;
-  margin-top: 30px !important;
-  transition: 0.5s;
-}
-.btnSaveProject:hover{
-  background-color: #bb7615;
-}
-.btn_CancelForm{
-  background-color: #315951E5;
-  border-radius: 24px;
-  color: #fff;
-  border: none;
-  height: 43px;
-  width: 100px;
-  margin-top: 30px !important;
-  transition: 0.5s;}
-  .btn_CancelForm:hover{
-    background-color: #1f3b3b;
-  }
 
-  .fancy-hover-link {
-  position: relative;
-  display: inline-block;
-  transition: all 0.3s ease;
+
+/* //projectForm */
+
+.headerProject {
+    padding: 0 20px;
+    background-color: white;
+    margin-top: 5px;
+    border-radius: 10px;
+}
+
+.formProjects {
+    width: 80%;
+    margin: auto;
+    margin-top: 20px;
+    padding: 55px 20px !important;
+    border-radius: 20px;
+    background-color: rgb(255, 255, 255);
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+}
+
+.btnSaveProject {
+    background-color: #EF9B28;
+    border-radius: 24px;
+    color: #fff;
+    border: none;
+    height: 43px;
+    width: 100px;
+    margin-top: 30px !important;
+    transition: 0.5s;
+}
+
+.btnSaveProject:hover {
+    background-color: #bb7615;
+}
+
+.btn_CancelForm {
+    background-color: #315951E5;
+    border-radius: 24px;
+    color: #fff;
+    border: none;
+    height: 43px;
+    width: 100px;
+    margin-top: 30px !important;
+    transition: 0.5s;
+}
+
+.btn_CancelForm:hover {
+    background-color: #1f3b3b;
+}
+
+
+/* /// */
+
+.fancy-hover-link {
+    position: relative;
+    display: inline-block;
+    transition: all 0.3s ease;
 }
 
 .fancy-hover-link:hover {
-  transform: translateX(-3px) scale(1.03);
-  color: #ed8936 !important; 
-  text-decoration: none;
+    transform: translateX(-3px) scale(1.03);
+    color: #ed8936 !important;
+    text-decoration: none;
 }
 
 .fancy-hover-link::after {
-  content: '';
-  position: absolute;
-  bottom: -2px;
-  left: 0;
-  width: 0%;
-  height: 2px;
-  background-color: #ed8936;
-  transition: width 0.3s ease;
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 0%;
+    height: 2px;
+    background-color: #ed8936;
+    transition: width 0.3s ease;
 }
 
 .fancy-hover-link:hover::after {
-  width: 100%;
+    width: 100%;
 }

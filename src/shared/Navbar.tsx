@@ -1,4 +1,4 @@
-import { useState, useContext } from "react";
+import { useState, useContext, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import "../styles/Navbar.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -17,6 +17,7 @@ import PMSIcon from "../assets/PMS2.png";
 import { AuthContext } from "../contexts/AuthContext";
 import { ImageURL } from "../services/Urls";
 import NotePopup from "./NotePopup";
+import Darkmode from 'darkmode-js';
 
 interface NavbarProps {
   handleToggleSidebar: () => void;
@@ -40,7 +41,34 @@ const Navbar: React.FC<NavbarProps> = ({
   };
 
 
-    const [showPrivileges, setShowPrivileges] = useState(false)
+  const [showPrivileges, setShowPrivileges] = useState(false)
+  const [darkmodeInstance, setDarkmodeInstance] = useState<any>(null);
+  const [isDark, setIsDark] = useState(false);
+  useEffect(() => {
+    const options = {
+      time: '0.3s',
+      mixColor: '#fff',
+      backgroundColor: '#fff',
+      buttonColorDark: '#100f2c',
+      buttonColorLight: '#fff',
+      saveInCookies: true,
+      autoMatchOsTheme: true,
+    };
+    const darkmode = new Darkmode(options);
+    setDarkmodeInstance(darkmode);
+
+    const saved = localStorage.getItem("darkmode") === "true";
+    setIsDark(saved);
+  }, []);
+
+  const toggleDarkMode = () => {
+    if (darkmodeInstance) {
+      darkmodeInstance.toggle();
+      const currentMode = !darkmodeInstance.isActivated();
+      setIsDark(currentMode);
+    }
+  };
+
   return (
     <nav className="navbar navbar-expand-lg navbar-light bg-white border-bottom shadow-sm">
       <div className="container-fluid d-flex justify-content-between align-items-center">
@@ -53,15 +81,35 @@ const Navbar: React.FC<NavbarProps> = ({
           </button>
           <img src={PMSIcon} alt="PMSIcon" style={{ height: 40 }} />
         </div>
-<NotePopup showPrivileges={showPrivileges} setShowPrivileges={setShowPrivileges} />
+        <NotePopup showPrivileges={showPrivileges} setShowPrivileges={setShowPrivileges} />
         <div className="d-flex align-items-center ">
-          <button className="btn btn-link text-secondary position-relative me-4 p-1 notification-btn"     onMouseEnter={() => setShowPrivileges(true)}
-                  onMouseLeave={() => setShowPrivileges(false)}
-                  onClick={() => setShowPrivileges(!showPrivileges)}>
+          <div style={{ marginLeft: 'auto' }}>
+            <button
+              onClick={toggleDarkMode}
+              style={{
+                zIndex: 899999,
+                position: 'relative',
+                border: 'none',
+                background: 'none',
+                fontSize: '1.5rem',
+                cursor: 'pointer',
+              }}
+              title="Toggle Dark Mode"
+            >
+              {isDark ? '☀️' : '🌙'}
+            </button>
+          </div>
+
+          <button
+            className="btn btn-link text-secondary position-relative me-4 p-1 notification-btn d-none d-md-inline"
+            onMouseEnter={() => setShowPrivileges(true)}
+            onMouseLeave={() => setShowPrivileges(false)}
+            onClick={() => setShowPrivileges(!showPrivileges)}
+          >
             <FontAwesomeIcon
               icon={faBell}
               size="lg"
-               className="notification-icon"
+              className="notification-icon"
               style={{ color: "#EF9B28" }}
             />
             <span className="badge bg-danger notification-badge position-absolute top-0 start-100 translate-middle rounded-pill">
@@ -69,7 +117,8 @@ const Navbar: React.FC<NavbarProps> = ({
             </span>
           </button>
 
-          <div className="dropdown user-hover-box  px-2 " style={{cursor:"pointer"}}>
+
+          <div className="dropdown user-hover-box  px-2 " style={{ cursor: "pointer" }}>
             <div
               className="d-flex align-items-center "
               onClick={toggleDropdown}

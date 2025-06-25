@@ -13,11 +13,15 @@ import { TaskProvider } from "./contexts/TaskContext.tsx";
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
+
     <AuthContextProvider>
       <ProjectProvider>
         <UsersProvider>
           <TaskProvider>
-            <App />
+       
+              <App />
+            
+             
           </TaskProvider>
         </UsersProvider>
       </ProjectProvider>

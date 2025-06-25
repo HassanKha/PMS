@@ -23,8 +23,11 @@ import Profile from "./Modules/Profile/Profile";
 import ProtectedTasksRoute from "./shared/ProtectedTasksRoute";
 import TasksData from "./Modules/Tasks/TasksData";
 
+
+
 function App() {
-   const routes: RouteObject[] = [
+ 
+  const routes: RouteObject[] = [
     {
       path: "",
       element: <AuthLayout />,
@@ -45,11 +48,11 @@ function App() {
         { index: true, element: <Dashboard /> },
         { path: "projects", element: <ProjectList /> },
         { path: "project-data", element: <ProjectData /> },
-        { path: "users" , element : <Users/>},
-        { path: "tasks" , element : <ProtectedTasksRoute/>},
-          { path: "tasks-data" , element : <TasksData/>},
-        { path: "profile" , element : <Profile/>},
-        
+        { path: "users", element: <Users /> },
+        { path: "tasks", element: <ProtectedTasksRoute /> },
+        { path: "tasks-data", element: <TasksData /> },
+        { path: "profile", element: <Profile /> },
+
       ],
     },
     {
@@ -61,7 +64,7 @@ function App() {
   return (
     <>
       <ToastContainer position="top-right" autoClose={3000} />
-           <RouterProvider router={createBrowserRouter(routes)} />
+      <RouterProvider router={createBrowserRouter(routes)} />
     </>
   );
 }
