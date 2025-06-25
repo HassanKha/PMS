@@ -47,7 +47,7 @@ function ProjectData() {
   return (
     <>
       <div className="AllPageFormProjects">
-        <div className="container">
+        <div className="container-fluid">
           <div className="headerProject p-3 ">
             <Link to="/dashboard/projects" className="fancy-hover-link text-decoration-none text-black"> <i className="fa-solid fa-chevron-left mx-1"></i> View All Projects</Link>
             <h3 className="pt-3">Add a New Project</h3>

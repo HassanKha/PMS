@@ -358,26 +358,33 @@ export default function Users() {
             </div>
             <div className="list-group">
               <div className="list-group-item d-flex align-items-center gap-2">
-                <IdBadgeIcon  />
+                <span className='text-secondary mb-1 d-inline-block'> <IdBadgeIcon  /></span>
+               
                 <strong>ID:</strong> {user?.id}
               </div>
               <div className="list-group-item d-flex align-items-center gap-2">
-                <UsersIcon />  <strong>Name:</strong> {user?.userName}
+                 <span className='text-primary mb-1 d-inline-block'> <UsersIcon /> </span>
+                <strong>Name:</strong> {user?.userName}
               </div>
               <div className="list-group-item d-flex align-items-center gap-2">
-                <EnvelopeIcon />  <strong>Email:</strong> {user?.email}
+                <span className='text-danger mb-1 d-inline-block'><EnvelopeIcon /> </span>
+                  <strong>Email:</strong> {user?.email}
               </div>
               <div className="list-group-item d-flex align-items-center gap-2">
-                <GlobeIcon /> <strong>Country:</strong> {user?.country}
+                <span className='text-success mb-1 d-inline-block'><GlobeIcon /> </span>
+                 <strong>Country:</strong> {user?.country}
               </div>
-              <div className="list-group-item d-flex align-items-center gap-2">             
-              <PhoneIcon /><strong>Phone:</strong> {user?.phoneNumber}
+              <div className="list-group-item d-flex align-items-center gap-2"> 
+                <span className='text-warning mb-1 d-inline-block'> <PhoneIcon /></span>
+             <strong>Phone:</strong> {user?.phoneNumber}
               </div>
               <div className="list-group-item d-flex align-items-center gap-2">
-                <CalendarPlusIcon /> <strong>Created:</strong> {user?.creationDate && new Date(user.creationDate).toLocaleString()}
+                 <span className='text-success mb-1 d-inline-block'><CalendarPlusIcon /> </span>
+                <strong>Created:</strong> {user?.creationDate && new Date(user.creationDate).toLocaleString()}
               </div>
               <div className="list-group-item d-flex align-items-center gap-2">
-                <CalendarCheckIcon /> <strong>Updated:</strong> {user?.modificationDate && new Date(user.modificationDate).toLocaleString()}
+                 <span className='text-success mb-1 d-inline-block'><CalendarCheckIcon /> </span>
+                 <strong>Updated:</strong> {user?.modificationDate && new Date(user.modificationDate).toLocaleString()}
               </div>
             </div>
           </Modal.Body>
