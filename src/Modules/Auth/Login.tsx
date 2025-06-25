@@ -6,7 +6,7 @@ import PMSIcon from "../../assets/PMSIcon.png";
 import LoginBg from "../../assets/LoginBG.svg";
 import axios from "axios";
 import { useContext, useEffect, useState } from "react";
-import { EyeIcon, EyeSlashIcon } from "../../assets/SVGIcons/NotificationIcons";
+import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { validateRegisterForm } from "../../services/Validations";
 import type { LoginFormInputs } from "../../interfaces/LoginFormInputs";
 import { AuthContext } from "../../contexts/AuthContext";
@@ -37,7 +37,7 @@ function Login() {
         const message = error.response?.data?.message || "Login Failed!";
         toast.error(message);
       } else {
-        toast.error( "Unexpected error");
+        toast.error("Unexpected error");
       }
     } finally {
       setLoading(false);
@@ -82,7 +82,7 @@ function Login() {
                       E-mail
                     </label>
                     <input
-                    id="email"
+                      id="email"
                       type="email"
                       placeholder="Enter your E-mail"
                       className="login-input"
@@ -104,7 +104,7 @@ function Login() {
                     </label>
                     <div className="position-relative col-12 w-100">
                       <input
-                      id="password"
+                        id="password"
                         type={showPassword ? "text" : "password"}
                         placeholder="Enter your Password"
                         className="login-password-input"
@@ -119,7 +119,7 @@ function Login() {
                         className="btn position-absolute top-50 end-0 translate-middle-y me-2 password-toggle-btn"
                         onClick={() => setShowPassword(!showPassword)}
                       >
-                        {showPassword ? <EyeSlashIcon /> : <EyeIcon />}
+                        {showPassword ? <FaEyeSlash className="text-white" /> : <FaEye className="text-white" />}
                       </button>
                     </div>
 

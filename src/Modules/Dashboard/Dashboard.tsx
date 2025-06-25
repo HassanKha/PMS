@@ -1,11 +1,4 @@
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faChartLine,
-  faTasks,
-  faProjectDiagram,
-  faUserCheck,
-  faUserTimes,
-} from "@fortawesome/free-solid-svg-icons";
+import { FaChartLine, FaTasks, FaProjectDiagram, FaUserCheck, FaUserTimes } from "react-icons/fa";
 import HomeBG from "../../assets/home-bg.png";
 import { useContext, useEffect, useState } from "react";
 import { axiosInstance, TASKS_URLS } from "../../services/Urls";
@@ -47,12 +40,12 @@ export default function Dashboard() {
       setLoadingTasks(false);
     }
   };
+
   return (
     <div
       className="p-4"
       style={{ backgroundColor: "#f8f9fa", minHeight: "calc(100vh - 70px)" }}
     >
-
       <div
         className="rounded-4 p-5 mb-5 position-relative overflow-hidden"
         style={{
@@ -63,7 +56,6 @@ export default function Dashboard() {
           minHeight: "200px",
         }}
       >
-
         <div className="position-relative" style={{ zIndex: 2 }}>
           <h1
             className="text-white mb-3"
@@ -83,11 +75,8 @@ export default function Dashboard() {
         </div>
       </div>
 
-
       <div className="row g-4">
-
         <div className="col-lg-6">
-
           <div className="d-flex align-items-start mb-3">
             <div
               className="me-3"
@@ -106,7 +95,6 @@ export default function Dashboard() {
               </p>
             </div>
           </div>
-
 
           <div className="row g-3">
             <div className="col-md-6 col-lg-4">
@@ -128,10 +116,7 @@ export default function Dashboard() {
                         backgroundColor: "rgba(245, 158, 11, 0.2)",
                       }}
                     >
-                      <FontAwesomeIcon
-                        icon={faChartLine}
-                        style={{ color: "#f59e0b", fontSize: "20px" }}
-                      />
+                      <FaChartLine style={{ color: "#f59e0b", fontSize: "20px" }} />
                     </div>
                   </div>
                   <div>
@@ -151,7 +136,8 @@ export default function Dashboard() {
                 </div>
               </div>
             </div>
-   <div className="col-md-6 col-lg-4">
+
+            <div className="col-md-6 col-lg-4">
               <div
                 className="card border-0 h-100 dashboard-card"
                 style={{
@@ -170,10 +156,7 @@ export default function Dashboard() {
                         backgroundColor: "rgba(236, 72, 153, 0.2)",
                       }}
                     >
-                      <FontAwesomeIcon
-                        icon={faProjectDiagram}
-                        style={{ color: "#ec4899", fontSize: "20px" }}
-                      />
+                      <FaProjectDiagram style={{ color: "#ec4899", fontSize: "20px" }} />
                     </div>
                   </div>
                   <div>
@@ -181,13 +164,13 @@ export default function Dashboard() {
                       className="text-muted mb-1"
                       style={{ fontSize: "0.9rem", fontWeight: "500" }}
                     >
-                   In progress
+                      In progress
                     </div>
                     <div
                       className="fw-bold"
                       style={{ fontSize: "1.7rem", color: "#1a202c" }}
                     >
-                      {loadingProjects ? <Spinner /> :TasksCount?.inProgress ?? 0}
+                      {loadingProjects ? <Spinner /> : TasksCount?.inProgress ?? 0}
                     </div>
                   </div>
                 </div>
@@ -213,11 +196,7 @@ export default function Dashboard() {
                         backgroundColor: "rgba(99, 102, 241, 0.2)",
                       }}
                     >
-                      <FontAwesomeIcon
-                        icon={faTasks}
-                        style={{ color: " #6366f1", fontSize: "20px" }}
-                      />
-
+                      <FaTasks style={{ color: "#6366f1", fontSize: "20px" }} />
                     </div>
                   </div>
                   <div>
@@ -248,28 +227,24 @@ export default function Dashboard() {
                             return (
                               <>
                                 ({done})
-                                <span style={{ color: '#798ceb', marginLeft: '10px' }}>
+                                <span style={{ color: "#798ceb", marginLeft: "10px" }}>
                                   {percentage.toFixed(0)}%
                                 </span>
                               </>
                             );
                           })()}
                         </span>
-
-
                       )}
                     </div>
                   </div>
                 </div>
               </div>
             </div>
-
-
           </div>
         </div>
-        {auth?.LoginData?.roles[0] === "Manager" ? (
-          <div className="col-lg-6">
 
+        {auth?.LoginData?.roles[0] === "Manager" && (
+          <div className="col-lg-6">
             <div className="d-flex align-items-start mb-3">
               <div
                 className="me-3"
@@ -289,9 +264,7 @@ export default function Dashboard() {
               </div>
             </div>
 
-
             <div className="row g-3">
-
               <div className="col-md-6">
                 <div
                   className="card border-0 h-100 dashboard-card"
@@ -311,10 +284,7 @@ export default function Dashboard() {
                           backgroundColor: "rgba(59, 130, 246, 0.2)",
                         }}
                       >
-                        <FontAwesomeIcon
-                          icon={faUserCheck}
-                          style={{ color: "#3b82f6", fontSize: "20px" }}
-                        />
+                        <FaUserCheck style={{ color: "#3b82f6", fontSize: "20px" }} />
                       </div>
                     </div>
                     <div>
@@ -335,7 +305,6 @@ export default function Dashboard() {
                 </div>
               </div>
 
-
               <div className="col-md-6">
                 <div
                   className="card border-0 h-100 dashboard-card"
@@ -355,10 +324,7 @@ export default function Dashboard() {
                           backgroundColor: "rgba(34, 197, 94, 0.2)",
                         }}
                       >
-                        <FontAwesomeIcon
-                          icon={faUserTimes}
-                          style={{ color: "#22c55e", fontSize: "20px" }}
-                        />
+                        <FaUserTimes style={{ color: "#22c55e", fontSize: "20px" }} />
                       </div>
                     </div>
                     <div>
@@ -380,8 +346,6 @@ export default function Dashboard() {
               </div>
             </div>
           </div>
-        ) : (
-          ""
         )}
       </div>
     </div>

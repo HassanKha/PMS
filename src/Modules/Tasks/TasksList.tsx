@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
 import {
-  SearchIcon,
-  SortIcon,
-  ExclamationTriangleIcon,
-  RedoIcon
-} from "../../assets/SVGIcons/NotificationIcons";
+  FaSearch,
+  FaSort,
+  FaExclamationTriangle,
+  FaRedo
+} from "react-icons/fa";
 
 import Header from "../../shared/Header";
 import NoData from "../../shared/NoData";
@@ -86,17 +86,18 @@ function TaskList() {
   }, [searchTerm]);
 
   const [modalOpen, setModalOpen] = useState(false);
-  const [selectedTaskId, setSelectedTaskId] = useState<number | null>(
-    null
-  );
+  const [selectedTaskId, setSelectedTaskId] = useState<number | null>(null);
+
   const handleView = (id: number) => {
     setSelectedTaskId(id);
     setModalOpen(true);
   };
+
   const handleCloseModal = () => {
     setModalOpen(false);
     setSelectedTaskId(null);
   };
+
   const handleDeleteTask = async (id: number, title: string) => {
     const swalWithBootstrapButtons = Swal.mixin({
       customClass: {
@@ -119,9 +120,7 @@ function TaskList() {
     if (result.isConfirmed) {
       try {
         await axiosInstance.delete(TASKS_URLS.DELETE_TASK_BY_MANAGER(id));
-
         fetchTasks(itemsPerPage, currentPage, searchTerm);
-
         swalWithBootstrapButtons.fire({
           title: "Deleted!",
           text: `The task ${title} has been deleted successfully.`,
@@ -132,34 +131,28 @@ function TaskList() {
       } catch (error: any) {
         swalWithBootstrapButtons.fire({
           title: "Error!",
-          text:
-            error.response?.data?.message || "Failed to delete the task.",
+          text: error.response?.data?.message || "Failed to delete the task.",
           icon: "error",
         });
       }
     }
   };
 
-
   const getTaskById = (id: number): Task | undefined => {
     return currentTasks.find((task) => task.id === id);
   };
 
-  const selectedTask = selectedTaskId
-    ? getTaskById(selectedTaskId)
-    : null;
+  const selectedTask = selectedTaskId ? getTaskById(selectedTaskId) : null;
 
   return (
-    <div
-      className="px-4 tasks pt-1 pb-2"
-    >
+    <div className="px-4 tasks pt-1 pb-2">
       <Header Title={"Tasks"} BtnTitle={"Add New Task"} />
 
       <div className="mb-4">
         <div className="position-relative" style={{ maxWidth: "400px" }}>
-          <div className="position-absolute px-2 py-1 text-muted"><SearchIcon/></div>
-          
-
+          <div className="position-absolute px-2 py-1 text-muted">
+            <FaSearch />
+          </div>
           <input
             type="text"
             className="form-control rounded-pill ps-5"
@@ -178,14 +171,14 @@ function TaskList() {
 
       {error && (
         <div className="bg-white rounded shadow-sm p-5 text-center">
-          <ExclamationTriangleIcon  />
+          <FaExclamationTriangle size={40} className="text-warning mb-3" />
           <h5 className="text-dark mb-3">Something went wrong</h5>
           <p className="text-muted mb-4">{error}</p>
           <button
             className="btn btn-danger px-4 py-2"
             onClick={() => fetchTasks(itemsPerPage, 1, searchTerm)}
           >
-            <RedoIcon/> Try Again
+            <FaRedo className="me-2" /> Try Again
           </button>
         </div>
       )}
@@ -194,48 +187,29 @@ function TaskList() {
         <div className="bg-white rounded shadow-sm">
           <div className="table-responsive rounded-2">
             <table className="table table-hover mb-0">
-              <thead >
+              <thead>
                 <tr>
-                  <th
-                    className="text-white cursor-pointer"
-                    onClick={() => handleSort("title")}
-                  >
-                    Title <SortIcon />
+                  <th className="text-white cursor-pointer" onClick={() => handleSort("title")}>
+                    Title <FaSort />
                   </th>
-                  <th
-                    className="text-white cursor-pointer"
-                    onClick={() => handleSort("description")}
-                  >
-                    Description<SortIcon />
+                  <th className="text-white cursor-pointer" onClick={() => handleSort("description")}>
+                    Description <FaSort />
                   </th>
-                  <th
-                    className="text-white"
-                    onClick={() => handleSort("status")}
-                  >
-                    Status <SortIcon />
+                  <th className="text-white cursor-pointer" onClick={() => handleSort("status")}>
+                    Status <FaSort />
                   </th>
                   <th className="text-white">Project</th>
                   <th className="text-white">Employee</th>
-                  <th
-                    className="text-white cursor-pointer"
-                    onClick={() => handleSort("creationDate")}
-                  >
-                    Date Created <SortIcon />
+                  <th className="text-white cursor-pointer" onClick={() => handleSort("creationDate")}>
+                    Date Created <FaSort />
                   </th>
                   <th className="text-white"></th>
                 </tr>
-
               </thead>
               <tbody>
                 {currentTasks.length > 0 ? (
                   currentTasks.map((task, index) => (
-                    <tr
-                      key={task?.id}
-                      style={{
-                        backgroundColor:
-                          index % 2 === 0 ? "#ffffff" : "#f8f9fa",
-                      }}
-                    >
+                    <tr key={task?.id} style={{ backgroundColor: index % 2 === 0 ? "#ffffff" : "#f8f9fa" }}>
                       <td>{task?.title}</td>
                       <td>{task?.description}</td>
                       <td>{task?.status}</td>
@@ -249,20 +223,16 @@ function TaskList() {
                           onEdit={() =>
                             navigate(`/dashboard/tasks-data`, {
                               state: task
-                            }
-                            )
+                            })
                           }
-                          onDelete={() =>
-                            handleDeleteTask(task?.id, task?.title)
-                          }
+                          onDelete={() => handleDeleteTask(task?.id, task?.title)}
                         />
                       </td>
                     </tr>
-
                   ))
                 ) : (
                   <tr>
-                    <td colSpan={6} className="text-center py-4">
+                    <td colSpan={7} className="text-center py-4">
                       <NoData />
                     </td>
                   </tr>
@@ -280,7 +250,7 @@ function TaskList() {
                 onChange={(e) => {
                   const newSize = Number(e.target.value);
                   setItemsPerPage(newSize);
-                  setCurrentPage(1); // Reset to valid page
+                  setCurrentPage(1);
                   fetchTasks(newSize, 1, searchTerm);
                 }}
               >
@@ -301,21 +271,20 @@ function TaskList() {
                   const prev = currentPage - 1;
                   if (prev >= 1) {
                     fetchTasks(itemsPerPage, prev, searchTerm);
-                    setCurrentPage(prev); // <-- Update the state
+                    setCurrentPage(prev);
                   }
                 }}
                 disabled={currentPage === 1}
               >
                 ‹
               </button>
-
               <button
                 className="btn btn-outline-secondary btn-sm"
                 onClick={() => {
                   const next = currentPage + 1;
                   if (next <= pages.length) {
                     fetchTasks(itemsPerPage, next, searchTerm);
-                    setCurrentPage(next); // <-- Update the state
+                    setCurrentPage(next);
                   }
                 }}
                 disabled={currentPage === pages.length}
@@ -326,7 +295,6 @@ function TaskList() {
           </div>
         </div>
       )}
-   
 
       <TaskModal isOpen={modalOpen} onClose={handleCloseModal} task={selectedTask} />
     </div>
@@ -334,3 +302,4 @@ function TaskList() {
 }
 
 export default TaskList;
+

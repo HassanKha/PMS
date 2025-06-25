@@ -8,23 +8,25 @@ import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import { toast } from 'react-toastify';
 import defaultImage from "../../assets/user-profile-icon-vector-avatar-600nw-2247726673.webp";
-import {
-  SearchIcon,
-  EllipsisIcon,
-  UserSlashIcon,
-  UserCheckIcon,
-  EyeIcon,
-  IdBadgeIcon,
-  UsersIcon,
-  EnvelopeIcon,
-  GlobeIcon,
-  PhoneIcon,
-  CalendarPlusIcon,
-  CalendarCheckIcon,
-  SortIcon
-} from "../../assets/SVGIcons/NotificationIcons";
-
 import Header from '../../shared/Header';
+
+import {
+  FaSearch,
+  FaEllipsisV,
+  FaUserSlash,
+  FaUserCheck,
+  FaEye,
+  FaIdBadge,
+  FaUsers,
+  FaEnvelope,
+  FaGlobe,
+  FaPhoneAlt,
+  FaCalendarPlus,
+  FaCalendarCheck,
+  FaSort,
+  FaSortUp,
+  FaSortDown
+} from "react-icons/fa";
 
 export default function Users() {
   const [loading, setLoading] = useState(false);
@@ -130,8 +132,8 @@ export default function Users() {
   };
 
   const getSortIcon = (field: keyof Logged_in_Users) => {
-    if (sortField !== field) return faSort;
-    return sortDirection === "asc" ? faSortUp : faSortDown;
+    if (sortField !== field) return <FaSort />;
+    return sortDirection === "asc" ? <FaSortUp /> : <FaSortDown />;
   };
 
   const filtered = users.filter((p) =>
@@ -181,137 +183,123 @@ export default function Users() {
 
   return (
     <>
-      
       <div className='Users'>
-            <Header Title="Users" BtnTitle="" />
-             <div className="bg-white p-3 mt-3">
-        <div className="p-2 d-flex mb-4 gap-2">
-          <div className="position-relative w-25">
-            <div className='position-absolute px-2 py-1'>
-                 <SearchIcon />
+        <Header Title="Users" BtnTitle="" />
+        <div className="bg-white p-3 mt-3">
+          <div className="p-2 d-flex mb-4 gap-2">
+            <div className="position-relative w-25">
+              <div className='position-absolute px-2 py-1'>
+                <FaSearch />
+              </div>
+              <input
+                onChange={handleSearch}
+                type="text"
+                className="form-control rounded-pill ps-5"
+                placeholder="Search Users"
+                value={searchTerm}
+              />
             </div>
-          
-            <input
-              onChange={handleSearch}
-              type="text"
-              className="form-control rounded-pill ps-5"
-              placeholder="Search Users"
-              value={searchTerm}
-            />
           </div>
-        </div>
 
-        {isLoading ? (
-          <div className="d-flex justify-content-center align-items-center loader">
-            <Loader name='Users' />
-          </div>
-        ) : (
-          <div className="table-responsive shadow-lg rounded-2">
-            <table className="table table-hover mb-0">
-              <thead>
-                <tr>
-                  <th className="text-white px-4 py-3" onClick={() => handleSort("userName")}>
-                    User Name <SortIcon />
-                  </th>
-                  <th className="text-white px-4 py-3 " onClick={() => handleSort("isActivated")}>
-                    Status <SortIcon />
-                  </th>
-                  <th className="text-white px-4 py-3 d-none d-md-table-cell" onClick={() => handleSort("phoneNumber")}>
-                    Phone Number <SortIcon />
-                  </th>
-                  <th className="text-white px-4 py-3  d-none d-lg-table-cell" onClick={() => handleSort("email")}>
-                    Email <SortIcon />
-                  </th>
-                  <th className="text-white px-4 py-3 d-none d-lg-table-cell" onClick={() => handleSort("creationDate")}>
-                    Date Created <SortIcon />
-                  </th>
-                  <th className="text-white px-4 py-3"></th>
-                </tr>
-              </thead>
-              <tbody>
-                {sorted.length > 0 ? (
-                  sorted.map((user) => (
-                    <tr key={user.id}>
-                      <td className="px-4 py-3">{user.userName}</td>
-                      <td className="px-4 py-3">
-                        <span className={`badge ${user.isActivated ? 'activated' : 'deactivated'} px-2 py-1 texr-white rounded-3`}>
-                          {user.isActivated ? "Active" : "NOT Active"}
-                        </span>
-                      </td>
-                      <td className="px-4 py-3 d-none d-md-table-cell">{user.phoneNumber}</td>
-                      <td className="px-4 py-3 d-none d-lg-table-cell">{user.email}</td>
-                      <td className="px-4 py-3 d-none d-lg-table-cell">{user.creationDate && new Date(user.creationDate).toLocaleString()}</td>
-                      <td className="px-4 py-3">
-                        <div className="dropdown">
-                          <button className="btn btn-link text-dark p-0" data-bs-toggle="dropdown">
-                            <EllipsisIcon />
-                          </button>
-                          <ul className="dropdown-menu">
-                            {user.isActivated ? (
-                              <li>
-                                <button onClick={() => handleShowDeactivate(user.id)} className="dropdown-item text-danger">
-                                  <UserSlashIcon /> Block
-                                </button>
-                              </li>
-                            ) : (
-                              <li>
-                                <button onClick={() => handleShowActivate(user.id)} className="dropdown-item text-success">
-                                 <UserCheckIcon /> Activate
-                                </button>
-                              </li>
-                            )}
-                            <li>
-                              <button onClick={() => handleShowDetails(user.id)} className="dropdown-item text-info">
-                                <EyeIcon /> View
-                              </button>
-                            </li>
-                          </ul>
-                        </div>
-                      </td>
-                    </tr>
-                  ))
-                ) : (
+          {isLoading ? (
+            <div className="d-flex justify-content-center align-items-center loader">
+              <Loader name='Users' />
+            </div>
+          ) : (
+            <div className="table-responsive shadow-lg rounded-2">
+              <table className="table table-hover mb-0">
+                <thead>
                   <tr>
-                    <td colSpan={6} className="text-center py-4"><NoData /></td>
+                    <th className="text-white px-4 py-3" onClick={() => handleSort("userName")}>User Name {getSortIcon("userName")}</th>
+                    <th className="text-white px-4 py-3" onClick={() => handleSort("isActivated")}>Status {getSortIcon("isActivated")}</th>
+                    <th className="text-white px-4 py-3 d-none d-md-table-cell" onClick={() => handleSort("phoneNumber")}>Phone Number {getSortIcon("phoneNumber")}</th>
+                    <th className="text-white px-4 py-3 d-none d-lg-table-cell" onClick={() => handleSort("email")}>Email {getSortIcon("email")}</th>
+                    <th className="text-white px-4 py-3 d-none d-lg-table-cell" onClick={() => handleSort("creationDate")}>Date Created {getSortIcon("creationDate")}</th>
+                    <th className="text-white px-4 py-3"></th>
                   </tr>
-                )}
-              </tbody>
-            </table>
-          </div>
-        )}
-
-        {users.length > 0 && (
-          <div className="d-flex flex-column flex-lg-row justify-content-between align-items-center p-3 border-top">
-            <div className="d-flex align-items-center mb-2 mb-lg-0">
-              <span className="text-muted me-2">Showing</span>
-              <select
-                className="form-select form-select-sm me-2"
-                value={itemsPerPage}
-                onChange={handlePageSizeChange}
-              >
-                <option value={5}>5</option>
-                <option value={10}>10</option>
-                <option value={15}>15</option>
-              </select>
-              <span className="text-muted">of {totalResults ?? "..."} Results</span>
+                </thead>
+                <tbody>
+                  {sorted.length > 0 ? (
+                    sorted.map((user) => (
+                      <tr key={user.id}>
+                        <td className="px-4 py-3">{user.userName}</td>
+                        <td className="px-4 py-3">
+                          <span className={`badge ${user.isActivated ? 'activated' : 'deactivated'} px-2 py-1 texr-white rounded-3`}>
+                            {user.isActivated ? "Active" : "NOT Active"}
+                          </span>
+                        </td>
+                        <td className="px-4 py-3 d-none d-md-table-cell">{user.phoneNumber}</td>
+                        <td className="px-4 py-3 d-none d-lg-table-cell">{user.email}</td>
+                        <td className="px-4 py-3 d-none d-lg-table-cell">{user.creationDate && new Date(user.creationDate).toLocaleString()}</td>
+                        <td className="px-4 py-3">
+                          <div className="dropdown">
+                            <button className="btn btn-link text-dark p-0" data-bs-toggle="dropdown">
+                              <FaEllipsisV />
+                            </button>
+                            <ul className="dropdown-menu">
+                              {user.isActivated ? (
+                                <li>
+                                  <button onClick={() => handleShowDeactivate(user.id)} className="dropdown-item text-danger">
+                                    <FaUserSlash /> Block
+                                  </button>
+                                </li>
+                              ) : (
+                                <li>
+                                  <button onClick={() => handleShowActivate(user.id)} className="dropdown-item text-success">
+                                    <FaUserCheck /> Activate
+                                  </button>
+                                </li>
+                              )}
+                              <li>
+                                <button onClick={() => handleShowDetails(user.id)} className="dropdown-item text-info">
+                                  <FaEye /> View
+                                </button>
+                              </li>
+                            </ul>
+                          </div>
+                        </td>
+                      </tr>
+                    ))
+                  ) : (
+                    <tr>
+                      <td colSpan={6} className="text-center py-4"><NoData /></td>
+                    </tr>
+                  )}
+                </tbody>
+              </table>
             </div>
+          )}
 
-            <div className="d-flex align-items-center">
-              <span className="text-muted me-3">Page {currentPage} of {pages.length}</span>
-              <div className="d-flex">
-                <button className="btn btn-outline-secondary btn-sm me-1" onClick={() => handlePagination(currentPage - 1)} disabled={currentPage === 1}>‹</button>
-                <button className="btn btn-outline-secondary btn-sm" onClick={() => handlePagination(currentPage + 1)} disabled={currentPage === pages.length}>›</button>
+          {users.length > 0 && (
+            <div className="d-flex flex-column flex-lg-row justify-content-between align-items-center p-3 border-top">
+              <div className="d-flex align-items-center mb-2 mb-lg-0">
+                <span className="text-muted me-2">Showing</span>
+                <select
+                  className="form-select form-select-sm me-2"
+                  value={itemsPerPage}
+                  onChange={handlePageSizeChange}
+                >
+                  <option value={5}>5</option>
+                  <option value={10}>10</option>
+                  <option value={15}>15</option>
+                </select>
+                <span className="text-muted">of {totalResults ?? "..."} Results</span>
+              </div>
+              <div className="d-flex align-items-center">
+                <span className="text-muted me-3">Page {currentPage} of {pages.length}</span>
+                <div className="d-flex">
+                  <button className="btn btn-outline-secondary btn-sm me-1" onClick={() => handlePagination(currentPage - 1)} disabled={currentPage === 1}>‹</button>
+                  <button className="btn btn-outline-secondary btn-sm" onClick={() => handlePagination(currentPage + 1)} disabled={currentPage === pages.length}>›</button>
+                </div>
               </div>
             </div>
-          </div>
-        )}
+          )}
+        </div>
       </div>
-      </div>
-     
 
       <Modal show={showDeactivate} onHide={handleCloseDeactivate} centered>
         <Modal.Body className="d-flex flex-column justify-content-center align-items-center">
-          <span className='text-danger'><UserSlashIcon /></span> 
+          <span className='text-danger'><FaUserSlash /></span>
           Are You Sure You Want to Block This User?!
         </Modal.Body>
         <Modal.Footer>
@@ -324,7 +312,7 @@ export default function Users() {
 
       <Modal show={showActivate} onHide={handleCloseActivate} centered>
         <Modal.Body className="d-flex flex-column justify-content-center align-items-center">
-          <span className='text-success'><UserCheckIcon /></span>
+          <span className='text-success'><FaUserCheck /></span>
           Are You Sure You Want to Activate This User?!
         </Modal.Body>
         <Modal.Footer>
@@ -335,64 +323,64 @@ export default function Users() {
         </Modal.Footer>
       </Modal>
 
-      <Modal show={showDetails} onHide={handleCloseDetails} centered>
-        <Modal.Header closeButton>
-          <Modal.Title className="d-flex align-items-center gap-2">
-            <UsersIcon /> User Details
-          </Modal.Title>
-        </Modal.Header>
+     <Modal show={showDetails} onHide={handleCloseDetails} centered>
+  <Modal.Header closeButton>
+    <Modal.Title className="d-flex align-items-center gap-2">
+      <FaUsers /> User Details
+    </Modal.Title>
+  </Modal.Header>
 
-        {loading ? (
-          <div className="d-flex justify-content-center align-items-center gap-2 p-4">
-            <span className="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-            Loading...
-          </div>
-        ) : (
-          <Modal.Body>
-            <div className="text-center mb-3">
-              <img
-                className="img-fluid user-img rounded-circle border"
-                src={user?.imagePath ? `${ImageURL}${user?.imagePath}` : defaultImage}
-                alt="User"
-              />
-            </div>
-            <div className="list-group">
-              <div className="list-group-item d-flex align-items-center gap-2">
-                <span className='text-secondary mb-1 d-inline-block'> <IdBadgeIcon  /></span>
-               
-                <strong>ID:</strong> {user?.id}
-              </div>
-              <div className="list-group-item d-flex align-items-center gap-2">
-                 <span className='text-primary mb-1 d-inline-block'> <UsersIcon /> </span>
-                <strong>Name:</strong> {user?.userName}
-              </div>
-              <div className="list-group-item d-flex align-items-center gap-2">
-                <span className='text-danger mb-1 d-inline-block'><EnvelopeIcon /> </span>
-                  <strong>Email:</strong> {user?.email}
-              </div>
-              <div className="list-group-item d-flex align-items-center gap-2">
-                <span className='text-success mb-1 d-inline-block'><GlobeIcon /> </span>
-                 <strong>Country:</strong> {user?.country}
-              </div>
-              <div className="list-group-item d-flex align-items-center gap-2"> 
-                <span className='text-warning mb-1 d-inline-block'> <PhoneIcon /></span>
-             <strong>Phone:</strong> {user?.phoneNumber}
-              </div>
-              <div className="list-group-item d-flex align-items-center gap-2">
-                 <span className='text-success mb-1 d-inline-block'><CalendarPlusIcon /> </span>
-                <strong>Created:</strong> {user?.creationDate && new Date(user.creationDate).toLocaleString()}
-              </div>
-              <div className="list-group-item d-flex align-items-center gap-2">
-                 <span className='text-success mb-1 d-inline-block'><CalendarCheckIcon /> </span>
-                 <strong>Updated:</strong> {user?.modificationDate && new Date(user.modificationDate).toLocaleString()}
-              </div>
-            </div>
-          </Modal.Body>
-        )}
-        <Modal.Footer>
-          <Button variant="secondary" onClick={handleCloseDetails}>Close</Button>
-        </Modal.Footer>
-      </Modal>
+  {loading ? (
+    <div className="d-flex justify-content-center align-items-center gap-2 p-4">
+      <span className="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+      Loading...
+    </div>
+  ) : (
+    <Modal.Body>
+      <div className="text-center mb-3">
+        <img
+          className="img-fluid user-img rounded-circle border"
+          src={user?.imagePath ? `${ImageURL}${user?.imagePath}` : defaultImage}
+          alt="User"
+        />
+      </div>
+      <div className="list-group">
+        <div className="list-group-item d-flex align-items-center gap-2">
+          <span className='text-secondary mb-1 d-inline-block'><FaIdBadge /></span>
+          <strong>ID:</strong> {user?.id}
+        </div>
+        <div className="list-group-item d-flex align-items-center gap-2">
+          <span className='text-primary mb-1 d-inline-block'><FaUsers /></span>
+          <strong>Name:</strong> {user?.userName}
+        </div>
+        <div className="list-group-item d-flex align-items-center gap-2">
+          <span className='text-danger mb-1 d-inline-block'><FaEnvelope /></span>
+          <strong>Email:</strong> {user?.email}
+        </div>
+        <div className="list-group-item d-flex align-items-center gap-2">
+          <span className='text-success mb-1 d-inline-block'><FaGlobe /></span>
+          <strong>Country:</strong> {user?.country}
+        </div>
+        <div className="list-group-item d-flex align-items-center gap-2">
+          <span className='text-warning mb-1 d-inline-block'><FaPhoneAlt /></span>
+          <strong>Phone:</strong> {user?.phoneNumber}
+        </div>
+        <div className="list-group-item d-flex align-items-center gap-2">
+          <span className='text-success mb-1 d-inline-block'><FaCalendarPlus /></span>
+          <strong>Created:</strong> {user?.creationDate && new Date(user.creationDate).toLocaleString()}
+        </div>
+        <div className="list-group-item d-flex align-items-center gap-2">
+          <span className='text-success mb-1 d-inline-block'><FaCalendarCheck /></span>
+          <strong>Updated:</strong> {user?.modificationDate && new Date(user.modificationDate).toLocaleString()}
+        </div>
+      </div>
+    </Modal.Body>
+  )}
+  <Modal.Footer>
+    <Button variant="secondary" onClick={handleCloseDetails}>Close</Button>
+  </Modal.Footer>
+</Modal>
+
     </>
   );
 }

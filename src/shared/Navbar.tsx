@@ -1,18 +1,17 @@
 import { useState, useContext, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import "../styles/Navbar.css";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
-  faBars,
-  faTimes,
-  faBell,
-  faUser,
-  faChevronDown,
-  faChevronUp,
-  faCog,
-  faSignOutAlt,
-  faUserEdit,
-} from "@fortawesome/free-solid-svg-icons";
+  FaBars,
+  FaTimes,
+  FaBell,
+  FaUser,
+  FaChevronDown,
+  FaChevronUp,
+  FaCog,
+  FaSignOutAlt,
+  FaUserEdit,
+} from "react-icons/fa";
 import PMSIcon from "../assets/PMS2.png";
 import { AuthContext } from "../contexts/AuthContext";
 import { ImageURL } from "../services/Urls";
@@ -40,10 +39,10 @@ const Navbar: React.FC<NavbarProps> = ({
     navigate("/login", { replace: true });
   };
 
-
-  const [showPrivileges, setShowPrivileges] = useState(false)
+  const [showPrivileges, setShowPrivileges] = useState(false);
   const [darkmodeInstance, setDarkmodeInstance] = useState<any>(null);
   const [isDark, setIsDark] = useState(false);
+
   useEffect(() => {
     const options = {
       time: '0.3s',
@@ -77,12 +76,14 @@ const Navbar: React.FC<NavbarProps> = ({
             className="btn btn-outline-secondary me-3 d-lg-none"
             onClick={handleToggleSidebar}
           >
-            <FontAwesomeIcon icon={sidebarVisible ? faTimes : faBars} />
+            {sidebarVisible ? <FaTimes /> : <FaBars />}
           </button>
           <img src={PMSIcon} alt="PMSIcon" style={{ height: 40 }} />
         </div>
+
         <NotePopup showPrivileges={showPrivileges} setShowPrivileges={setShowPrivileges} />
-        <div className="d-flex align-items-center ">
+
+        <div className="d-flex align-items-center">
           <div style={{ marginLeft: 'auto' }}>
             <button
               onClick={toggleDarkMode}
@@ -106,34 +107,23 @@ const Navbar: React.FC<NavbarProps> = ({
             onMouseLeave={() => setShowPrivileges(false)}
             onClick={() => setShowPrivileges(!showPrivileges)}
           >
-            <FontAwesomeIcon
-              icon={faBell}
-              size="lg"
-              className="notification-icon"
-              style={{ color: "#EF9B28" }}
-            />
+            <FaBell size={20} color="#EF9B28" />
             <span className="badge bg-danger notification-badge position-absolute top-0 start-100 translate-middle rounded-pill">
               1
             </span>
           </button>
 
-
-          <div className="dropdown user-hover-box  px-2 " style={{ cursor: "pointer" }}>
-            <div
-              className="d-flex align-items-center "
-              onClick={toggleDropdown}
-            >
-              <div
-                className="rounded-circle me-3 img-container text-white d-flex align-items-center justify-content-center"
-              >
+          <div className="dropdown user-hover-box px-2" style={{ cursor: "pointer" }}>
+            <div className="d-flex align-items-center" onClick={toggleDropdown}>
+              <div className="rounded-circle me-3 img-container text-white d-flex align-items-center justify-content-center">
                 {auth?.CurrentUserData?.imagePath ? (
                   <img
                     src={`${ImageURL + auth?.CurrentUserData?.imagePath}`}
                     alt="profile Pic"
-                    className="w-100 h-100  rounded-circle"
+                    className="w-100 h-100 rounded-circle"
                   />
                 ) : (
-                  <FontAwesomeIcon icon={faUser} />
+                  <FaUser />
                 )}
               </div>
               <div className="d-none d-md-block me-2 text-start">
@@ -144,33 +134,31 @@ const Navbar: React.FC<NavbarProps> = ({
                   {auth?.LoginData?.userEmail}
                 </div>
               </div>
-              <FontAwesomeIcon
-                icon={dropdownOpen ? faChevronUp : faChevronDown}
-              />
+              {dropdownOpen ? <FaChevronUp /> : <FaChevronDown />}
             </div>
 
             {dropdownOpen && (
-              <div className="dropdown-menu dropdown-menu-end show mt-2 ">
+              <div className="dropdown-menu dropdown-menu-end show mt-2">
                 <button
                   onClick={() => navigate("/dashboard/profile")}
                   className="dropdown-item d-flex align-items-center"
                 >
-                  <FontAwesomeIcon icon={faUserEdit} className="me-2" />
+                  <FaUserEdit className="me-2" />
                   <span className="d-none d-sm-inline">Update Profile</span>
                 </button>
                 <button
                   onClick={() => navigate("/change-password")}
                   className="dropdown-item d-flex align-items-center"
                 >
-                  <FontAwesomeIcon icon={faCog} className="me-2" />
+                  <FaCog className="me-2" />
                   <span className="d-none d-sm-inline">Change Password</span>
                 </button>
                 <button
                   onClick={logout}
                   className="dropdown-item text-danger d-flex align-items-center"
                 >
-                  <FontAwesomeIcon icon={faSignOutAlt} className="me-2" />
-                  <span className="d-none SignOut d-sm-inline">Sign Out</span>
+                  <FaSignOutAlt className="me-2" />
+                  <span className="d-none d-sm-inline">Sign Out</span>
                 </button>
               </div>
             )}
@@ -182,3 +170,4 @@ const Navbar: React.FC<NavbarProps> = ({
 };
 
 export default Navbar;
+

@@ -3,12 +3,12 @@ import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import PMSIcon from "../../assets/PMSIcon.png";
 import { validateRegisterForm } from "../../services/Validations";
-import { EyeIcon, EyeSlashIcon } from '../../assets/SVGIcons/NotificationIcons';
 import { axiosInstance, USERS_URLS } from '../../services/Urls';
 import "../../styles/ChangePass.css";
 import { toast } from 'react-toastify';
 import type { FormData } from '../../interfaces/FormData';
 import LoadingPage from '../../shared/LoadingPage/LoadingPage';
+import { FaEye, FaEyeSlash } from "react-icons/fa"; // ✅ react-icons import
 
 function ChangePassword() {
   const [showNewPassword, setShowNewPassword] = useState(false);
@@ -55,94 +55,88 @@ function ChangePassword() {
                 </h2>
               </div>
 
-                <form onSubmit={handleSubmit(onSubmit)}>
-                  <div className="row  px-5">
+              <form onSubmit={handleSubmit(onSubmit)}>
+                <div className="row px-5">
 
-
-                  
-                    <div className="col-12 mb-3 d-flex flex-column">
-                      <label htmlFor="oldPassword" className="form-label fw-medium">
-                        Old Password
-                      </label>
-                      <div className="position-relative">
-                        <input
+                  {/* Old Password */}
+                  <div className="col-12 mb-3 d-flex flex-column">
+                    <label htmlFor="oldPassword" className="form-label fw-medium">
+                      Old Password
+                    </label>
+                    <div className="position-relative">
+                      <input
                         id="oldPassword"
-                          type={showOldPassword ? "text" : "password"}
-                          placeholder="Enter your Old Password"
-                          className='change-pass-input bg-transparent text-white'
-                          {...register("oldPassword", validateRegisterForm.password)}
-
-                        />
-                        <button
-                          type="button"
-                          className="btn border-0 bg-transparent toggle-password-btn position-absolute top-50 end-0 translate-middle-y me-2"
-                          onClick={() => setShowOldPassword(!showOldPassword)}
-                        >
-                          {showOldPassword ? <EyeSlashIcon /> : <EyeIcon />}
-                        </button>
-                      </div>
-
-                      {errors.oldPassword && (
-                        <div className="invalid-feedback d-block">{errors.oldPassword.message}</div>
-                      )}
+                        type={showOldPassword ? "text" : "password"}
+                        placeholder="Enter your Old Password"
+                        className='change-pass-input bg-transparent text-white'
+                        {...register("oldPassword", validateRegisterForm.password)}
+                      />
+                      <button
+                        type="button"
+                        className="btn border-0 bg-transparent toggle-password-btn position-absolute top-50 end-0 translate-middle-y me-2"
+                        onClick={() => setShowOldPassword(!showOldPassword)}
+                      >
+                        {showOldPassword ? <FaEyeSlash className="text-white" /> : <FaEye className="text-white" />}
+                      </button>
                     </div>
+                    {errors.oldPassword && (
+                      <div className="invalid-feedback d-block">{errors.oldPassword.message}</div>
+                    )}
+                  </div>
 
-                 
-                    <div className="col-12 mb-3 d-flex flex-column">
-                      <label htmlFor="newPassword" className="form-label fw-medium">
-                        New Password
-                      </label>
-                      <div className="position-relative">
-                        <input
+                  {/* New Password */}
+                  <div className="col-12 mb-3 d-flex flex-column">
+                    <label htmlFor="newPassword" className="form-label fw-medium">
+                      New Password
+                    </label>
+                    <div className="position-relative">
+                      <input
                         id="newPassword"
-                          type={showNewPassword ? "text" : "password"}
-                          placeholder="Enter your New Password"
-                          {...register("newPassword", validateRegisterForm.password)}
-                          className='change-pass-input bg-transparent text-white'
-                        />
-                        <button
-                          type="button"
-                          className="btn border-0 bg-transparent toggle-password-btn position-absolute top-50 end-0 translate-middle-y me-2"
-                          onClick={() => setShowNewPassword(!showNewPassword)}
-
-                        >
-                          {showNewPassword ? <EyeSlashIcon /> : <EyeIcon />}
-                        </button>
-                      </div>
-
-                      {errors.newPassword && (
-                        <div className="invalid-feedback d-block">{errors.newPassword.message}</div>
-                      )}
+                        type={showNewPassword ? "text" : "password"}
+                        placeholder="Enter your New Password"
+                        {...register("newPassword", validateRegisterForm.password)}
+                        className='change-pass-input bg-transparent text-white'
+                      />
+                      <button
+                        type="button"
+                        className="btn border-0 bg-transparent toggle-password-btn position-absolute top-50 end-0 translate-middle-y me-2"
+                        onClick={() => setShowNewPassword(!showNewPassword)}
+                      >
+                        {showNewPassword ? <FaEyeSlash className="text-white" /> : <FaEye className="text-white" />}
+                      </button>
                     </div>
+                    {errors.newPassword && (
+                      <div className="invalid-feedback d-block">{errors.newPassword.message}</div>
+                    )}
+                  </div>
 
-                   
-                    <div className="col-12 mb-3 d-flex flex-column">
-                      <label htmlFor="confirmNewPassword" className="form-label fw-medium">
-                        Confirm New Password
-                      </label>
-                      <div className="position-relative">
-                        <input
+                  {/* Confirm New Password */}
+                  <div className="col-12 mb-3 d-flex flex-column">
+                    <label htmlFor="confirmNewPassword" className="form-label fw-medium">
+                      Confirm New Password
+                    </label>
+                    <div className="position-relative">
+                      <input
                         id="confirmNewPassword"
-                          type={showConfirmPassword ? "text" : "password"}
-                          placeholder="Confirm your New Password"
-                          {...register("confirmNewPassword", validateRegisterForm.confirmPassword(newPassword))}
-                          className='change-pass-input bg-transparent text-white'
-                        />
-                        <button
-                          type="button"
-                          className="btn border-0 bg-transparent toggle-password-btn position-absolute top-50 end-0 translate-middle-y me-2"
-                          onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                        >
-                         {showConfirmPassword ? <EyeSlashIcon /> : <EyeIcon />}
-                        </button>
-                      </div>
-
-                      {errors.confirmNewPassword && (
-                        <div className="invalid-feedback d-block">{errors.confirmNewPassword.message}</div>
-                      )}
+                        type={showConfirmPassword ? "text" : "password"}
+                        placeholder="Confirm your New Password"
+                        {...register("confirmNewPassword", validateRegisterForm.confirmPassword(newPassword))}
+                        className='change-pass-input bg-transparent text-white'
+                      />
+                      <button
+                        type="button"
+                        className="btn border-0 bg-transparent toggle-password-btn position-absolute top-50 end-0 translate-middle-y me-2"
+                        onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                      >
+                        {showConfirmPassword ? <FaEyeSlash className="text-white" /> : <FaEye className="text-white" />}
+                      </button>
                     </div>
+                    {errors.confirmNewPassword && (
+                      <div className="invalid-feedback d-block">{errors.confirmNewPassword.message}</div>
+                    )}
+                  </div>
 
-
+                  {/* Submit Button */}
                   <button
                     type="submit"
                     className="btn btn-lg fw-bold mt-4 change-pass-submit"

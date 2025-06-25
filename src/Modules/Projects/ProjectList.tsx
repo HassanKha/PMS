@@ -1,11 +1,10 @@
 import { useEffect, useState } from "react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
-  faExclamationTriangle,
-  faRedo,
-  faSearch,
-  faSort,
-} from "@fortawesome/free-solid-svg-icons";
+  FaExclamationTriangle,
+  FaRedo,
+  FaSearch,
+  FaSort,
+} from "react-icons/fa";
 import { ActionDropdown } from "./components/ActionDropdown";
 import "./../../styles/Projects.css";
 import type { Project } from "../../interfaces/Project";
@@ -114,6 +113,7 @@ function ProjectList() {
     setModalOpen(false);
     setSelectedProjectId(null);
   };
+
   const filtered = Projects.filter((p) =>
     p.title.toLowerCase().includes(searchTerm.toLowerCase())
   );
@@ -166,8 +166,7 @@ function ProjectList() {
       <Header Title={"Projects"} BtnTitle={"Add New Project"} />
       <div className="mb-4">
         <div className="position-relative" style={{ maxWidth: "400px" }}>
-          <FontAwesomeIcon
-            icon={faSearch}
+          <div
             className="position-absolute text-muted"
             style={{
               left: "12px",
@@ -175,7 +174,9 @@ function ProjectList() {
               transform: "translateY(-50%)",
               zIndex: 2,
             }}
-          />
+          >
+            <FaSearch />
+          </div>
           <input
             type="text"
             className="form-control rounded-pill ps-5"
@@ -184,28 +185,23 @@ function ProjectList() {
             onChange={(e) => handleSearch(e.target.value)}
             style={{
               borderRadius: "8px",
-
               border: "1px solid #dee2e6",
-          
             }}
           />
         </div>
       </div>
 
-     
       {loading && (
         <div className="d-flex justify-content-center align-items-center loader">
-          <Loader name='Projects' />
+          <Loader name="Projects" />
         </div>
       )}
 
       {error && (
         <div className="bg-white rounded shadow-sm p-5 text-center">
-          <FontAwesomeIcon
-            icon={faExclamationTriangle}
-            size="2x"
-            style={{ color: "#dc3545" }}
-            className="mb-3"
+          <FaExclamationTriangle
+            size={32}
+            className="text-danger mb-3"
           />
           <h5 className="text-dark mb-3">Something went wrong</h5>
           <p className="text-muted mb-4">{error}</p>
@@ -219,13 +215,14 @@ function ProjectList() {
               borderRadius: "8px",
             }}
           >
-            <FontAwesomeIcon icon={faRedo} className="me-2" />
+            <FaRedo className="me-2" />
             Try Again
           </button>
         </div>
       )}
+
       {!loading && !error && (
-        <div className="bg-white  rounded shadow-sm">
+        <div className="bg-white rounded shadow-sm">
           <div className="table-responsive rounded-2">
             <table className="table table-hover mb-0">
               <thead style={{ backgroundColor: "#5a8a7a" }}>
@@ -237,7 +234,7 @@ function ProjectList() {
                   >
                     <div className="d-flex align-items-center justify-content-lg-evenly justify-content-between">
                       <span className="text-center">Title</span>
-                      <FontAwesomeIcon icon={faSort} size="sm" />
+                      <FaSort size={14} />
                     </div>
                   </th>
                   <th
@@ -245,9 +242,9 @@ function ProjectList() {
                     onClick={() => handleSort("description")}
                     style={{ fontWeight: "500" }}
                   >
-                    <div className="d-flex align-items-center  gap-1 justify-content-between">
+                    <div className="d-flex align-items-center gap-1 justify-content-between">
                       <span>Description</span>
-                      <FontAwesomeIcon icon={faSort} size="sm" />
+                      <FaSort size={14} />
                     </div>
                   </th>
                   <th
@@ -257,7 +254,7 @@ function ProjectList() {
                   >
                     <div className="d-flex align-items-center justify-content-lg-evenly justify-content-between">
                       <span>Num Tasks</span>
-                      <FontAwesomeIcon icon={faSort} size="sm" />
+                      <FaSort size={14} />
                     </div>
                   </th>
                   <th
@@ -267,19 +264,13 @@ function ProjectList() {
                   >
                     <div className="d-flex align-items-center justify-content-lg-evenly justify-content-between">
                       <span>Date Created</span>
-                      <FontAwesomeIcon
-                        icon={faSort}
-                        size="sm"
-                        className="SortIcon"
-                      />
+                      <FaSort size={14} />
                     </div>
                   </th>
-                  <th
-                    className="text-white border-0 px-4 py-3"
-                    style={{ width: "50px" }}
-                  ></th>
+                  <th className="text-white border-0 px-4 py-3" style={{ width: "50px" }}></th>
                 </tr>
               </thead>
+
               {currentProjects.length > 0 ? (
                 <tbody>
                   {currentProjects.map((project, index) => (
@@ -287,8 +278,7 @@ function ProjectList() {
                       key={project.id}
                       className="table-row-hover"
                       style={{
-                        backgroundColor:
-                          index % 2 === 0 ? "#ffffff" : "#f8f9fa",
+                        backgroundColor: index % 2 === 0 ? "#ffffff" : "#f8f9fa",
                       }}
                     >
                       <td className="px-4 py-3 text-dark">{project.title}</td>
@@ -424,3 +414,4 @@ function ProjectList() {
 }
 
 export default ProjectList;
+

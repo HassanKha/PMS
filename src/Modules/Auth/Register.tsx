@@ -1,7 +1,6 @@
 import { useState } from "react";
 import PMSIcon from "../../assets/PMSIcon.png";
 import { useForm } from "react-hook-form";
-import { EyeIcon, EyeSlashIcon, UserPlusIcon } from "../../assets/SVGIcons/NotificationIcons";
 import "../../styles/register.css";
 import { axiosInstance, USERS_URLS } from "../../services/Urls";
 import { toast } from "react-toastify";
@@ -9,6 +8,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { validateRegisterForm } from "../../services/Validations";
 import type { FormDataRegister } from './../../interfaces/FormData';
 import LoadingPage from '../../shared/LoadingPage/LoadingPage';
+import { FaEye, FaEyeSlash, FaUserPlus } from "react-icons/fa"; // ✅ React Icons
 
 function Register() {
   const [showPassword, setShowPassword] = useState(false);
@@ -22,11 +22,10 @@ function Register() {
   } = useForm<FormDataRegister>();
 
   const navigate = useNavigate();
-
   const password = watch("password");
 
   const onSubmit = async (data: FormDataRegister) => {
-    setLoading(true)
+    setLoading(true);
     try {
       const formData = new FormData();
       formData.append("userName", data.userName);
@@ -38,15 +37,17 @@ function Register() {
       if (data.profileImage && data.profileImage[0]) {
         formData.append("profileImage", data.profileImage[0]);
       }
-   let response =   await axiosInstance.post(USERS_URLS.REGISTER, formData, {
+
+      let response = await axiosInstance.post(USERS_URLS.REGISTER, formData, {
         headers: {
           "Content-Type": "multipart/form-data",
         },
       });
-      toast.success(response?.data?.message ||"Account created successfully!");
+
+      toast.success(response?.data?.message || "Account created successfully!");
       navigate("/verify-account", {
         state: { email: data.email },
-      })
+      });
 
     } catch (error: any) {
       const apiMessage = error?.response?.data?.message;
@@ -61,11 +62,10 @@ function Register() {
           });
         });
       } else {
-        toast.error(error?.response?.data?.message||"Something went wrong. Please try again.");
+        toast.error(error?.response?.data?.message || "Something went wrong. Please try again.");
       }
-
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
   };
 
@@ -97,8 +97,7 @@ function Register() {
                           className="profile-image-preview"
                         />
                       ) : (
-                        <UserPlusIcon />
-                        
+                        <FaUserPlus className="text-white fs-1" />
                       )}
                     </div>
                   </label>
@@ -112,7 +111,6 @@ function Register() {
                 </div>
 
                 <div className="row px-5">
-                  {/* Repeated Form Inputs */}
                   {[
                     { label: "User Name", name: "userName", type: "text", placeholder: "Enter your name", validation: validateRegisterForm.userName },
                     { label: "E-mail", name: "email", type: "email", placeholder: "Enter your E-mail", validation: validateRegisterForm.email },
@@ -150,7 +148,7 @@ function Register() {
                         className="btn position-absolute top-50 end-0 translate-middle-y me-2 toggle-password-btn"
                         onClick={() => setShowPassword(!showPassword)}
                       >
-                        {showPassword ? <EyeSlashIcon /> : <EyeIcon />}
+                        {showPassword ? <FaEyeSlash className="text-white" /> : <FaEye className="text-white" />}
                       </button>
                     </div>
                     {errors.password && (
@@ -175,7 +173,7 @@ function Register() {
                         className="btn position-absolute top-50 end-0 translate-middle-y me-2 toggle-password-btn"
                         onClick={() => setShowConfirmPassword(!showConfirmPassword)}
                       >
-                        {showConfirmPassword ? <EyeSlashIcon /> : <EyeIcon />}
+                        {showConfirmPassword ? <FaEyeSlash className="text-white" /> : <FaEye className="text-white" />}
                       </button>
                     </div>
                     {errors.confirmPassword && (
@@ -190,7 +188,6 @@ function Register() {
                   </div>
                 </div>
 
-                {/* Submit Button */}
                 <div className="d-flex justify-content-center mx-sm-5 mx-lg-0 mt-3">
                   <button
                     type="submit"

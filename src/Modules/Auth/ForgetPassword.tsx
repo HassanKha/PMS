@@ -4,10 +4,10 @@ import { useForm } from 'react-hook-form';
 import { axiosInstance, USERS_URLS } from '../../services/Urls';
 import { validateRegisterForm } from '../../services/Validations';
 import { toast } from 'react-toastify';
-import { EyeIcon, EyeSlashIcon } from "../../assets/SVGIcons/NotificationIcons";
 import { useNavigate } from 'react-router-dom';
 import type { ForgetPasswordForm } from '../../interfaces/ForgetPasswordForm';
 import LoadingPage from '../../shared/LoadingPage/LoadingPage';
+import { FaEye, FaEyeSlash } from "react-icons/fa"; // ✅ react-icons
 
 import "../../styles/ForgetPassword.css";
 
@@ -108,9 +108,9 @@ function ForgetPassword() {
                     </div>
                     <form onSubmit={handleSubmit(updatePassword)}>
                       <div className="form-group">
-                        <label  htmlFor="email" className="input-label">E-mail</label>
+                        <label htmlFor="email" className="input-label">E-mail</label>
                         <input
-                        id='email'
+                          id='email'
                           {...register("email", validateRegisterForm.email)}
                           type="email"
                           className="form-control custom-input"
@@ -121,7 +121,7 @@ function ForgetPassword() {
                       <div className="form-group">
                         <label htmlFor="OTP" className="input-label">OTP Verification</label>
                         <input
-                        id='OTP'
+                          id='OTP'
                           {...register("seed", { required: "OTP is required" })}
                           type="text"
                           placeholder="Enter Verification"
@@ -131,7 +131,7 @@ function ForgetPassword() {
                       <div className="form-group position-relative">
                         <label htmlFor="password" className="input-label">New Password</label>
                         <input
-                        id='password'
+                          id='password'
                           type={showPassword ? "text" : "password"}
                           placeholder="Enter your New Password"
                           className="form-control custom-input"
@@ -142,7 +142,7 @@ function ForgetPassword() {
                           className="toggle-password-btn position-absolute top-50 end-0 translate-middle-y me-2"
                           onClick={() => setShowPassword(!showPassword)}
                         >
-                          {showPassword ? <EyeSlashIcon /> : <EyeIcon />}
+                          {showPassword ? <FaEyeSlash className="text-white" /> : <FaEye className="text-white" />}
                         </button>
                       </div>
                       {errors.password && (
@@ -151,7 +151,7 @@ function ForgetPassword() {
                       <div className="form-group position-relative">
                         <label htmlFor="Confirmpassword" className="input-label">Confirm Password</label>
                         <input
-                         id='Confirmpassword'
+                          id='Confirmpassword'
                           type={showConfirmPassword ? "text" : "password"}
                           placeholder="Confirm your New Password"
                           className="form-control custom-input"
@@ -162,8 +162,7 @@ function ForgetPassword() {
                           className="toggle-password-btn position-absolute top-50 end-0 translate-middle-y me-2"
                           onClick={() => setShowConfirmPassword(!showConfirmPassword)}
                         >
-                          {showConfirmPassword ? <EyeSlashIcon /> : <EyeIcon />}
-
+                          {showConfirmPassword ? <FaEyeSlash className="text-white" /> : <FaEye className="text-white" />}
                         </button>
                       </div>
                       {errors.confirmPassword && (
