@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import {
   FaExclamationTriangle,
   FaRedo,
@@ -16,6 +16,7 @@ import { useNavigate } from "react-router-dom";
 import { useProjectContext } from "../../contexts/ProjectContext";
 import NoData from "../../shared/NoData";
 import Loader from "../../shared/Loader";
+import { AuthContext } from "../../contexts/AuthContext";
 
 type SortField = keyof Project;
 type SortDirection = "asc" | "desc" | null;
@@ -38,7 +39,7 @@ function ProjectList() {
   const [selectedProjectId, setSelectedProjectId] = useState<number | null>(
     null
   );
-
+const auth = useContext(AuthContext);
   let navigate = useNavigate();
 
   useEffect(() => {
@@ -267,7 +268,8 @@ function ProjectList() {
                       <FaSort size={14} />
                     </div>
                   </th>
-                  <th className="text-white border-0 px-4 py-3" style={{ width: "50px" }}></th>
+                  
+                  {auth?.LoginData?.roles[0] === 'Manager' &&  <th className="text-white border-0 px-4 py-3" style={{ width: "50px" }}></th>}
                 </tr>
               </thead>
 
@@ -319,7 +321,7 @@ function ProjectList() {
                       <td className="px-4 py-3 text-dark d-none d-lg-table-cell">
                         {project.creationDate.slice(0, 10)}
                       </td>
-                      <td className="px-lg-4 px-1 py-3">
+                      {auth?.LoginData?.roles[0] === 'Manager' &&  <td className="px-lg-4 px-1 py-3">
                         <ActionDropdown
                           projectId={project.id}
                           onView={handleView}
@@ -333,6 +335,9 @@ function ProjectList() {
                           }
                         />
                       </td>
+
+                      }
+                     
                     </tr>
                   ))}
                 </tbody>

@@ -5,6 +5,7 @@ import Header from "../../shared/Header";
 import './../../styles/TasksUser.css'
 import { toast } from "react-toastify";
 import { type Task } from './../../interfaces/Tasks';
+import  { LoadingSpin } from "../../assets/SVGIcons/SpinnerIcon";
 
 
 function TasksUser() {
@@ -18,15 +19,19 @@ const [tasks, setTasks] = useState<Task[]>([]);
     inProgress: 0,
     done: 0,
   });
+  const [loading, setLoading] = useState(false);
   const [draggedTaskId, setDraggedTaskId] = useState<Number | null>(null);
 
   async function getAllAssignedTasks() {
+     setLoading(true);
     try {
       let response = await axiosInstance.get(`${TASKS_URLS.GET_ASSIGNED_TASKS}?pageSize=5&pageNumber=1`);
       setTasks(response.data.data);
 console.log(response.data.data)
     } catch (error: any) {
       console.log(error);
+    } finally {
+      setLoading(false);
     }
 
   }
@@ -101,7 +106,8 @@ console.log(response.data.data)
               className="itemTask"
               onDragOver={allowDrop}
                 onDrop={() => handleDrop("ToDo")}>
-                {toDoTasks.map((task: Task) => (
+                  
+                { loading ? <div className="w-100 d-flex justify-content-center align-items-center"><LoadingSpin/></div> : toDoTasks.map((task: Task) => (
                   <div  draggable="true" key={task.id}    onDragStart={() => handleDragStart(task.id)} className="itemTaskUser">
                     <p>{task.title}</p>
                   </div>
@@ -112,7 +118,7 @@ console.log(response.data.data)
             <div id="inProgress"   onDrop={() => handleDrop("InProgress")} onDragOver={allowDrop} className="col-md-4">
               <h5 className="mt-3 text-center">In progress  <span className="text-warning">({taskCount.inProgress})</span></h5>
               <div className="itemTask">
-                {inProgressTasks.map((task: any) => (
+                {loading ? <div className="w-100 d-flex justify-content-center align-items-center"><LoadingSpin/></div> : inProgressTasks.map((task: any) => (
                   <div     onDragStart={() => handleDragStart(task.id)} draggable="true" key={task.id} className="itemTaskUser">
                     <p >{task.title}</p>
                   </div>
@@ -123,7 +129,7 @@ console.log(response.data.data)
             <div  id="done" onDrop={() => handleDrop("Done")} onDragOver={allowDrop} className="col-md-4">
               <h5 className="mt-3 text-center">Done <span className="text-success">({taskCount.done})</span></h5>
               <div className="itemTask">
-                {doneTasks.map((task: any) => (
+                {loading ? <div className="w-100 d-flex justify-content-center align-items-center"><LoadingSpin/></div>  : doneTasks.map((task: any) => (
                   <div    onDragStart={() => handleDragStart(task.id)}  draggable="true" key={task.id} className="itemTaskUser">
                     <p >{task.title}</p>
                   </div>

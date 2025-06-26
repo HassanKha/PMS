@@ -84,18 +84,13 @@ const Navbar: React.FC<NavbarProps> = ({
         <NotePopup showPrivileges={showPrivileges} setShowPrivileges={setShowPrivileges} />
 
         <div className="d-flex align-items-center">
-          <div style={{ marginLeft: 'auto' }}>
+          <div className="mx-auto">
             <button
               onClick={toggleDarkMode}
-              style={{
-                zIndex: 899999,
-                position: 'relative',
-                border: 'none',
-                background: 'none',
-                fontSize: '1.5rem',
-                cursor: 'pointer',
-              }}
+              className="notification-btn ntmtoggle"
+
               title="Toggle Dark Mode"
+            
             >
               {isDark ? '☀️' : '🌙'}
             </button>
