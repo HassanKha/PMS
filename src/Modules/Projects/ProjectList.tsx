@@ -162,19 +162,13 @@ const auth = useContext(AuthContext);
   return (
     <div
       className="px-4 pt-1 pb-2"
-      style={{ backgroundColor: "#f8f9fa", minHeight: "calc(100vh - 70px)" }}
+     
     >
       <Header Title={"Projects"} BtnTitle={"Add New Project"} />
       <div className="mb-4">
-        <div className="position-relative" style={{ maxWidth: "400px" }}>
+        <div className="position-relative search-container">
           <div
-            className="position-absolute text-muted"
-            style={{
-              left: "12px",
-              top: "50%",
-              transform: "translateY(-50%)",
-              zIndex: 2,
-            }}
+            className="position-absolute text-muted search-icon-container"
           >
             <FaSearch />
           </div>
@@ -184,10 +178,7 @@ const auth = useContext(AuthContext);
             placeholder="Search By Title"
             value={searchTerm}
             onChange={(e) => handleSearch(e.target.value)}
-            style={{
-              borderRadius: "8px",
-              border: "1px solid #dee2e6",
-            }}
+           
           />
         </div>
       </div>
@@ -207,14 +198,9 @@ const auth = useContext(AuthContext);
           <h5 className="text-dark mb-3">Something went wrong</h5>
           <p className="text-muted mb-4">{error}</p>
           <button
-            className="btn d-inline-flex align-items-center px-4 py-2"
+            className="btn d-inline-flex wrong-button align-items-center px-4 py-2"
             onClick={() => fetchProjects(10, 1, "")}
-            style={{
-              backgroundColor: "#5a8a7a",
-              borderColor: "#5a8a7a",
-              color: "white",
-              borderRadius: "8px",
-            }}
+        
           >
             <FaRedo className="me-2" />
             Try Again
@@ -231,7 +217,7 @@ const auth = useContext(AuthContext);
                   <th
                     className="text-white border-0 px-4 py-3 cursor-pointer table-header-hover"
                     onClick={() => handleSort("title")}
-                    style={{ fontWeight: "500" }}
+                   
                   >
                     <div className="d-flex align-items-center justify-content-lg-evenly justify-content-between">
                       <span className="text-center">Title</span>
@@ -241,7 +227,7 @@ const auth = useContext(AuthContext);
                   <th
                     className="text-white border-0 px-5 py-3 cursor-pointer table-header-hover"
                     onClick={() => handleSort("description")}
-                    style={{ fontWeight: "500" }}
+                   
                   >
                     <div className="d-flex align-items-center gap-1 justify-content-between">
                       <span>Description</span>
@@ -251,7 +237,7 @@ const auth = useContext(AuthContext);
                   <th
                     className="text-white border-0 px-4 py-3 cursor-pointer table-header-hover d-none d-lg-table-cell"
                     onClick={() => handleSort("numTasks")}
-                    style={{ fontWeight: "500" }}
+                   
                   >
                     <div className="d-flex align-items-center justify-content-lg-evenly justify-content-between">
                       <span>Num Tasks</span>
@@ -261,7 +247,7 @@ const auth = useContext(AuthContext);
                   <th
                     className="text-white border-0 px-4 py-3 cursor-pointer table-header-hover d-none d-lg-table-cell"
                     onClick={() => handleSort("creationDate")}
-                    style={{ fontWeight: "500" }}
+                   
                   >
                     <div className="d-flex align-items-center justify-content-lg-evenly justify-content-between">
                       <span>Date Created</span>
@@ -279,25 +265,13 @@ const auth = useContext(AuthContext);
                     <tr
                       key={project.id}
                       className="table-row-hover"
-                      style={{
-                        backgroundColor: index % 2 === 0 ? "#ffffff" : "#f8f9fa",
-                      }}
+                     
                     >
                       <td className="px-4 py-3 text-dark">{project.title}</td>
                       <td className="px-1 py-4">
                         <span
-                          className="badge px-2 py-1 text-white table-header-wrap"
-                          style={{
-                            backgroundColor: "#5a8a7a",
-                            borderRadius: "20px",
-                            fontSize: "12px",
-                            maxWidth: "150px",
-                            whiteSpace: "normal",
-                            wordWrap: "break-word",
-                            display: "inline-block",
-                            overflow: "hidden",
-                            textOverflow: "ellipsis",
-                          }}
+                          className="badge description-span px-2 py-1 text-white table-header-wrap"
+                         
                         >
                           {project.description.length > 25
                             ? `${project.description.slice(0, 25)}...`
@@ -306,14 +280,7 @@ const auth = useContext(AuthContext);
                       </td>
                       <td className="px-4 py-3 text-dark d-none d-md-table-cell">
                         <span
-                          className="badge px-2 py-1"
-                          style={{
-                            backgroundColor:
-                              project.task.length > 0 ? "#5a8a7a" : "#6c757d",
-                            color: "white",
-                            borderRadius: "12px",
-                            fontSize: "11px",
-                          }}
+                        className={`badge num-of-tasks px-2 py-1 ${project.task.length > 0 ? 'above-zero' : 'below-zero'}`}                         
                         >
                           {project.numTasks} tasks
                         </span>
@@ -357,8 +324,7 @@ const auth = useContext(AuthContext);
             <div className="d-flex justify-content-center align-items-center">
               <span className="text-muted me-2">Showing</span>
               <select
-                className="form-select form-select-sm me-2"
-                style={{ width: "auto" }}
+                className="form-select options-select form-select-sm me-2"
                 value={itemsPerPage}
                 onChange={(e) => {
                   const newPageSize = Number(e.target.value);
