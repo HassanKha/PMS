@@ -1,0 +1,15 @@
+.tasks{
+    background-color: #f8f9fa;
+     min-height: calc(100vh - 70px);
+}
+
+.search-icon{
+left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 2;
+}
+
+table thead{
+    background-color: #5a8a7a;
+}

@@ -1,0 +1,108 @@
+.login-bg {
+  background-size: cover;
+  background-position: center;
+  overflow: hidden;
+  min-height: 100vh;
+}
+
+.login-container {
+  max-width: 550px;
+}
+
+.title-auth {
+  color: #ffa726;
+  font-size: clamp(1.5rem, 5vw, 2.25rem);
+}
+
+.subtitle-auth {
+  font-size: 13px;
+}
+
+.input-label {
+  color: #ffa726;
+}
+
+.login-input {
+  background: transparent;
+  border: none;
+  outline: none;
+  border-bottom: 1px solid white;
+  color: white;
+  padding: 6px 12px;
+  width: 100%;
+  box-shadow: none;
+}
+
+.login-password-input {
+  border: none;
+  background: transparent;
+  outline: none;
+  border-bottom: 1px solid white;
+  border-radius: 0;
+  color: white;
+  padding: 6px 12px;
+  width: 100%;
+  box-shadow: none;
+}
+
+.login-input::placeholder,
+.login-password-input::placeholder {
+  color: white !important;
+  opacity: 1;
+}
+
+.login-input:-ms-input-placeholder,
+.login-password-input:-ms-input-placeholder {
+  color: white !important;
+}
+
+.login-input::-ms-input-placeholder,
+.login-password-input::-ms-input-placeholder {
+  color: white !important;
+}
+
+.password-toggle-btn {
+  border: none;
+  background: transparent;
+  color: rgba(255, 255, 255, 0.6);
+  padding: 4px;
+}
+
+.login-submit-btn {
+  background: linear-gradient(45deg, #ffa726, #ff9800);
+  border: none;
+  border-radius: 25px;
+  color: white;
+  font-size: 18px;
+  height: 50px;
+  width: 100%;
+  transition: all 0.3s ease;
+}
+
+.links-container_F_R {
+  font-size: 14px;
+  transition: color 0.3s ease;
+}
+
+.links-container_F_R:hover {
+  color: #ffa726;
+  text-decoration: underline;
+}
+
+.ImgSize {
+  width: 25%;
+  height: 25%;
+}
+
+@media (max-width: 768px) {
+  .ImgSize {
+    width: 50% !important;
+    height: 50% !important;
+  }
+
+  .title-auth {
+    font-size: 1.5rem !important;
+    text-align: center;
+    margin-bottom: 1rem;
+  }
+}

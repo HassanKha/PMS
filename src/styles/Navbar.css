@@ -1,0 +1,22 @@
+.img-container {
+    width: 40px;
+    height: 40px;
+    background-color: #20c997;
+}
+
+
+.notification-btn {
+  transition: transform 0.2s ease-in-out;
+}
+.notification-btn:hover {
+  transform: scale(1.15) rotate(-5deg);
+}
+
+.ntmtoggle {
+     z-index: 899999;
+  position: relative;
+  border: none;
+  background: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+}

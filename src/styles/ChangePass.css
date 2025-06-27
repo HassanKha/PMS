@@ -1,0 +1,78 @@
+.change-pass-bg {
+  min-height: 100vh;
+  background-image: url("../../src/assets/ChangePassBg.svg");
+  background-size: cover;
+  background-position: center;
+}
+
+.change-pass-main-container {
+  background-color: #315951e5;
+  border-radius: 16px;
+}
+
+input {
+  width: 100%;
+}
+
+input:focus,
+button:focus {
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+.welcome {
+  color: #ffa726;
+  font-size: 36px;
+}
+
+.welcome-sub {
+  font-size: 13px;
+}
+
+label {
+  color: #ffa726;
+}
+
+.change-pass-submit {
+  background: linear-gradient(45deg, #ffa726, #ff9800) !important;
+  border: none !important;
+  border-radius: 25px !important;
+  color: white !important;
+  padding: 0.3rem 6rem !important;
+  font-size: 18px !important;
+  transition: all 0.3s ease !important;
+  height: 50px !important;
+}
+
+.change-pass-input {
+  border: none !important;
+  border-bottom: 1px solid white !important;
+  padding: 6px 12px !important;
+  background: transparent;
+  color: white;
+}
+
+.toggle-password-btn {
+  border: none;
+  background: transparent;
+  color: rgba(255, 255, 255, 0.6);
+  padding: 4px;
+}
+
+.ImgSize {
+  width: 25%;
+  height: 25%;
+}
+
+@media (max-width: 768px) {
+  .ImgSize {
+    width: 50% !important;
+    height: 50% !important;
+  }
+
+  .change-pass-main-container h2 {
+    font-size: 1.5rem !important;
+    text-align: center;
+    margin-bottom: 1rem;
+  }
+}
