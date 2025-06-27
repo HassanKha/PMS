@@ -210,7 +210,7 @@ const auth = useContext(AuthContext);
 
       {!loading && !error && (
         <div className="bg-white rounded shadow-sm">
-          <div className="table-responsive rounded-2">
+          <div className="rounded-2">
             <table className="table table-hover mb-0">
               <thead style={{ backgroundColor: "#5a8a7a" }}>
                 <tr>
