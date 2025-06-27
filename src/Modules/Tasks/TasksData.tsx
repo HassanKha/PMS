@@ -1,4 +1,4 @@
-import { useForm, type FieldError } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { axiosInstance, TASKS_URLS } from "../../services/Urls";
 import { useContext, useEffect, useState } from "react";
@@ -7,6 +7,8 @@ import { AuthContext } from "../../contexts/AuthContext";
 import { useProjectContext } from "../../contexts/ProjectContext";
 import { useUsersContext } from "../../contexts/UsersContext";
 import type { postTask } from "../../interfaces/Task";
+import { LoadingSpin } from "../../assets/SVGIcons/SpinnerIcon";
+
 function TasksData() {
   const [loading, setLoading] = useState(false);
 
@@ -43,6 +45,7 @@ function TasksData() {
       setValue("description", data.description);
       setValue("employeeId", data.employee?.id || data.employeeId);
       setValue("projectId", data.project?.id || data.projectId);
+      setValue("status", data.status || "ToDo");
     }
   }, [isEdit, data, setValue]);
 
@@ -58,9 +61,6 @@ function TasksData() {
       };
 
       if (isEdit) {
-        if (!taskId) {
-          throw new Error("Task ID is missing for edit");
-        }
         const response = await axiosInstance.put(
           TASKS_URLS.EDIT_TASK(taskId),
           payload
@@ -83,118 +83,151 @@ function TasksData() {
   };
 
   return (
-  <div className="AllPageFormProjects">
-      <div className="container-fluid">
-        <div className="headerProject p-3">
-          <Link to="/dashboard/tasks" className="fancy-hover-link text-decoration-none text-black">
-            <i className="fa-solid fa-chevron-left mx-1"></i> View All Tasks
-          </Link>
-          <h3 className="pt-3">{isEdit ? "Edit Task" : "Add New Task"}</h3>
+    <div className="container py-4">
+      <div className="card shadow-sm">
+        <div className="card-header bg-white border-bottom-0">
+          <div className="d-flex justify-content-between align-items-center">
+            <h4 className="mb-0">{isEdit ? "Edit Task" : "Add New Task"}</h4>
+            <Link
+              to="/dashboard/tasks"
+              className="btn btn-sm btn-outline-secondary"
+            >
+              <i className="fa-solid fa-chevron-left me-1"></i> View All Tasks
+            </Link>
+          </div>
         </div>
-        
-        <div className="formProjects py-5">
+
+        <div className="card-body">
           <form onSubmit={handleSubmit(onSubmit)}>
-            <div>
-              <label htmlFor="inputTitle" className="form-label">Title</label>
+            <div className="mb-3">
+              <label htmlFor="title" className="form-label">Title</label>
               <input
+              id="title"
                 {...register("title", { required: "Title is required" })}
+                className={`form-control ${errors.title ? "is-invalid" : ""}`}
                 placeholder="Enter task title"
-                type="text"
-                id="inputTitle"
-                className="form-control"
               />
               {errors.title && (
-                <span className="text-danger">
-                  {(errors.title as FieldError).message}
-                </span>
+                <div className="invalid-feedback">{errors.title.message}</div>
               )}
             </div>
 
-            <div className="mt-3">
-              <label htmlFor="inputDesc" className="form-label">Description</label>
+            <div className="mb-3">
+              <label htmlFor="Description" className="form-label">Description</label>
               <textarea
-                {...register("description", { required: "Description is required" })}
-                id="inputDesc"
-                className="form-control"
-                placeholder="Enter task description"
+              id="Description"
+                {...register("description", {
+                  required: "Description is required",
+                })}
+                className={`form-control ${
+                  errors.description ? "is-invalid" : ""
+                }`}
                 rows={3}
+                placeholder="Enter task description"
               />
               {errors.description && (
-                <span className="text-danger">
-                  {(errors.description as FieldError).message}
-                </span>
+                <div className="invalid-feedback">
+                  {errors.description.message}
+                </div>
               )}
             </div>
 
-            <div className="row mt-3">
-              <div className="col-md-6">
-                <label htmlFor="inputEmployee" className="form-label">User</label>
-                {isLoading ? (
-                  <div className="text-muted">Loading users...</div>
-                ) : (
-                  <select
-                    {...register("employeeId", { required: "User is required" })}
-                    id="inputEmployee"
-                    className="form-control"
-                  >
-                    <option value="">Select User</option>
-                    {users.map((emp) => (
-                      <option key={emp.id} value={emp.id}>{emp.userName}</option>
-                    ))}
-                  </select>
-                )}
+            <div className="row">
+              <div className="col-md-6 mb-3">
+                <label htmlFor="userlist" className="form-label d-flex gap-2">User  {isLoading && (
+                  <div className=" d-flex justify-content-center align-items-center">{LoadingSpin("1")} </div>
+                  )}</label>
+                <select
+                id="userlist"
+                  {...register("employeeId", { required: "User is required" })}
+                  className={`form-select ${
+                    errors.employeeId ? "is-invalid" : ""
+                  }`}
+                >
+                  <option value="">Select User</option>
+                  {users.map((emp) => (
+                    <option key={emp.id} value={emp.id}>
+                      {emp.userName}
+                    </option>
+                  ))}
+                </select>
                 {errors.employeeId && (
-                  <span className="text-danger">
-                    {(errors.employeeId as FieldError).message}
-                  </span>
+                  <div className="invalid-feedback">
+                    {errors.employeeId.message}
+                  </div>
                 )}
               </div>
 
-              <div className="col-md-6">
-                <label htmlFor="inputProject" className="form-label">Project</label>
-                {loadingProjects ? (
-                  <div className="text-muted">Loading projects...</div>
-                ) : (
-                  <select
-                    {...register("projectId", { required: "Project is required" })}
-                    id="inputProject"
-                    className="form-control"
-                  >
-                    <option value="">Select Project</option>
-                    {Projects.map((proj) => (
-                      <option key={proj.id} value={proj.id}>{proj.title}</option>
-                    ))}
-                  </select>
-                )}
+              <div className="col-md-6 mb-3">
+                <label htmlFor="projectlist" className="form-label d-flex gap-2">
+                  {" "}
+                  Project
+                  {loadingProjects && (
+                  <div className=" d-flex justify-content-center align-items-center">{LoadingSpin("1")} </div>
+                  )}
+                </label>
+                <select
+                id="projectlist"
+                  {...register("projectId", {
+                    required: "Project is required",
+                  })}
+                  className={`form-select ${
+                    errors.projectId ? "is-invalid" : ""
+                  }`}
+                >
+                  <option value="">Select Project</option>
+                  {Projects.map((proj) => (
+                    <option key={proj.id} value={proj.id}>
+                      {proj.title}
+                    </option>
+                  ))}
+                </select>
                 {errors.projectId && (
-                  <span className="text-danger">
-                    {(errors.projectId as FieldError).message}
-                  </span>
+                  <div className="invalid-feedback">
+                    {errors.projectId.message}
+                  </div>
                 )}
               </div>
             </div>
 
-            <div className="btnFormProjects d-flex justify-content-between align-items-center mt-4">
-              <button 
-                type="button" 
-                onClick={() => navigate("/dashboard/tasks")} 
-                className="btn_CancelForm"
+            <div className="mb-3">
+              <label htmlFor="status" className="form-label">Status</label>
+              <select id="status" {...register("status")} className="form-select">
+                <option value="ToDo">To Do</option>
+                <option value="InProgress">In Progress</option>
+                <option value="Done">Done</option>
+              </select>
+            </div>
+
+            <div className="d-flex justify-content-end gap-2 mt-4">
+              <button
+                type="button"
+                onClick={() => navigate("/dashboard/tasks")}
+                className="btn btn-outline-secondary px-4"
               >
                 Cancel
               </button>
-              <button 
-                type="submit" 
-                className="btnSaveProject"
-                disabled={loading || loadingProjects}
+              <button
+                type="submit"
+                className="btn btn-primary px-4"
+                disabled={loading}
               >
-                {loading ? <i className='fa fa-spinner fa-spin'></i> : isEdit ? "Update" : "Save"}
+                {loading ? (
+                  <>
+                    <span className="spinner-border spinner-border-sm me-2"></span>
+                    Processing...
+                  </>
+                ) : isEdit ? (
+                  "Update Task"
+                ) : (
+                  "Add Task"
+                )}
               </button>
             </div>
           </form>
         </div>
       </div>
     </div>
-
   );
 }
 

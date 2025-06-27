@@ -305,3 +305,31 @@
 .fancy-hover-link:hover::after {
     width: 100%;
 }
+
+
+html.dark, html.dark body {
+  background-color: #000 !important;
+  color: #fff !important;
+}
+
+/* Override for all elements */
+html.dark * {
+  background-color: transparent !important;
+  color: #fff !important;
+  border-color: #666 !important;
+}
+
+/* Optional: links and buttons */
+html.dark a,
+html.dark button {
+  color: #fff !important;
+}
+
+/* Optional: Inputs and textareas */
+html.dark input,
+html.dark textarea,
+html.dark select {
+  background-color: #222 !important;
+  color: #fff !important;
+  border: 1px solid #444 !important;
+}
