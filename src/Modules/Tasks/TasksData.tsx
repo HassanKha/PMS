@@ -10,7 +10,7 @@ interface Task {
   description: string;
   employeeId: string;
   projectId: string;
-  status?: string;
+  status?: "ToDo" | "InProgress" | "Done";
   employee?: { id: string; userName: string };
   project?: { id: string; title: string };
 }
@@ -29,6 +29,7 @@ function TasksData() {
   const [loading, setLoading] = useState(false);
   const [projects, setProjects] = useState<Project[]>([]);
   const [employees, setEmployees] = useState<User[]>([]);
+  const [dropdownLoading, setDropdownLoading] = useState(false);
   
   const { register, handleSubmit, formState: { errors }, setValue } = useForm<Task>();
   const navigate = useNavigate();
@@ -40,15 +41,19 @@ function TasksData() {
 
   useEffect(() => {
     const fetchData = async () => {
+      setDropdownLoading(true);
       try {
+        // Fetch all projects and employees without pagination
         const [projectsRes, employeesRes] = await Promise.all([
-          axiosInstance.get("https://upskilling-egypt.com:3003/api/v1/Project/"),
-          axiosInstance.get("https://upskilling-egypt.com:3003/api/v1/Users/")
+          axiosInstance.get("/Project?pageSize=1000"), // Adjust pageSize as needed
+          axiosInstance.get("/Users?pageSize=1000")    // Adjust pageSize as needed
         ]);
         setProjects(projectsRes.data?.data || []);
         setEmployees(employeesRes.data?.data || []);
       } catch (error) {
         toast.error("Failed to load dropdown data");
+      } finally {
+        setDropdownLoading(false);
       }
     };
 
@@ -61,22 +66,31 @@ function TasksData() {
       setValue("description", data.description);
       setValue("employeeId", data.employee?.id || data.employeeId);
       setValue("projectId", data.project?.id || data.projectId);
-      setValue("status", data.status || "ToDo");
     }
   }, [isEdit, data, setValue]);
 
   const onSubmit = async (formData: Task) => {
     setLoading(true);
     try {
-      const payload = {
-        title: formData.title,
-        description: formData.description,
-        employeeId: formData.employeeId,
-        projectId: formData.projectId,
-        status: formData.status || "ToDo"
-      };
+      const payload = isEdit
+        ? {
+            title: formData.title,
+            description: formData.description,
+            employeeId: formData.employeeId,
+            projectId: formData.projectId
+          }
+        : {
+            title: formData.title,
+            description: formData.description,
+            employeeId: formData.employeeId,
+            projectId: formData.projectId,
+            status: "ToDo"
+          };
 
       if (isEdit) {
+        if (!taskId) {
+          throw new Error("Task ID is missing for edit");
+        }
         const response = await axiosInstance.put(
           `https://upskilling-egypt.com:3003/api/v1/Task/${taskId}`,
           payload
@@ -93,7 +107,7 @@ function TasksData() {
       navigate("/dashboard/tasks");
     } catch (error: any) {
       toast.error(
-        error.response?.data?.message || "Something went wrong. Please try again."
+        error.response?.data?.message || error.message || "Something went wrong. Please try again."
       );
     } finally {
       setLoading(false);
@@ -101,106 +115,111 @@ function TasksData() {
   };
 
   return (
-    <div className="container py-4">
-      <div className="card shadow-sm">
-        <div className="card-header bg-white border-bottom-0">
-          <div className="d-flex justify-content-between align-items-center">
-            <h4 className="mb-0">{isEdit ? "Edit Task" : "Add New Task"}</h4>
-            <Link to="/dashboard/tasks" className="btn btn-sm btn-outline-secondary">
-              <i className="fa-solid fa-chevron-left me-1"></i> View All Tasks
-            </Link>
-          </div>
+    <div className="AllPageFormProjects">
+      <div className="container-fluid">
+        <div className="headerProject p-3">
+          <Link to="/dashboard/tasks" className="fancy-hover-link text-decoration-none text-black">
+            <i className="fa-solid fa-chevron-left mx-1"></i> View All Tasks
+          </Link>
+          <h3 className="pt-3">{isEdit ? "Edit Task" : "Add New Task"}</h3>
         </div>
-
-        <div className="card-body">
+        
+        <div className="formProjects py-5">
           <form onSubmit={handleSubmit(onSubmit)}>
-            <div className="mb-3">
-              <label className="form-label">Title</label>
+            <div>
+              <label htmlFor="inputTitle" className="form-label">Title</label>
               <input
                 {...register("title", { required: "Title is required" })}
-                className={`form-control ${errors.title ? "is-invalid" : ""}`}
                 placeholder="Enter task title"
+                type="text"
+                id="inputTitle"
+                className="form-control"
               />
               {errors.title && (
-                <div className="invalid-feedback">{errors.title.message}</div>
+                <span className="text-danger">
+                  {(errors.title as FieldError).message}
+                </span>
               )}
             </div>
 
-            <div className="mb-3">
-              <label className="form-label">Description</label>
+            <div className="mt-3">
+              <label htmlFor="inputDesc" className="form-label">Description</label>
               <textarea
                 {...register("description", { required: "Description is required" })}
-                className={`form-control ${errors.description ? "is-invalid" : ""}`}
-                rows={3}
+                id="inputDesc"
+                className="form-control"
                 placeholder="Enter task description"
+                rows={3}
               />
               {errors.description && (
-                <div className="invalid-feedback">{errors.description.message}</div>
+                <span className="text-danger">
+                  {(errors.description as FieldError).message}
+                </span>
               )}
             </div>
 
-            <div className="row">
-              <div className="col-md-6 mb-3">
-                <label className="form-label">User</label>
-                <select
-                  {...register("employeeId", { required: "User is required" })}
-                  className={`form-select ${errors.employeeId ? "is-invalid" : ""}`}
-                >
-                  <option value="">Select User</option>
-                  {employees.map((emp) => (
-                    <option key={emp.id} value={emp.id}>{emp.userName}</option>
-                  ))}
-                </select>
+            <div className="row mt-3">
+              <div className="col-md-6">
+                <label htmlFor="inputEmployee" className="form-label">User</label>
+                {dropdownLoading ? (
+                  <div className="text-muted">Loading users...</div>
+                ) : (
+                  <select
+                    {...register("employeeId", { required: "User is required" })}
+                    id="inputEmployee"
+                    className="form-control"
+                  >
+                    <option value="">Select User</option>
+                    {employees.map((emp) => (
+                      <option key={emp.id} value={emp.id}>{emp.userName}</option>
+                    ))}
+                  </select>
+                )}
                 {errors.employeeId && (
-                  <div className="invalid-feedback">{errors.employeeId.message}</div>
+                  <span className="text-danger">
+                    {(errors.employeeId as FieldError).message}
+                  </span>
                 )}
               </div>
 
-              <div className="col-md-6 mb-3">
-                <label className="form-label">Project</label>
-                <select
-                  {...register("projectId", { required: "Project is required" })}
-                  className={`form-select ${errors.projectId ? "is-invalid" : ""}`}
-                >
-                  <option value="">Select Project</option>
-                  {projects.map((proj) => (
-                    <option key={proj.id} value={proj.id}>{proj.title}</option>
-                  ))}
-                </select>
+              <div className="col-md-6">
+                <label htmlFor="inputProject" className="form-label">Project</label>
+                {dropdownLoading ? (
+                  <div className="text-muted">Loading projects...</div>
+                ) : (
+                  <select
+                    {...register("projectId", { required: "Project is required" })}
+                    id="inputProject"
+                    className="form-control"
+                  >
+                    <option value="">Select Project</option>
+                    {projects.map((proj) => (
+                      <option key={proj.id} value={proj.id}>{proj.title}</option>
+                    ))}
+                  </select>
+                )}
                 {errors.projectId && (
-                  <div className="invalid-feedback">{errors.projectId.message}</div>
+                  <span className="text-danger">
+                    {(errors.projectId as FieldError).message}
+                  </span>
                 )}
               </div>
             </div>
 
-            <div className="mb-3">
-              <label className="form-label">Status</label>
-              <select {...register("status")} className="form-select">
-                <option value="ToDo">To Do</option>
-                <option value="InProgress">In Progress</option>
-                <option value="Done">Done</option>
-              </select>
-            </div>
-
-            <div className="d-flex justify-content-end gap-2 mt-4">
-              <button
-                type="button"
-                onClick={() => navigate("/dashboard/tasks")}
-                className="btn btn-outline-secondary px-4"
+            <div className="btnFormProjects d-flex justify-content-between align-items-center mt-4">
+              <button 
+                type="button" 
+                onClick={() => navigate("/dashboard/tasks")} 
+                className="btn_CancelForm"
               >
                 Cancel
               </button>
-              <button
-                type="submit"
-                className="btn btn-primary px-4"
-                disabled={loading}
+              <button 
+                type="submit" 
+                className="btnSaveProject"
+                disabled={loading || dropdownLoading}
               >
-                {loading ? (
-                  <>
-                    <span className="spinner-border spinner-border-sm me-2"></span>
-                    Processing...
-                  </>
-                ) : isEdit ? "Update Task" : "Add Task"}
+                {loading ? <i className='fa fa-spinner fa-spin'></i> : isEdit ? "Update" : "Save"}
               </button>
             </div>
           </form>
