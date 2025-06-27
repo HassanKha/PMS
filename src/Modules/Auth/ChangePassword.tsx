@@ -6,9 +6,9 @@ import { validateRegisterForm } from "../../services/Validations";
 import { axiosInstance, USERS_URLS } from '../../services/Urls';
 import "../../styles/ChangePass.css";
 import { toast } from 'react-toastify';
-import type { FormData } from '../../interfaces/FormData';
+import type { FormDataCahangePassword } from '../../interfaces/AuthContextType';
 import LoadingPage from '../../shared/LoadingPage/LoadingPage';
-import { FaEye, FaEyeSlash } from "react-icons/fa"; // ✅ react-icons import
+import { FaEye, FaEyeSlash } from "react-icons/fa"; 
 
 function ChangePassword() {
   const [showNewPassword, setShowNewPassword] = useState(false);
@@ -21,12 +21,12 @@ function ChangePassword() {
     handleSubmit,
     watch,
     formState: { errors, isSubmitting },
-  } = useForm<FormData>();
+  } = useForm<FormDataCahangePassword>();
 
   const newPassword = watch("newPassword");
   const navigate = useNavigate();
 
-  const onSubmit = async (data: FormData) => {
+  const onSubmit = async (data: FormDataCahangePassword) => {
     setIsLoading(true);
     try {
       const response = await axiosInstance.put(USERS_URLS.CHANGE_PASS, data);

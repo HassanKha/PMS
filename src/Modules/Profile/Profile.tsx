@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import { axiosInstance, USERS_URLS } from '../../services/Urls.js';
 import { toast } from 'react-toastify';
 import { validateRegisterForm } from '../../services/Validations.js';
-import type { UserPrfoile } from '../../interfaces/UserProfile.js';
+import type { UserPrfoile } from '../../interfaces/Users.js';
 import Loader from '../../shared/Loader.js';
 
 export default function Profile() {

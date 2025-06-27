@@ -2,7 +2,7 @@ import { createContext, useContext, useState, type ReactNode } from "react";
 import { axiosInstance, PROJECTS_URLS } from "../services/Urls";
 import type { Project } from "../interfaces/Project";
 import { AuthContext } from "./AuthContext";
-import type { ProjectContextType } from "../interfaces/ProjectContextType";
+import type { ProjectContextType } from "../interfaces/Project";
 
 
 

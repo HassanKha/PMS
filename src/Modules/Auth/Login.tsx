@@ -8,7 +8,7 @@ import axios from "axios";
 import { useContext, useEffect, useState } from "react";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { validateRegisterForm } from "../../services/Validations";
-import type { LoginFormInputs } from "../../interfaces/LoginFormInputs";
+import type { LoginFormInputs } from "../../interfaces/AuthContextType";
 import { AuthContext } from "../../contexts/AuthContext";
 import LoadingPage from "../../shared/LoadingPage/LoadingPage";
 import { axiosInstance, USERS_URLS } from "../../services/Urls";

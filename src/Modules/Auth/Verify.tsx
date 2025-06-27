@@ -6,7 +6,7 @@ import "../../styles/Verify.css";
 import { useLocation, useNavigate } from "react-router-dom";
 import { axiosInstance, USERS_URLS } from "../../services/Urls";
 import { verifyValidation } from "../../services/Validations";
-import type { FormDataVerify } from "../../interfaces/FormData";
+import type { FormDataVerify } from "../../interfaces/AuthContextType";
 import { useState } from "react";
 import LoadingPage from '../../shared/LoadingPage/LoadingPage';
 

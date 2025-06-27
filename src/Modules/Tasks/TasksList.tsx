@@ -52,9 +52,9 @@ function TaskList() {
     }
   };
 
-  const filtered = tasks.filter((t) =>
-    t.title.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+const filtered = tasks.filter((t: { title: string }) =>
+  t.title.toLowerCase().includes(searchTerm.toLowerCase())
+);
 
   const sorted = [...filtered].sort((a, b) => {
     if (!sortField || !sortDirection) return 0;

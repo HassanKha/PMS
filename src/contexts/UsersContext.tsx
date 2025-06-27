@@ -2,7 +2,7 @@ import { createContext, useContext,  useState } from "react";
 import { axiosInstance, USERS_URLS } from "../services/Urls";
 import { toast } from "react-toastify";
 import type { Logged_in_Users } from "../interfaces/Users";
-import type { UsersContextProps } from "../interfaces/UsersContextProps";
+import type { UsersContextProps } from "../interfaces/Users";
 
 
 
