@@ -306,17 +306,27 @@
     width: 100%;
 }
 
+/* Light mode default */
+body, html {
+  background-color: white;
+  color: black;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
 
+/* Dark mode global override */
 html.dark, html.dark body {
   background-color: #000 !important;
   color: #fff !important;
 }
-
 /* Override for all elements */
-html.dark * {
+html.dark *:not(#root > div > div.position-sticky.top-0.vh-100 > div > div > aside > div ):not(#toDo):not(#inProgress > div):not(#done > div):not(#toDo div ,  #inProgress > div > div, #done > div > div):not(table thead th):not(#root > div > div.w-100 > div > div.bg-white.rounded.shadow-sm > div.rounded-2 > table > tbody > tr > td.px-1.py-4 > span):not(#root > div > div.w-100 > div > div.bg-white.rounded.shadow-sm > div.rounded-2 > table > tbody > tr > td.px-4.py-3.text-dark.d-none.d-md-table-cell > span):not(#root > div > div.w-100 > div > div.bg-white.p-3.mt-3 > div.shadow-lg.rounded-2 > table > tbody > tr > td > span) {
   background-color: transparent !important;
   color: #fff !important;
   border-color: #666 !important;
+}
+
+.dark #root > div > div > div > div > div > input::placeholder , #root > div > div> div > div > div > div > input::placeholder {
+ color: #fff !important;
 }
 
 /* Optional: links and buttons */
@@ -332,4 +342,8 @@ html.dark select {
   background-color: #222 !important;
   color: #fff !important;
   border: 1px solid #444 !important;
+}
+
+html.dark input::placeholder {
+ color: #fff !important;
 }

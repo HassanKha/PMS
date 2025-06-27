@@ -174,7 +174,7 @@ const auth = useContext(AuthContext);
           </div>
           <input
             type="text"
-            className="form-control rounded-pill ps-5"
+            className="form-control  rounded-pill ps-5"
             placeholder="Search By Title"
             value={searchTerm}
             onChange={(e) => handleSearch(e.target.value)}

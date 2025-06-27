@@ -12,11 +12,13 @@ import { useContext } from "react";
 import { AuthContext } from "../contexts/AuthContext";
 import { Link, useLocation } from "react-router-dom";
 
+
 interface SideBarProps {
   sidebarVisible: boolean;
   collapsed: boolean;
   handleCollapseSidebar: () => void;
 }
+
 
 const SideBar: React.FC<SideBarProps> = ({
   sidebarVisible,
@@ -45,6 +47,7 @@ const SideBar: React.FC<SideBarProps> = ({
             border: "none",
             boxShadow: "2px 0 6px rgba(0,21,41,.35)",
           }}
+          
         >
           <div className="d-flex align-items-center justify-content-end">
             <button

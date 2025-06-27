@@ -16,7 +16,9 @@ min-height: 40px;
 }
 
 
-
+ #root > div > div > div > div > div > input::placeholder , #root > div > div> div > div > div > div > input::placeholder {
+  color: black !important;
+}
 .toggle-btn{
     
   background-color: #EF9B28 !important ;
