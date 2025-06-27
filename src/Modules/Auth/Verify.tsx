@@ -1,4 +1,4 @@
-import Verfiybg from "../../assets/VerfiyBackground.svg";
+
 import PMSIcon from "../../assets/PMSIcon.png";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";

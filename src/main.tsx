@@ -10,7 +10,8 @@ import AuthContextProvider from "./contexts/AuthContext.tsx";
 import ProjectProvider from "./contexts/ProjectContext.tsx";
 import UsersProvider from "./contexts/UsersContext.tsx";
 import { TaskProvider } from "./contexts/TaskContext.tsx";
-
+import { DarkModeProvider } from "@rbnd/react-dark-mode";
+import { DarkModeProviderCon } from "./contexts/DarkModeContext.tsx";
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
 
@@ -18,8 +19,13 @@ createRoot(document.getElementById("root")!).render(
       <ProjectProvider>
         <UsersProvider>
           <TaskProvider>
-       
-              <App />
+       <DarkModeProvider>
+<DarkModeProviderCon>
+  <App />
+</DarkModeProviderCon>
+  
+       </DarkModeProvider>
+          
             
              
           </TaskProvider>

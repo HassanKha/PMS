@@ -1,4 +1,4 @@
-import { useState, useContext, useEffect } from "react";
+import { useState, useContext} from "react";
 import { useNavigate } from "react-router-dom";
 import "../styles/Navbar.css";
 import {
@@ -16,7 +16,9 @@ import PMSIcon from "../assets/PMS2.png";
 import { AuthContext } from "../contexts/AuthContext";
 import { ImageURL } from "../services/Urls";
 import NotePopup from "./NotePopup";
-import Darkmode from 'darkmode-js';
+import { useDarkModeContext } from "../contexts/DarkModeContext";
+
+
 
 interface NavbarProps {
   handleToggleSidebar: () => void;
@@ -40,36 +42,13 @@ const Navbar: React.FC<NavbarProps> = ({
   };
 
   const [showPrivileges, setShowPrivileges] = useState(false);
-  const [darkmodeInstance, setDarkmodeInstance] = useState<any>(null);
-  const [isDark, setIsDark] = useState(false);
 
-  useEffect(() => {
-    const options = {
-      time: '0.3s',
-      mixColor: '#fff',
-      backgroundColor: '#fff',
-      buttonColorDark: '#100f2c',
-      buttonColorLight: '#fff',
-      saveInCookies: true,
-      autoMatchOsTheme: true,
-    };
-    const darkmode = new Darkmode(options);
-    setDarkmodeInstance(darkmode);
+  const { isDark, toggleDarkMode } = useDarkModeContext();
 
-    const saved = localStorage.getItem("darkmode") === "true";
-    setIsDark(saved);
-  }, []);
 
-  const toggleDarkMode = () => {
-    if (darkmodeInstance) {
-      darkmodeInstance.toggle();
-      const currentMode = !darkmodeInstance.isActivated();
-      setIsDark(currentMode);
-    }
-  };
 
   return (
-    <nav className="navbar navbar-expand-lg navbar-light bg-white border-bottom shadow-sm">
+    <nav className="navbar  navbar-expand-lg navbar-light bg-white border-bottom shadow-sm">
       <div className="container-fluid d-flex justify-content-between align-items-center">
         <div className="d-flex align-items-center">
           <button
@@ -86,7 +65,7 @@ const Navbar: React.FC<NavbarProps> = ({
         <div className="d-flex align-items-center">
           <div className="mx-auto">
             <button
-              onClick={toggleDarkMode}
+            onClick={toggleDarkMode}
               className="notification-btn ntmtoggle"
 
               title="Toggle Dark Mode"
@@ -122,7 +101,7 @@ const Navbar: React.FC<NavbarProps> = ({
                 )}
               </div>
               <div className="d-none d-md-block me-2 text-start">
-                <div className="fw-medium font-mont-gen text-dark small">
+                <div className="fw-medium font-mont-gen text-dark  small ">
                   {auth?.LoginData?.userName}
                 </div>
                 <div className="text-muted font-mont-gen smaller">

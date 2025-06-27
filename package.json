@@ -15,6 +15,7 @@
     "@fortawesome/free-brands-svg-icons": "^6.7.2",
     "@fortawesome/free-solid-svg-icons": "^6.7.2",
     "@fortawesome/react-fontawesome": "^0.2.2",
+    "@rbnd/react-dark-mode": "^2.0.2",
     "axios": "^1.10.0",
     "bootstrap": "^5.3.6",
     "darkmode-js": "^1.5.7",

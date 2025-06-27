@@ -8,7 +8,7 @@ import { toast } from "react-toastify"
 
 function ProjectData() {
   let [loading, setLoading] = useState(false)
-  let { register, handleSubmit, formState: { errors }, reset, setValue } = useForm()
+  let { register, handleSubmit, formState: { errors }, reset, setValue } = useForm<Project>()
   let navigate = useNavigate()
   const location = useLocation()
   const data = location.state?.project|| location.state;
