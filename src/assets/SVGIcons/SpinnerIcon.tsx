@@ -1,7 +1,7 @@
-export const LoadingSpin = () => <svg
+export const LoadingSpin = (size : string) => <svg
   xmlns="http://www.w3.org/2000/svg"
-  width="2rem"
-  height="2rem"
+  width={`${size}rem`}
+  height={`${size}rem`}
   viewBox="0 0 100 100"
   preserveAspectRatio="xMidYMid"
   className="white-spinner"

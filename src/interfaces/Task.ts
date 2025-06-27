@@ -7,3 +7,13 @@ export interface Task {
   modificationDate: string;
 }
 
+export interface postTask {
+  id?: string;
+  title: string;
+  description: string;
+  employeeId: string;
+  projectId: string;
+  status?: string;
+  employee?: { id: string; userName: string };
+  project?: { id: string; title: string };
+}

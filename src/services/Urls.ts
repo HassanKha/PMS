@@ -45,4 +45,6 @@ export const TASKS_URLS = {
   DELETE_TASK_BY_MANAGER:(ID:Number)=>`/Task/${ID}`,
    GET_ASSIGNED_TASKS: `/Task`,
   UPDATE_ASSIGNED_TASK: (ID: Number) => `/Task/${ID}/change-status`,
+  EDIT_TASK : (ID: Number) => `/Task/${ID}`,
+    Add_TASK : `/Task/`
 }

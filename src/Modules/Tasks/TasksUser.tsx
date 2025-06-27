@@ -20,6 +20,7 @@ function TasksUser() {
     done: 0,
   });
   const [loading, setLoading] = useState(false);
+   const [Taskloading, setTaskLoading] = useState(false);
   const [draggedTaskId, setDraggedTaskId] = useState<Number | null>(null);
 
   async function getAllAssignedTasks() {
@@ -41,11 +42,15 @@ function TasksUser() {
 
   async function taskUser() {
     try {
+      setTaskLoading(true)
       let response = await axiosInstance.get(TASKS_URLS.GET_TASKS_COUNT);
       setTaskCount(response.data);
 
     } catch (error: any) {
       toast.error(error.response?.data?.message || "Something went wrong");
+    }
+    finally {
+      setTaskLoading(false)
     }
 
   }
@@ -55,26 +60,25 @@ function TasksUser() {
   }, []);
 
   const handleDrop = async (newStatus: string) => {
-    console.log(newStatus)
+ 
     if (!draggedTaskId) return;
 
     const task = tasks.find((t) => t.id === Number(draggedTaskId));
     if (!task || task.status === newStatus) return;
 
     try {
-      // Replace with your actual API call
+
       await axiosInstance.put(`${TASKS_URLS.UPDATE_ASSIGNED_TASK(draggedTaskId)}`, {
         status: newStatus,
       });
 
       toast.success(`Task moved to ${newStatus}`);
 
-      // Update local state to reflect change
       const updatedTasks = tasks.map((t) =>
         t.id === draggedTaskId ? { ...t, status: newStatus } : t
       );
       setTasks(updatedTasks);
-      taskUser(); // Refresh counts
+      taskUser(); 
     } catch (error: any) {
       toast.error(error.response?.data?.message || "Failed to update task");
     } finally {
@@ -99,38 +103,50 @@ function TasksUser() {
         <div className="py-5 container">
           <div className="row ">
             <div className="col-md-4">
-              <h5 className="mt-3 text-center">
-                TO DO <span className="text-info">({toDoTasks.length})</span>
+              <h5 className="mt-3 text-center" role="TODO">
+                TO DO <span className="text-info">
+                  {
+                    Taskloading ? LoadingSpin("1") :  "(" + (taskCount.toDo) + ")"
+                  }
+                
+                  
+                  </span>
               </h5>
               <div id="toDo"
                 className="itemTask"
                 onDragOver={allowDrop}
+                aria-dropeffect="move"
                 onDrop={() => handleDrop("ToDo")}>
 
-                {loading ? <div className="w-100 d-flex justify-content-center align-items-center"><LoadingSpin /></div> : toDoTasks.map((task: Task) => (
-                  <div draggable="true" key={task.id} onDragStart={() => handleDragStart(task.id)} className="itemTaskUser">
+                {loading ? <div className="w-100 d-flex justify-content-center align-items-center">{LoadingSpin("2")} </div> : toDoTasks.map((task: Task) => (
+                  <div role="todoItem" draggable="true"  aria-grabbed="true"   aria-roledescription="Draggable task item" key={task.id} onDragStart={() => handleDragStart(task.id)} className="itemTaskUser">
                     <p>{task.title}</p>
                   </div>
                 ))}
               </div>
             </div>
 
-            <div id="inProgress" onDrop={() => handleDrop("InProgress")} onDragOver={allowDrop} className="col-md-4">
-              <h5 className="mt-3 text-center">In progress  <span className="text-warning">({taskCount.inProgress})</span></h5>
+            <div id="inProgress" aria-dropeffect="move" onDrop={() => handleDrop("InProgress")} onDragOver={allowDrop} className="col-md-4">
+              <h5 role="InProgress" className="mt-3 text-center">In progress  <span className="text-warning">  {
+                    Taskloading ? LoadingSpin("1") : "(" +  (taskCount.inProgress) + ")"
+                  }</span></h5>
               <div className="itemTask">
-                {loading ? <div className="w-100 d-flex justify-content-center align-items-center"><LoadingSpin /></div> : inProgressTasks.map((task: any) => (
-                  <div onDragStart={() => handleDragStart(task.id)} draggable="true" key={task.id} className="itemTaskUser">
+                {loading ? <div className="w-100 d-flex justify-content-center align-items-center">{LoadingSpin("2")} </div> : inProgressTasks.map((task: any) => (
+                  <div role="InProgressItem"  aria-grabbed="true"   aria-roledescription="Draggable task item" onDragStart={() => handleDragStart(task.id)} draggable="true" key={task.id} className="itemTaskUser">
                     <p >{task.title}</p>
                   </div>
                 ))}
               </div>
 
             </div>
-            <div id="done" onDrop={() => handleDrop("Done")} onDragOver={allowDrop} className="col-md-4">
-              <h5 className="mt-3 text-center">Done <span className="text-success">({taskCount.done})</span></h5>
+            <div id="done" aria-dropeffect="move" onDrop={() => handleDrop("Done")} onDragOver={allowDrop} className="col-md-4">
+              <h5 role="Done" className="mt-3 text-center">Done <span className="text-success">  {
+                    Taskloading ? LoadingSpin("1") :  "(" + (taskCount.done) + ")"
+                  }</span></h5>
               <div className="itemTask">
-                {loading ? <div className="w-100 d-flex justify-content-center align-items-center"><LoadingSpin /></div> : doneTasks.map((task: any) => (
-                  <div onDragStart={() => handleDragStart(task.id)} draggable="true" key={task.id} className="itemTaskUser">
+                {loading ? <div className="w-100 d-flex justify-content-center align-items-center">{LoadingSpin("2")} </div> : doneTasks.map((task: any) => (
+                  <div   
+  aria-grabbed="true"   aria-roledescription="Draggable task item" role="DoneItem" onDragStart={() => handleDragStart(task.id)} draggable="true" key={task.id} className="itemTaskUser">
                     <p >{task.title}</p>
                   </div>
                 ))}
