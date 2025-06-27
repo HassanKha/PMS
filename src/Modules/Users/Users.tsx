@@ -206,7 +206,7 @@ export default function Users() {
               <Loader name='Users' />
             </div>
           ) : (
-            <div className="table-responsive shadow-lg rounded-2">
+            <div className=" shadow-lg rounded-2">
               <table className="table table-hover mb-0">
                 <thead>
                   <tr>

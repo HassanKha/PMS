@@ -185,7 +185,7 @@ const filtered = tasks.filter((t: { title: string }) =>
 
       {!loading && !error && (
         <div className="bg-white rounded shadow-sm">
-          <div className="table-responsive rounded-2">
+          <div className=" rounded-2">
             <table className="table table-hover mb-0">
               <thead>
                 <tr>
