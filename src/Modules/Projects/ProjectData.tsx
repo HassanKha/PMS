@@ -2,6 +2,7 @@ import { useForm, type FieldError } from "react-hook-form"
 import { Link, useLocation, useNavigate } from "react-router-dom"
 import { axiosInstance, PROJECTS_URLS } from "../../services/Urls"
 import { useEffect, useState } from "react"
+import { type Project } from "../../interfaces/Project"
 import { toast } from "react-toastify"
 
 
@@ -13,7 +14,7 @@ function ProjectData() {
   const data = location.state?.project|| location.state;
   const isEdit = !!data;
   const PojectId = data?.id;
-  async function onSubmit(data: any) {
+  async function onSubmit(data: Project) {
     setLoading(true)
     try {
       if (isEdit) {

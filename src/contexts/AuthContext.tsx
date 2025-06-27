@@ -1,11 +1,11 @@
 import { jwtDecode } from "jwt-decode";
 import { createContext, useEffect, useState } from "react";
 import type { FC } from "react";
-import type { DecodedToken } from "../interfaces/DecodedToken";
+import type { DecodedToken } from "../interfaces/AuthContextType";
 import type { AuthContextType } from "../interfaces/AuthContextType";
-import type { AuthProviderProps } from "../interfaces/AuthProviderProps";
+import type { AuthProviderProps } from "../interfaces/AuthContextType";
 import { axiosInstance, USERS_URLS } from "../services/Urls";
-import type { User } from "../interfaces/UserProfile";
+import type { User } from "../interfaces/Users";
 import { toast } from "react-toastify";
 
 

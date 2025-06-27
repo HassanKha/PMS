@@ -5,7 +5,7 @@ import { axiosInstance, USERS_URLS } from '../../services/Urls';
 import { validateRegisterForm } from '../../services/Validations';
 import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
-import type { ForgetPasswordForm } from '../../interfaces/ForgetPasswordForm';
+import type { ForgetPasswordForm } from '../../interfaces/AuthContextType';
 import LoadingPage from '../../shared/LoadingPage/LoadingPage';
 import { FaEye, FaEyeSlash } from "react-icons/fa"; // ✅ react-icons
 
@@ -17,7 +17,6 @@ function ForgetPassword() {
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [dispalyForm, setDisplayForm] = useState(true);
   const [btnloading, setbtnloading] = useState(false);
-
   const { register, handleSubmit, formState: { errors }, watch, setValue } = useForm<ForgetPasswordForm>();
   const password = watch("password");
   const navigate = useNavigate();

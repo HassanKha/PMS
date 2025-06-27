@@ -4,23 +4,18 @@ import { useContext, useEffect, useState } from "react";
 import { axiosInstance, TASKS_URLS } from "../../services/Urls";
 import { toast } from "react-toastify";
 import { Spinner } from "react-bootstrap";
-import type { TasksCount } from "../../interfaces/TasksCount";
+import type { TasksCount } from "../../interfaces/Tasks";
 import { AuthContext } from "../../contexts/AuthContext";
-import { useProjectContext } from "../../contexts/ProjectContext";
 import { useUsersContext } from "../../contexts/UsersContext";
 
 export default function Dashboard() {
   const auth = useContext(AuthContext);
   const { isLoading, activatedCount, notActivatedCount, getAllUsers } =
     useUsersContext();
-  const {
-    projects: Projects,
-    loading: loadingProjects,
-    fetchProjects,
-  } = useProjectContext();
+
 
   useEffect(() => {
-    fetchProjects(1000, 1, "");
+
     if (auth?.LoginData?.roles[0] === "Manager") {
       getAllUsers(1000, 1, "");
     }
@@ -32,6 +27,7 @@ export default function Dashboard() {
 
   const getAllTasks = async () => {
     try {
+      setLoadingTasks(true)
       let response = await axiosInstance.get(TASKS_URLS.GET_TASKS_COUNT);
       setTasksCount(response.data);
     } catch (error: any) {
@@ -130,7 +126,27 @@ export default function Dashboard() {
                       className="fw-bold"
                       style={{ fontSize: "1.75rem", color: "#1a202c" }}
                     >
-                      {loadingTasks ? <Spinner /> : TasksCount?.toDo}
+                         {loadingTasks ? <Spinner /> :   <span>
+                          {(() => {
+                            const done = TasksCount?.done ?? 0;
+                            const inProgress = TasksCount?.inProgress ?? 0;
+                            const toDo = TasksCount?.toDo ?? 0;
+                            const total = done + inProgress + toDo;
+
+                            if (total === 0) return "(0)%";
+
+                            const percentage = (toDo / total) * 100;
+
+                            return (
+                              <>
+                                ({toDo})
+                                <span style={{ color: "#f59e0b", marginLeft: "10px" }}>
+                                  {percentage.toFixed(0)}%
+                                </span>
+                              </>
+                            );
+                          })()}
+                        </span>}
                     </div>
                   </div>
                 </div>
@@ -170,7 +186,28 @@ export default function Dashboard() {
                       className="fw-bold"
                       style={{ fontSize: "1.7rem", color: "#1a202c" }}
                     >
-                      {loadingProjects ? <Spinner /> : TasksCount?.inProgress ?? 0}
+                      {loadingTasks ? <Spinner /> :   <span>
+                          {(() => {
+                            const done = TasksCount?.done ?? 0;
+                            const inProgress = TasksCount?.inProgress ?? 0;
+                            const toDo = TasksCount?.toDo ?? 0;
+                            const total = done + inProgress + toDo;
+
+                            if (total === 0) return "(0)%";
+
+                            const percentage = (inProgress / total) * 100;
+
+                            return (
+                              <>
+                                ({inProgress})
+                                <span style={{ color: "#ec4899", marginLeft: "10px" }}>
+                                  {percentage.toFixed(0)}%
+                                </span>
+                              </>
+                            );
+                          })()}
+                        </span>}
+                      
                     </div>
                   </div>
                 </div>
@@ -210,9 +247,9 @@ export default function Dashboard() {
                       className="fw-bold"
                       style={{ fontSize: "1.75rem", color: "#1a202c" }}
                     >
-                      {loadingTasks ? (
+                      {loadingTasks ? 
                         <Spinner />
-                      ) : (
+                       : (
                         <span>
                           {(() => {
                             const done = TasksCount?.done ?? 0;

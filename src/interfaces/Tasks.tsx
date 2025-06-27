@@ -16,3 +16,18 @@ export interface Task {
     email: string;
   };
 }
+
+export interface TasksCount {
+  toDo: number ;
+  inProgress: number;
+  done:number
+}
+
+export interface TaskContextType {
+  tasks: Task[];
+  totalResults: number | null;
+  pages: number[];
+  loading: boolean;
+  error: string | null;
+  fetchTasks: (pageSize: number, pageNumber: number, title: string) => Promise<void>;
+}

@@ -1,6 +1,6 @@
 import { createContext, useContext, useState, type ReactNode } from "react";
 import { axiosInstance, TASKS_URLS } from "../services/Urls";
-import type { TaskContextType } from "../interfaces/TaskContextType";
+import type { TaskContextType } from "../interfaces/Tasks";
 import type { Task } from "../interfaces/Tasks";
 
 

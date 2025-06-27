@@ -261,7 +261,7 @@ const auth = useContext(AuthContext);
 
               {currentProjects.length > 0 ? (
                 <tbody>
-                  {currentProjects.map((project, index) => (
+                  {currentProjects.map((project) => (
                     <tr
                       key={project.id}
                       className="table-row-hover"

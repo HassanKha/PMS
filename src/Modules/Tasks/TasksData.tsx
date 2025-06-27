@@ -1,63 +1,40 @@
 import { useForm, type FieldError } from "react-hook-form";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { axiosInstance } from "../../services/Urls";
-import { useEffect, useState } from "react";
+import { axiosInstance, TASKS_URLS } from "../../services/Urls";
+import { useContext, useEffect, useState } from "react";
 import { toast } from "react-toastify";
-
-interface Task {
-  id?: string;
-  title: string;
-  description: string;
-  employeeId: string;
-  projectId: string;
-  status?: "ToDo" | "InProgress" | "Done";
-  employee?: { id: string; userName: string };
-  project?: { id: string; title: string };
-}
-
-interface User {
-  id: string;
-  userName: string;
-}
-
-interface Project {
-  id: string;
-  title: string;
-}
-
+import { AuthContext } from "../../contexts/AuthContext";
+import { useProjectContext } from "../../contexts/ProjectContext";
+import { useUsersContext } from "../../contexts/UsersContext";
+import type { postTask } from "../../interfaces/Task";
 function TasksData() {
   const [loading, setLoading] = useState(false);
-  const [projects, setProjects] = useState<Project[]>([]);
-  const [employees, setEmployees] = useState<User[]>([]);
-  const [dropdownLoading, setDropdownLoading] = useState(false);
-  
-  const { register, handleSubmit, formState: { errors }, setValue } = useForm<Task>();
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    setValue,
+  } = useForm<postTask>();
   const navigate = useNavigate();
   const location = useLocation();
+  const auth = useContext(AuthContext);
+  const { isLoading, users, getAllUsers } = useUsersContext();
+  const {
+    projects: Projects,
+    loading: loadingProjects,
+    fetchProjects,
+  } = useProjectContext();
 
   const data = location.state?.task || location.state;
   const isEdit = !!data;
   const taskId = data?.id;
 
   useEffect(() => {
-    const fetchData = async () => {
-      setDropdownLoading(true);
-      try {
-        // Fetch all projects and employees without pagination
-        const [projectsRes, employeesRes] = await Promise.all([
-          axiosInstance.get("/Project?pageSize=1000"), // Adjust pageSize as needed
-          axiosInstance.get("/Users?pageSize=1000")    // Adjust pageSize as needed
-        ]);
-        setProjects(projectsRes.data?.data || []);
-        setEmployees(employeesRes.data?.data || []);
-      } catch (error) {
-        toast.error("Failed to load dropdown data");
-      } finally {
-        setDropdownLoading(false);
-      }
-    };
-
-    fetchData();
+    fetchProjects(1000, 1, "");
+    if (auth?.LoginData?.roles[0] === "Manager") {
+      getAllUsers(1000, 1, "");
+    }
   }, []);
 
   useEffect(() => {
@@ -69,45 +46,36 @@ function TasksData() {
     }
   }, [isEdit, data, setValue]);
 
-  const onSubmit = async (formData: Task) => {
+  const onSubmit = async (formData: postTask) => {
     setLoading(true);
     try {
-      const payload = isEdit
-        ? {
-            title: formData.title,
-            description: formData.description,
-            employeeId: formData.employeeId,
-            projectId: formData.projectId
-          }
-        : {
-            title: formData.title,
-            description: formData.description,
-            employeeId: formData.employeeId,
-            projectId: formData.projectId,
-            status: "ToDo"
-          };
+      const payload = {
+        title: formData.title,
+        description: formData.description,
+        employeeId: formData.employeeId,
+        projectId: formData.projectId,
+        status: formData.status || "ToDo",
+      };
 
       if (isEdit) {
         if (!taskId) {
           throw new Error("Task ID is missing for edit");
         }
         const response = await axiosInstance.put(
-          `https://upskilling-egypt.com:3003/api/v1/Task/${taskId}`,
+          TASKS_URLS.EDIT_TASK(taskId),
           payload
         );
         toast.success(response.data?.message || "Task updated successfully");
       } else {
-        const response = await axiosInstance.post(
-          "https://upskilling-egypt.com:3003/api/v1/Task",
-          payload
-        );
+        const response = await axiosInstance.post(TASKS_URLS.Add_TASK, payload);
         toast.success(response.data?.message || "Task added successfully");
       }
 
       navigate("/dashboard/tasks");
     } catch (error: any) {
       toast.error(
-        error.response?.data?.message || error.message || "Something went wrong. Please try again."
+        error.response?.data?.message ||
+          "Something went wrong. Please try again."
       );
     } finally {
       setLoading(false);
@@ -115,7 +83,7 @@ function TasksData() {
   };
 
   return (
-    <div className="AllPageFormProjects">
+  <div className="AllPageFormProjects">
       <div className="container-fluid">
         <div className="headerProject p-3">
           <Link to="/dashboard/tasks" className="fancy-hover-link text-decoration-none text-black">
@@ -161,7 +129,7 @@ function TasksData() {
             <div className="row mt-3">
               <div className="col-md-6">
                 <label htmlFor="inputEmployee" className="form-label">User</label>
-                {dropdownLoading ? (
+                {isLoading ? (
                   <div className="text-muted">Loading users...</div>
                 ) : (
                   <select
@@ -170,7 +138,7 @@ function TasksData() {
                     className="form-control"
                   >
                     <option value="">Select User</option>
-                    {employees.map((emp) => (
+                    {users.map((emp) => (
                       <option key={emp.id} value={emp.id}>{emp.userName}</option>
                     ))}
                   </select>
@@ -184,7 +152,7 @@ function TasksData() {
 
               <div className="col-md-6">
                 <label htmlFor="inputProject" className="form-label">Project</label>
-                {dropdownLoading ? (
+                {loadingProjects ? (
                   <div className="text-muted">Loading projects...</div>
                 ) : (
                   <select
@@ -193,7 +161,7 @@ function TasksData() {
                     className="form-control"
                   >
                     <option value="">Select Project</option>
-                    {projects.map((proj) => (
+                    {Projects.map((proj) => (
                       <option key={proj.id} value={proj.id}>{proj.title}</option>
                     ))}
                   </select>
@@ -217,7 +185,7 @@ function TasksData() {
               <button 
                 type="submit" 
                 className="btnSaveProject"
-                disabled={loading || dropdownLoading}
+                disabled={loading || loadingProjects}
               >
                 {loading ? <i className='fa fa-spinner fa-spin'></i> : isEdit ? "Update" : "Save"}
               </button>
@@ -226,6 +194,7 @@ function TasksData() {
         </div>
       </div>
     </div>
+
   );
 }
 

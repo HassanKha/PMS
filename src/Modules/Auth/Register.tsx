@@ -6,9 +6,9 @@ import { axiosInstance, USERS_URLS } from "../../services/Urls";
 import { toast } from "react-toastify";
 import { Link, useNavigate } from "react-router-dom";
 import { validateRegisterForm } from "../../services/Validations";
-import type { FormDataRegister } from './../../interfaces/FormData';
+import type { FormDataRegister } from '../../interfaces/AuthContextType';
 import LoadingPage from '../../shared/LoadingPage/LoadingPage';
-import { FaEye, FaEyeSlash, FaUserPlus } from "react-icons/fa"; // ✅ React Icons
+import { FaEye, FaEyeSlash, FaUserPlus } from "react-icons/fa"; 
 
 function Register() {
   const [showPassword, setShowPassword] = useState(false);
