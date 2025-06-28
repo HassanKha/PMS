@@ -1,5 +1,5 @@
 import { jwtDecode } from "jwt-decode";
-import { createContext, useEffect, useState } from "react";
+import { createContext, useEffect, useMemo, useState } from "react";
 import type { FC } from "react";
 import type { DecodedToken } from "../interfaces/AuthContextType";
 import type { AuthContextType } from "../interfaces/AuthContextType";
@@ -29,21 +29,24 @@ const AuthContextProvider: FC<AuthProviderProps> = ({ children }) => {
 
   const [CurrentUserData, setCurrentUserData] = useState<User | null>();
 
-  const SaveLoginData = () => {
-    setLoading(true)
-    const encodedToken = localStorage.getItem("token");
-    if (encodedToken) {
-      try {
-        const decoded = jwtDecode<DecodedToken>(encodedToken);
-        setLoginData(decoded);
-        GetCurrentUser()
-        setLoading(false)
-      } catch (err) {
-        console.error("Error decoding token in SaveLoginData", err);
-        setLoading(true)
-      }
+
+
+
+const SaveLoginData = async () => {
+  setLoading(true);
+  const encodedToken = localStorage.getItem("token");
+  if (encodedToken) {
+    try {
+      const decoded = jwtDecode<DecodedToken>(encodedToken);
+      setLoginData(decoded);
+      await GetCurrentUser();  // only call this after setting decoded successfully
+    } catch (err) {
+      console.error("Error decoding token in SaveLoginData", err);
+    } finally {
+      setLoading(false);
     }
-  };
+  }
+};
 
   const GetCurrentUser = async () => {
     try {
@@ -80,8 +83,17 @@ const AuthContextProvider: FC<AuthProviderProps> = ({ children }) => {
     }
   }, []);
 
+    const contextValue = useMemo(() => ({
+  LoginData,
+  setLoginData,
+  SaveLoginData,
+  CurrentUserData,
+  loading,
+  setLoading
+}), [LoginData, CurrentUserData, loading]);
+
   return (
-    <AuthContext.Provider value={{ LoginData, setLoginData, SaveLoginData, CurrentUserData, loading, setLoading }}>
+    <AuthContext.Provider value={contextValue}>
       {children}
     </AuthContext.Provider>
   );
