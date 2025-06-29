@@ -307,11 +307,11 @@
 }
 
 /* Light mode default */
-body, html {
+/* body, html {
   background-color: white;
   color: black;
   transition: background-color 0.3s ease, color 0.3s ease;
-}
+} */
 
 /* Dark mode global override */
 html.dark, html.dark body {
@@ -319,11 +319,13 @@ html.dark, html.dark body {
   color: #fff !important;
 }
 /* Override for all elements */
-html.dark *:not(#root > div > div.position-sticky.top-0.vh-100 > div > div > aside > div ):not(#toDo):not(#inProgress > div):not(#done > div):not(#toDo div ,  #inProgress > div > div, #done > div > div):not(table thead th):not(#root > div > div.w-100 > div > div.bg-white.rounded.shadow-sm > div.rounded-2 > table > tbody > tr > td.px-1.py-4 > span):not(#root > div > div.w-100 > div > div.bg-white.rounded.shadow-sm > div.rounded-2 > table > tbody > tr > td.px-4.py-3.text-dark.d-none.d-md-table-cell > span):not(#root > div > div.w-100 > div > div.bg-white.p-3.mt-3 > div.shadow-lg.rounded-2 > table > tbody > tr > td > span) {
+html.dark *:not(#root > div > div.position-sticky.top-0.vh-100 > aside > nav > div > aside > div ):not(#toDo):not(#inProgress > div):not(#done > div):not(#toDo div ,  #inProgress > div > div, #done > div > div):not(table thead th):not(#root > div > div.w-100 > div > div.bg-white.rounded.shadow-sm > div.rounded-2 > table > tbody > tr > td.px-1.py-4 > span):not(#root > div > div.w-100 > div > div.bg-white.rounded.shadow-sm > div.rounded-2 > table > tbody > tr > td.px-4.py-3.text-dark.d-none.d-md-table-cell > span):not(#root > div > div.w-100 > div > div.bg-white.p-3.mt-3 > div.shadow-lg.rounded-2 > table > tbody > tr > td > span):not(#root > div > div.w-100 > div > div > a):not(  .sidebar .ps-menu-button:hover){
   background-color: transparent !important;
   color: #fff !important;
   border-color: #666 !important;
 }
+
+
 
 .dark #root > div > div > div > div > div > input::placeholder , #root > div > div> div > div > div > div > input::placeholder {
  color: #fff !important;

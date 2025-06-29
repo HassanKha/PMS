@@ -8,7 +8,7 @@ export const LoadingSpin = (size : string) => <svg
 >
   <defs>
     <filter id="spinner-shadow" x="-20%" y="-20%" width="140%" height="140%">
-      <feDropShadow dx="0" dy="0" stdDeviation="4" flood-color="rgba(0,0,0,0.4)" />
+      <feDropShadow dx="0" dy="0" stdDeviation="4" floodColor="rgba(0,0,0,0.4)" />
     </filter>
   </defs>
   <circle

@@ -1,24 +1,17 @@
 import { Sidebar, Menu, MenuItem } from "react-pro-sidebar";
-import "../styles/Sidebar.css";
-import {
-  FaUsers,
-  FaTh,
-  FaChevronLeft,
-  FaChevronRight,
-  FaHome,
-  FaTasks,
-} from "react-icons/fa";
 import { useContext } from "react";
+import "../styles/Sidebar.css";
+
+import HomeIcon from "../assets/DashboardSVG/SideBarIcons/HomeIcon.svg";
+import UsersIcon from "../assets/DashboardSVG/SideBarIcons/UsersIcon.svg";
+import ProjectsIcon from "../assets/DashboardSVG/SideBarIcons/ProjectsIcon.svg";
+import TasksIcon from "../assets/DashboardSVG/SideBarIcons/TasksIcon.svg";
+import ChevronLeftIcon from "../assets/DashboardSVG/SideBarIcons/ChevronLeftIcon.svg";
+import ChevronRightIcon from "../assets/DashboardSVG/SideBarIcons/ChevronRightIcon.svg";
+
 import { AuthContext } from "../contexts/AuthContext";
 import { Link, useLocation } from "react-router-dom";
-
-
-interface SideBarProps {
-  sidebarVisible: boolean;
-  collapsed: boolean;
-  handleCollapseSidebar: () => void;
-}
-
+import type { SideBarProps } from "../interfaces/Dashboard";
 
 const SideBar: React.FC<SideBarProps> = ({
   sidebarVisible,
@@ -27,109 +20,109 @@ const SideBar: React.FC<SideBarProps> = ({
 }) => {
   const auth = useContext(AuthContext);
   const location = useLocation();
+
   const activeBg = { backgroundColor: "rgba(239, 155, 40, 0.3)" };
 
   return (
-    <div
-      className={`col-auto sidebar d-lg-block ${
-        sidebarVisible ? "d-block" : "d-none"
-      }`}
+    <aside aria-label="Sidebar">
+
+        <nav
+      className={`col-auto sidebar d-lg-block ${sidebarVisible ? "d-block" : "d-none"}`}
+    role="navigation"
+      aria-label="Main sidebar"
     >
       <div className="sidbarContant">
         <Sidebar
           collapsed={collapsed}
-          className="side"
           backgroundColor="#0E382F"
           width="270px"
           collapsedWidth="80px"
-          style={{
-            height: "calc(100vh - 56px)",
-            border: "none",
-            boxShadow: "2px 0 6px rgba(0,21,41,.35)",
-          }}
-          
+          className="side"
+           aria-label="Sidebar navigation"
         >
           <div className="d-flex align-items-center justify-content-end">
             <button
+            type="button"
               className="btn btn-sm sidebar-toggle-btn toggle-btn text-white d-none mb-0 d-lg-block"
               onClick={handleCollapseSidebar}
               title={collapsed ? "Expand Sidebar" : "Collapse Sidebar"}
+              aria-label="Toggle sidebar"
             >
-              {collapsed ? <FaChevronRight size={12} /> : <FaChevronLeft size={12} />}
+              <img
+                src={collapsed ? ChevronRightIcon : ChevronLeftIcon}
+                alt={collapsed ? "Expand" : "Collapse"}
+                width={18}
+                height={18}
+                loading="lazy"
+                 role="presentation"
+              />
             </button>
 
             <button
+              type="button"
               className="btn btn-sm text-white sidebar-toggle-btn toggle-btn d-lg-none XIcon"
               onClick={handleCollapseSidebar}
+              aria-label="Toggle sidebar on mobile"
+              title="Toggle sidebar"
             >
-              {collapsed ? <FaChevronLeft size={12} /> : <FaChevronRight size={12} />}
+              <img
+                src={collapsed ? ChevronLeftIcon : ChevronRightIcon}
+                alt="Toggle"
+                width={18}
+                height={18}
+                loading="lazy"
+                 role="presentation"
+              />
             </button>
           </div>
 
           <Menu
-            menuItemStyles={{
-              button: {
-                color: "#ffffff",
-                margin: collapsed ? "0 0 5px 0" : "0px 15px 5px 15px",
-                borderRadius: "8px",
-              },
-              subMenuContent: {
-                backgroundColor: "#2c3136",
-              },
-            }}
-            className="mt-5"
+            className={`mt-5 ${collapsed ? "menu-collapsed" : "menu-expanded"}`}
+            aria-label="Sidebar Navigation"
           >
             <MenuItem
-              icon={<FaHome />}
+              icon={<img src={HomeIcon} alt="Home" width={18} height={18} loading="lazy"  role="presentation" />}
               component={<Link to="/dashboard" />}
-              style={
-                location.pathname === "/dashboard" ? activeBg : undefined
-              }
+              style={location.pathname === "/dashboard" ? activeBg : undefined}
+              aria-current={location.pathname === "/dashboard" ? "page" : undefined}
             >
               Home
             </MenuItem>
 
             {auth?.LoginData?.roles[0] === "Manager" && (
               <MenuItem
-                icon={<FaUsers />}
+                icon={<img src={UsersIcon} alt="Users" width={18} height={18} loading="lazy"  role="presentation" />}
                 component={<Link to="/dashboard/users" />}
-                style={
-                  location.pathname.startsWith("/dashboard/users")
-                    ? activeBg
-                    : undefined
-                }
+                style={location.pathname.startsWith("/dashboard/users") ? activeBg : undefined}
+                aria-current={location.pathname.startsWith("/dashboard/users") ? "page" : undefined}
               >
                 Users
               </MenuItem>
             )}
 
             <MenuItem
-              icon={<FaTh />}
+              icon={<img src={ProjectsIcon} alt="Projects" width={18} height={18} loading="lazy"  role="presentation" />}
               component={<Link to="/dashboard/projects" />}
-              style={
-                location.pathname.startsWith("/dashboard/projects")
-                  ? activeBg
-                  : undefined
-              }
+              style={location.pathname.startsWith("/dashboard/projects") ? activeBg : undefined}
+              aria-current={location.pathname.startsWith("/dashboard/projects") ? "page" : undefined}
             >
               Projects
             </MenuItem>
 
             <MenuItem
-              icon={<FaTasks />}
+              icon={<img src={TasksIcon} alt="Tasks" width={18} height={18} loading="lazy"  role="presentation" />}
               component={<Link to="/dashboard/tasks" />}
-              style={
-                location.pathname.startsWith("/dashboard/tasks")
-                  ? activeBg
-                  : undefined
-              }
+              style={location.pathname.startsWith("/dashboard/tasks") ? activeBg : undefined}
+              aria-current={location.pathname.startsWith("/dashboard/tasks") ? "page" : undefined}
             >
               Tasks
             </MenuItem>
           </Menu>
         </Sidebar>
       </div>
-    </div>
+    </nav>
+    </aside>
+  
   );
 };
 
